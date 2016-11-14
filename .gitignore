@@ -24,3 +24,8 @@ hs_err_pid*
 /Projects/ExternalSort/externalsort/log
 /Projects/ExternalSort/externalsort/.gitignore
 /Algorithm/Java/.metadata
+/Algorithm/Java/.recommenders
+/Algorithm/Java/Excel Sheet Column Number/bin
+/Algorithm/Java/Excel Sheet Column Number/.settings
+*.classpath
+*.project
