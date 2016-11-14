@@ -2,8 +2,6 @@
 __author__ = "Luo Hao"
 
 import requests
-import urllib
-import http.cookiejar
 from PIL import Image
 from bs4 import BeautifulSoup
 import lxml
@@ -11,7 +9,7 @@ import pytesseract
 import re
 import collections
 import time
-from io import StringIO
+import os
 
 init_page = "http://wiscom.chd.edu.cn:8080/reader/login.php"
 captcha_url = "http://wiscom.chd.edu.cn:8080/reader/captcha.php"
@@ -81,50 +79,24 @@ class Chdlib:
         return self.__name
 
     def get_captcha(self):
-        """*****************Use Urllib and http.cookiejar************************
-        cj = http.cookiejar.LWPCookieJar()
-        opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
-        urllib.request.install_opener(opener)
-        req = urllib.request.Request("http://wiscom.chd.edu.cn:8080/reader/captcha.php")
-        print("captcha: {0}".format(cj))
-        self.__cookie = cj
-        operate = opener.open(req)
-        msg = operate.read()
-        """
-        """***************************use requests********************************"""
         r = session.get("http://wiscom.chd.edu.cn:8080/reader/captcha.php")
         with open('captcha.gif', 'wb') as fd:
                 fd.write(r.content)
-        """
-        file_object = open('captcha.gif','wb')
-        try:
-            file_object.write(msg)
-        finally:
-            file_object.close()
-        """
-        #im = Image.open('captcha.gif')
-        #im.show()
         code = pytesseract.image_to_string(Image.open('captcha.gif'))
+        if os.path.exists('captcha.gif'):
+            os.remove('captcha.gif')
         return code
 
 
     def login(self):
-        """
-        postdata = urllib.parse.urlencode(self.__post_data)
-        postdata = postdata.encode('utf-8')
-        """"""
-        res = urllib.request.urlopen(redr_verify,postdata)
-        """
         res = session.post(redr_verify, data=self.__post_data)
         if(res.status_code == 200):
             print("登陆成功")
+        if(len(res.content) == 0):
+            login(self)
         return res.content.decode('utf-8')
 
     def book_lst(self):
-        """
-        book_lst_page = urllib.request.urlopen(book_lst)
-        return book_lst_page.read()
-        """
         book_lst_page = session.get(book_lst)
         return book_lst_page.text
 
@@ -147,15 +119,6 @@ class Chdlib:
             get_data["time"] = str(int(round(time.time() * 1000)))
             print(str(int(round(time.time() * 1000))), len(str(int(round(time.time() * 1000)))))
             url = continue_borrow_url +  "bar_code=" +self.__book_info_dict[seq_num][2] + "&check=" + self.__book_info_dict[seq_num][3] + "&captcha=" + str(captcha) + "&time=" + str(int(round(time.time() * 1000)))
-            """
-        cj = http.cookiejar.LWPCookieJar()
-        opener = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
-        urllib.request.install_opener(opener)
-        req = urllib.request.Request(url,method='GET')
-        operate = opener.open(req)
-        print(operate.read())
-        #print(r.read())
-        """
             r =session.get(url)
             continue_borrow_soup = BeautifulSoup(r.content.decode('utf-8'), 'lxml')
             print(print("{0}  {1}".format(self.__book_info_dict[seq_num][0],continue_borrow_soup.font.string)))
@@ -165,7 +128,10 @@ class Chdlib:
         """*************************获取用户名*******************************"""
         response = self.login()
         soup = BeautifulSoup(response, 'lxml')
-        soup =soup.find('div',attrs={'id':'mylib_info'}).find('span', attrs={'class':'bluetext'}).find_parent()
+        try:
+            soup =soup.find('div',attrs={'id':'mylib_info'}).find('span', attrs={'class':'bluetext'}).find_parent()
+        except AttributeError as err:
+            print(err)
         name = soup
         soup.span.decompose()
         self.__name = name.string
@@ -213,8 +179,10 @@ class Chdlib:
         for i in range(0,len(check)):
             self.__book_info_dict[i].append(bar_code[i])
             self.__book_info_dict[i].append(check[i])
+            """
         for key, value in self.__book_info_dict.items():
             print(key, value)
+            """
 
 def get_input(msg,  _type, username=None):
     if _type == 'username':
