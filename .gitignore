@@ -29,3 +29,6 @@ hs_err_pid*
 /Algorithm/Java/Excel Sheet Column Number/.settings
 *.classpath
 *.project
+*.gif
+*.png
+*.jpg

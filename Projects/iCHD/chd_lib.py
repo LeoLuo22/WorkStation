@@ -102,7 +102,8 @@ class Chdlib:
         finally:
             file_object.close()
         """
-        im = Image.open('captcha.gif')
+        #im = Image.open('captcha.gif')
+        #im.show()
         code = pytesseract.image_to_string(Image.open('captcha.gif'))
         return code
 
