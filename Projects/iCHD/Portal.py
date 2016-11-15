@@ -7,15 +7,15 @@ from bs4 import BeautifulSoup
 import lxml
 import collections
 from PIL import Image
-import string
 import sys
-
+import os
+import string
 HEAD  = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36'}
 BASE_URL = "http://ids.chd.edu.cn/authserver/login?service=http%3A%2F%2Fportal.chd.edu.cn%2F"#通过这个url获得lt
 LOGIN_URL = "http://ids.chd.edu.cn/authserver/login?service=http%3A%2F%2Fportal.chd.edu.cn%2F"
 AFFAIR_URL = "http://portal.chd.edu.cn/?.pn=p1143_p1144_p1131"#教务系统
 TO_DO_URL = "http://portal.chd.edu.cn/pnull.portal?rar=&.pmn=view&.ia=false&action=informationAjax&.pen=information"
-#captchaResponse:z8dc
+
 session = requests.Session()
 
 Flag = True
@@ -137,6 +137,8 @@ class Chd(object):
         affair_login = session.get(AFFAIR_URL)
         return affair_login.content.decode('utf-8')
 
+    """
+    *** Get profile picture
     def show_user_img(self, user_img_url):
         img_raw = session.get(user_img_url, headers=HEAD)
         img = img_raw.content
@@ -144,6 +146,10 @@ class Chd(object):
             fh.write(img)
         im = Image.open("1.jpg")
         im.show()
+        if(os.path.exists("1.jpg")):
+            os.remove("1.jpg")
+    """
+
 
     def system_login(self):pass
 
@@ -242,7 +248,13 @@ def get_input(msg,  _type):
         return username
 
     elif _type == "password":
-        password = input(msg)
+        while(True):
+            password = input(msg)
+            if len(password) == 0:
+                print("输入有误， 请重新输入")
+            else:
+                break
+
         return password
 
     elif _type == "seq_num":
@@ -266,7 +278,7 @@ def get_input(msg,  _type):
                 return captcha
 
 def init():
-    Flag = not Flag
+    Flag = not Flag#TODO: what was Flag
 
 
 def main():
@@ -282,11 +294,6 @@ def main():
         parser.get_courses()
         user_img_url = parser.get_user_img_url()
         #print(user_img_url)
-        option = input("请选择是否显示头像: (y/n)")
-        if option == 'y' or option == "Y":
-            user.show_user_img(user_img_url)
-        else:
-            pass
         parser.get_user_info()
         other = Parse(contents["to_do_info"])
         other.get_other_info()
@@ -301,11 +308,6 @@ def main():
         parser = Parse(contents['index'])
         user_img_url = parser.get_user_img_url()
         print(user_img_url)
-        option = input("请选择是否显示头像: (y/n)")
-        if option == 'y' or option == "Y":
-            user.show_user_img(user_img_url)
-        else:
-            pass
         parser.get_user_info()
         other = Parse(contents["to_do_info"])
         other.get_other_info()
