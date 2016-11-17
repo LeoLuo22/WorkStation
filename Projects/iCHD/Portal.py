@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = "Leo Luo"
 
+from prettytable import PrettyTable
 import requests
 import time
 from bs4 import BeautifulSoup
