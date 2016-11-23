@@ -14,7 +14,8 @@ hs_err_pid*
 *.log
 *.lock
 *.ini
-
+*.metadata
+*.recommenders
 /Projects/ExternalSort/.metadata
 /Projects/ExternalSort/.recommenders
 /Projects/ExternalSort/.settings
