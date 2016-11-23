@@ -52,3 +52,16 @@ hs_err_pid*
 #/miniSTM32/CORE
 #/miniSTM32/OBJ
 #/miniSTM32/STM32F10x_FWLib
+*.suo
+*.exe
+*.ilk
+*.pdb
+*.opendb
+*.sln
+*.tlog
+*.lastbuildstate
+*.idb
+*.filters
+*.obj
+*.vcxproj
+*.db
