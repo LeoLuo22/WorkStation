@@ -4,7 +4,7 @@
 #include "usart.h"
 #include "lcd.h"
 #include "tsensor.h"
- 
+
 
  int main(void)
  { 
@@ -12,9 +12,11 @@
 	float temp;
 	float temperate;	 
 	u8 t;
+	 u8 i;
 	u8 len;
 	u16 times = 0;
-	 
+	u16 time = 0;
+	u8 flag = 0;
 	delay_init();	    	 //延时函数初始化	  
 	uart_init(9600);	 	//串口初始化为9600
 	LED_Init();			 //初始化与LED连接的硬件接口
@@ -32,10 +34,41 @@
 	LCD_ShowString(60,130,200,16,16,"TEMP_VAL:");	      
 	LCD_ShowString(60,150,200,16,16,"TEMP_VOL:0.000V");	      
 	LCD_ShowString(60,170,200,16,16,"TEMPERATE:00.00C");	
-
+	
+while(!flag)
+{
+if(USART_RX_STA&0x8000)
+		{					   
+			len=USART_RX_STA&0x3fff;//得到此次接收到的数据长度
+			//time = USART_RX_STA;
+			//printf("\r\n您发送的消息为:\r\n");
+			for(t=0;t<len;t++)
+			{
+				u16 tmp =1;
+				for(i = 0; i < (len - t - 1); i++){
+					tmp = tmp * 10;
+				}
+				time = time + (USART_RX_BUF[t] - 48) * tmp;
+				//printf("\r\nsta = %u\r\n", USART_RX_STA);
+				//USART1->DR=USART_RX_BUF[t];
+				//printf("\r\nBUF[%u] = %u\r\n",t, USART_RX_BUF[t] - 48);
+				//printf("\r\nDR=%u\r\n", USART1->DR);
+				while((USART1->SR&0X40)==0);//等待发送结束
+			}
+			printf("\r\n\r\n");//插入换行
+			flag = 1;
+			USART_RX_STA=0;
+		}else
+		{
+			times++;
+			if(times%200==0)printf("请设置时间间隔\r\n");  
+			if(times%30==0)LED0=!LED0;//闪烁LED,提示系统正在运行.
+			delay_ms(10);   
+		}
+	}
+	printf("\r\n你设置的时间间隔为：%ums\r\n",time);
 	while(1)
 	{
-		
 		adcx=T_Get_Adc_Average(ADC_CH_TEMP,10);
 		LCD_ShowxNum(132,130,adcx,4,16,0);//显示ADC的值
 		temp=(float)adcx*(3.3/4096);
@@ -51,33 +84,7 @@
 		temperate-=(u8)temperate;	  
 		LCD_ShowxNum(164,170,temperate*100,2,16,0X80);//显示温度小数部分
 		LED0=!LED0;
-		
-		delay_ms(250);
-		/*
-		if(USART_RX_STA&0x8000)
-		{					   
-			len=USART_RX_STA&0x3fff;//得到此次接收到的数据长度
-			printf("\r\n您发送的消息为:\r\n");
-			printf("%f",temperate * 100);
-			for(t=0;t<len;t++)
-			{
-				USART1->DR=USART_RX_BUF[t];
-				while((USART1->SR&0X40)==0);//等待发送结束
-			}
-			printf("\r\n\r\n");//插入换行
-			USART_RX_STA=0;
-		}else
-		{
-			times++;
-			if(times%5000==0)
-			{
-				printf("\r\nALIENTEK MiniSTM32开发板 串口实验\r\n");
-				printf("正点原子@ALIENTEK\r\n\r\n\r\n");
-			}
-			if(times%200==0)printf("请输入数据,以回车键结束\r\n");  
-			if(times%30==0)LED0=!LED0;//闪烁LED,提示系统正在运行.
-			delay_ms(10);   
-		}
-		*/
+		//printf("%u", time);
+		delay_ms(time * 10);
 	}										    
 }	
