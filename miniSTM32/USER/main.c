@@ -26,13 +26,13 @@
  	T_Adc_Init();		  		//ADC初始化	    
 	POINT_COLOR=RED;//设置字体为红色 
 
-	LCD_ShowString(60,50,200,16,16,"Mini STM32");	
-	LCD_ShowString(60,70,200,16,16,"Temperature TEST");	
-	LCD_ShowString(60,90,200,16,16,"ATOM@ALIENTEK");
-	LCD_ShowString(60,110,200,16,16,"2014/3/9");	
+	LCD_ShowString(60,50,200,16,16,"Chang'an University");	
+	LCD_ShowString(60,70,200,16,16,"Hardware Design");	
+	//LCD_ShowString(60,90,200,16,16,"ATOM@ALIENTEK");
+	LCD_ShowString(60,110,200,16,16,"2016/11/30");	
 	//显示提示信息											      
 	POINT_COLOR=BLUE;//设置字体为蓝色
-	LCD_ShowString(60,130,200,16,16,"TEMP_VAL:");	      
+	LCD_ShowString(60,130,200,16,16,"Time(ms): ");	      
 	LCD_ShowString(60,150,200,16,16,"TEMP_VOL:0.000V");	      
 	LCD_ShowString(60,170,200,16,16,"TEMPERATE:00.00C");	
 	
@@ -72,7 +72,8 @@ if(USART_RX_STA&0x8000)
 	while(1)
 	{
 		adcx=T_Get_Adc_Average(ADC_CH_TEMP,10);
-		LCD_ShowxNum(132,130,adcx,4,16,0);//显示ADC的值
+		//LCD_ShowString(60,130,200,16,16,"TEMP_VAL:");
+		LCD_ShowxNum(132,130,time,4,16,0);//显示ADC的值
 		temp=(float)adcx*(3.3/4096);
 		temperate=temp;//保存温度传感器的电压值
 		adcx=temp;
