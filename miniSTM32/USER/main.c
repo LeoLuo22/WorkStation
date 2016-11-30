@@ -17,6 +17,7 @@
 	u16 times = 0;
 	u16 time = 0;
 	u8 flag = 0;
+	 u16 tmp = 0;
 	delay_init();	    	 //延时函数初始化	  
 	uart_init(9600);	 	//串口初始化为9600
 	LED_Init();			 //初始化与LED连接的硬件接口
@@ -67,6 +68,7 @@ if(USART_RX_STA&0x8000)
 		}
 	}
 	printf("\r\n你设置的时间间隔为：%ums\r\n",time);
+	tmp = time;
 	while(1)
 	{
 		adcx=T_Get_Adc_Average(ADC_CH_TEMP,10);
@@ -85,6 +87,11 @@ if(USART_RX_STA&0x8000)
 		LCD_ShowxNum(164,170,temperate*100,2,16,0X80);//显示温度小数部分
 		LED0=!LED0;
 		//printf("%u", time);
-		delay_ms(time * 10);
+		while(time >= 1864){
+			delay_ms(1864);
+			time = time % 1864;
+		}
+		delay_ms(time);
+		time = tmp;
 	}										    
 }	
