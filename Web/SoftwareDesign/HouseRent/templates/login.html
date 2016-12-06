@@ -193,9 +193,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<div class="clearfix"> </div>
 				</ul>
 				<div class="form-info">
-					<form>
-						<input type="text" class="text" placeholder="Email Adress" required="">
-						<input type="password"  placeholder="Password" required="">
+					<form action="login.html" method="post">
+					{% csrf_token %}
+						<input type="text" class="text" placeholder="Email Adress" required="" name="username">
+						<input type="password"  placeholder="Password" required="" name="password">
+						<input type="radio" checked="checked" name="1" value="个人"/>个人<br/>
+						<input type="radio" name="1" value="公司"/>公司<br/>
 						 <label class="hvr-sweep-to-right">
 				           	<input type="submit" value="Submit">
 				           </label>

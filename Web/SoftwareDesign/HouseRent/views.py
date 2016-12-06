@@ -13,10 +13,40 @@ def isValid(register, information):
     return True
 
 def index(request):
-    return render(request, 'index.html')
+    isLogin = request.session.get('isLogin', False)
+    if isLogin:
+        username = request.session.get('userName', False)
+        return render(request, 'index.html', {'loginStatus': request.session.get('userName')})
+    return render(request, 'index.html', {'loginStatus': 'Login'})
 
 def login(request):
-    return render(request, 'login.html')
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        if request.POST.get('1') == '个人':
+            user = NormalUser.objects.filter(username__exact=username, password__exact=password)
+            if user:
+                request.session['isLogin'] = True
+                request.session['userName'] = username
+                request.session['type'] = request.POST.get('1')
+                return render(request, 'index.html', {'loginStatus': request.session.get('userName')})
+            else:
+                request.session['isLogin'] = False
+        elif request.POST.get('1') == '公司':
+            user = Medium.objects.filter(username__exact=username, password__exact=password)
+            if user:
+                request.session['isLogin'] = True
+                request.session['userName'] = username
+                request.session['type'] = request.POST.get('1')
+                return render(request, 'index.html', {'loginStatus': request.session.get('userName')})
+            else:
+                request.session['isLogin'] = False
+    return render(request, 'login.html', {'loginStatus': 'Login'})
+
+def logout(request):
+    request.session['isLogin'] = False
+    return render(request, 'index.html', {'loginStatus': 'Login'})
 
 def register(request):
     if request.POST:
@@ -36,5 +66,4 @@ def register(request):
                 return render(request, 'login.html', {'flag': "注册成功"})
             else:
                 return render(request, 'register.html', {'flag': "该用户名或邮箱已被注册"})
-
     return render(request, 'register.html')
