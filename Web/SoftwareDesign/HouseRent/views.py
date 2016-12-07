@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import NormalUser, Medium, NormlHouse
+from .models import NormalUser, Medium, NormalHouse
 from PIL import Image
 from django.utils import timezone
 import os
@@ -103,7 +103,7 @@ def add(request, what):
             with open(filename, "wb") as fh:
                 for content in request.FILES.get('picFile'):
                     fh.write(content)
-            NormlHouse.objects.create(location=location, money=money,
+            NormalHouse.objects.create(location=location, money=money,
                                       name=name, phone=phone, area=area,
                                       description=description,
                                       picpath=filename, time=time,

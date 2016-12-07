@@ -17,14 +17,14 @@ class Medium(models.Model):
         return self.username
 
 
-class NormlHouse(models.Model):
+class NormalHouse(models.Model):
     location = models.CharField(max_length=50)
     money = models.IntegerField()
     name = models.CharField(max_length=50)
     phone = models.CharField(max_length=11)
     area = models.FloatField()
     description = models.TextField()
-    picpath = models.FilePathField()
+    picpath = models.CharField(max_length=100)
     time = models.DateField()
     username = models.CharField(max_length=50)
 
@@ -38,7 +38,7 @@ class MediumHouse(models.Model):
     phone = models.CharField(max_length=11)
     area = models.FloatField()
     description = models.TextField()
-    picpath = models.FilePathField()
+    picpath = models.CharField(max_length=100)
     time = models.DateField()
     username = models.CharField(max_length=50)
 
