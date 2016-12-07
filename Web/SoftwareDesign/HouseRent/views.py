@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from .models import NormalUser, Medium
+from PIL import Image
 
 def isValid(register, information):
     try:
@@ -67,3 +68,12 @@ def register(request):
             else:
                 return render(request, 'register.html', {'flag': "该用户名或邮箱已被注册"})
     return render(request, 'register.html')
+
+def release(request, what):
+    if request.session['isLogin'] == False:
+        return HttpResponse("<p> 您尚未登陆，请返回上一级页面 </p>")
+    return render(request, 'release.html', {'username': request.session['userName']})
+
+def add(request, what):
+
+    return HttpResponse(request.FILES['picFile'])

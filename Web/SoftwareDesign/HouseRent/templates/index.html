@@ -195,10 +195,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="bottom-header">
 				<div class="header-bottom">
 					<div class=" bottom-head">
-						<a href="buy.html">
+					{% if loginStatus != "Login" %}
+						<a href="{{ loginStatus }}/release.html">
+					{% endif %}
 							<div class="buy-media">
 								<i class="buy"> </i>
-								<h6>Buy</h6>
+								<h6>发布</h6>
 							</div>
 						</a>
 					</div>

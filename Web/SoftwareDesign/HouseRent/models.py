@@ -15,3 +15,6 @@ class Medium(models.Model):
 
     def __str__(self):
         return self.username
+
+class House(models.Model):
+    location
