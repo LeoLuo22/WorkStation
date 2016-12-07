@@ -16,5 +16,31 @@ class Medium(models.Model):
     def __str__(self):
         return self.username
 
-class House(models.Model):
-    location
+
+class NormlHouse(models.Model):
+    location = models.CharField(max_length=50)
+    money = models.IntegerField()
+    name = models.CharField(max_length=50)
+    phone = models.CharField(max_length=11)
+    area = models.FloatField()
+    description = models.TextField()
+    picpath = models.FilePathField()
+    time = models.DateField()
+    username = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.username
+
+class MediumHouse(models.Model):
+    location = models.CharField(max_length=50)
+    money = models.IntegerField()
+    name = models.CharField(max_length=50)
+    phone = models.CharField(max_length=11)
+    area = models.FloatField()
+    description = models.TextField()
+    picpath = models.FilePathField()
+    time = models.DateField()
+    username = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.username

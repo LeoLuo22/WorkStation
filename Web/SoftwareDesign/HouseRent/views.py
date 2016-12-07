@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import NormalUser, Medium
+from .models import NormalUser, Medium, NormlHouse
 from PIL import Image
+from django.utils import timezone
+import os
+import random
 
 def isValid(register, information):
     try:
@@ -30,7 +33,7 @@ def login(request):
             if user:
                 request.session['isLogin'] = True
                 request.session['userName'] = username
-                request.session['type'] = request.POST.get('1')
+                request.session['isMedium'] = False
                 return render(request, 'index.html', {'loginStatus': request.session.get('userName')})
             else:
                 request.session['isLogin'] = False
@@ -39,7 +42,7 @@ def login(request):
             if user:
                 request.session['isLogin'] = True
                 request.session['userName'] = username
-                request.session['type'] = request.POST.get('1')
+                request.session['isMedium'] = True
                 return render(request, 'index.html', {'loginStatus': request.session.get('userName')})
             else:
                 request.session['isLogin'] = False
@@ -75,5 +78,38 @@ def release(request, what):
     return render(request, 'release.html', {'username': request.session['userName']})
 
 def add(request, what):
+    if request.POST:
+        time = timezone.now()
+        location = request.POST.get('location')
+        name = request.POST.get('name')
+        money = request.POST.get('money')
+        phone = request.POST.get('phone')
+        area = request.POST.get("area")
+        description = request.POST.get("description")
+        username = request.session['userName']
+        #picname = request.POST.get('picFile')
+        if request.session['isMedium'] == False:
+            try:
+                os.chdir('HouseRent')
+            except FileNotFoundError as err:
+                pass
+            filepath = "static/users/normal/" + username + "/"
+            try:
+                if not os._exists(filepath):
+                    os.makedirs(filepath)
+            except FileExistsError as err:
+                pass
+            filename = filepath + str(random.randint(0, 100)) + ".jpg"
+            with open(filename, "wb") as fh:
+                for content in request.FILES.get('picFile'):
+                    fh.write(content)
+            NormlHouse.objects.create(location=location, money=money,
+                                      name=name, phone=phone, area=area,
+                                      description=description,
+                                      picpath=filename, time=time,
+                                      username=username)
 
-    return HttpResponse(request.FILES['picFile'])
+
+
+
+    return HttpResponse(request.POST['location'])
