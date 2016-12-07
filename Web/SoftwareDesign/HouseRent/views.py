@@ -5,6 +5,7 @@ from PIL import Image
 from django.utils import timezone
 import os
 import random
+from django.http import HttpResponseRedirect
 
 def isValid(register, information):
     try:
@@ -17,11 +18,12 @@ def isValid(register, information):
     return True
 
 def index(request):
+    houses = NormalHouse.objects.all()
     isLogin = request.session.get('isLogin', False)
     if isLogin:
         username = request.session.get('userName', False)
-        return render(request, 'index.html', {'loginStatus': request.session.get('userName')})
-    return render(request, 'index.html', {'loginStatus': 'Login'})
+        return render(request, 'index.html', {'loginStatus': request.session.get('userName'), 'houses': houses})
+    return render(request, 'index.html', {'loginStatus': 'Login', 'houses': houses})
 
 def login(request):
 
@@ -99,7 +101,7 @@ def add(request, what):
                     os.makedirs(filepath)
             except FileExistsError as err:
                 pass
-            filename = filepath + str(random.randint(0, 100)) + ".jpg"
+            filename = filepath + str(random.randint(100, 9999)) + ".jpg"
             with open(filename, "wb") as fh:
                 for content in request.FILES.get('picFile'):
                     fh.write(content)
@@ -108,8 +110,26 @@ def add(request, what):
                                       description=description,
                                       picpath=filename, time=time,
                                       username=username)
-
-
-
-
-    return HttpResponse(request.POST['location'])
+            return HttpResponseRedirect('/HouseRent')
+        elif request.session['isMedium'] == True:
+            try:
+                os.chdir('HouseRent')
+            except FileNotFoundError as err:
+                pass
+            filepath = "static/users/medium/" + username + "/"
+            try:
+                if not os._exists(filepath):
+                    os.makedirs(filepath)
+            except FileExistsError as err:
+                pass
+            filename = filepath + str(random.randint(100, 9999)) + ".jpg"
+            with open(filename, "wb") as fh:
+                for content in request.FILES.get('picFile'):
+                    fh.write(content)
+            NormalHouse.objects.create(location=location, money=money,
+                                      name=name, phone=phone, area=area,
+                                      description=description,
+                                      picpath=filename, time=time,
+                                      username=username)
+            return render(request, 'index.html', {'loginStatus': request.session['userName']})
+    return HttpResponse("An error occured")
