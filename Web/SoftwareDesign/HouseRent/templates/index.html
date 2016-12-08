@@ -267,8 +267,23 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="content">
 	<div class="content-grid">
 		<div class="container">
-			<h3>最受欢迎</h3>
+			<h3>最受欢迎的个人房屋</h3>
 			{% for house in houses %}
+
+				<div class="col-md-4 box_2">
+			     	 <a href="/HouseRent/houses/{{ isMedium }}/{{ house.id }}/" class="mask">
+			     	   	<img class="img-responsive zoom-img" src="/{{ house.picpath }} "alt="">
+			     	   	<span class="four">{{ house.money }}</span>
+			     	 </a>
+			     	   <div class="most-1">
+			     	   	 <h5><a href="/HouseRent/{{ house.id }}/detail">{{house.name}}</a></h5>
+			     	    	<p>{{ house.username }}</p>
+			     	   </div>
+			 </div>
+			 {% endfor %}
+			 <h3>最受欢迎的中介房屋</h3>
+			{% for house in mhouses %}
+
 				<div class="col-md-4 box_2">
 			     	 <a href="/HouseRent/houses/{{ isMedium }}/{{ house.id }}/" class="mask">
 			     	   	<img class="img-responsive zoom-img" src="/{{ house.picpath }} "alt="">

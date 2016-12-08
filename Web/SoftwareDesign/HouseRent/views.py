@@ -18,13 +18,19 @@ def isValid(register, information):
     return True
 
 def index(request):
+    #count = 1
     houses = NormalHouse.objects.all()
+    mhouses = MediumHouse.objects.all()
+    if len(houses) > 3:
+        houses = houses[0:3]
+    if len(mhouses) > 3:
+        mhouses = mhouses[0:3]
     isLogin = request.session.get('isLogin', False)
     if isLogin:
         username = request.session.get('userName', False)
         return render(request, 'index.html', {'loginStatus': request.session.get('userName'), 'houses': houses,
-                      'isMedium': request.session['isMedium']})
-    return render(request, 'index.html', {'loginStatus': 'Login', 'houses': houses})
+                      'isMedium': request.session['isMedium'], 'mhouses': mhouses})
+    return render(request, 'index.html', {'loginStatus': 'Login', 'houses': houses, 'mhouses': mhouses})
 
 def login(request):
 
@@ -106,11 +112,14 @@ def add(request, what):
             with open(filename, "wb") as fh:
                 for content in request.FILES.get('picFile'):
                     fh.write(content)
-            NormalHouse.objects.create(location=location, money=money,
+            try:
+                NormalHouse.objects.create(location=location, money=money,
                                       name=name, phone=phone, area=area,
                                       description=description,
                                       picpath=filename, time=time,
                                       username=username)
+            except ValueError as err:
+                return HttpResponse("<p>你的输入有误，请返回上一级</p>")
             return HttpResponseRedirect('/HouseRent')
         elif request.session['isMedium'] == True:
             try:
@@ -127,11 +136,11 @@ def add(request, what):
             with open(filename, "wb") as fh:
                 for content in request.FILES.get('picFile'):
                     fh.write(content)
-            NormalHouse.objects.create(location=location, money=money,
+            MediumHouse.objects.create(location=location, money=money,
                                       name=name, phone=phone, area=area,
                                       description=description,
                                       picpath=filename, time=time,
-                                      username=username)
+                                      username=username, isCheck=False)
             return render(request, 'index.html', {'loginStatus': request.session['userName']})
     return HttpResponse("An error occured")
 
