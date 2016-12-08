@@ -46,9 +46,14 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="top-nav">
 			<ul class="right-icons">
 				<li><span ><i class="glyphicon glyphicon-phone"> </i>+1384 757 546</span></li>
-				<li><a  href="login.html"><i class="glyphicon glyphicon-user"> </i>Login</a></li>
+				{% if loginStatus == "Login" %}
+				<li><a  href="login"><i class="glyphicon glyphicon-user"> </i>{{ loginStatus }}</a></li>
+				{% endif %}
+				{% if loginStatus != "Login" %}
+				<li><i class="glyphicon glyphicon-user"> </i>{{ loginStatus }}</a></li>
+				<li><a  href="logout"><i class="glyphicon glyphicon-user"> </i>Logout</a></li>
+				{% endif %}
 				<li><a class="play-icon popup-with-zoom-anim" href="#small-dialog"><i class="glyphicon glyphicon-search"> </i> </a></li>
-				
 			</ul>
 			<div class="nav-icon">
 				<div class="hero fa-navicon fa-2x nav_slide_button" id="hero">
@@ -215,7 +220,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					<li class="loan-list-top"><textarea name="description" cols="50" rows="5"></textarea></li>
 				</ul>
 				<ul class="loan-col1">
-					<li><span>上传图片</span></li><label>:</label>
+				<li><span>出租</span></li><label>:</label>
+				<input type="radio" checked="checked" name="1" value="出租"/>
+				</u1>
+				<ul class="loan-col1">
+				<li><span>求租</span></li><label>:</label>
+				<input type="radio"  name="1" value="求租"/>
+				</u1>
+				<ul class="loan-col1">
+					<li><span>上传图片（求租可忽略）</span></li><label>:</label>
 					<li class="loan-list-top"><input type="file" name="picFile" /></li>
 				</ul>
 				<p>I agree to Real Home' Terms & Conditions. I would like to receive property related communication through Email, Call or SMS from Real Home or any of its partners.</p>

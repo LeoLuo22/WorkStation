@@ -20,6 +20,7 @@ class House(models.Model):
     time = models.DateTimeField()
     username = models.CharField(max_length=50)
     isChecked = models.BooleanField(default=False)
+    isWanted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username

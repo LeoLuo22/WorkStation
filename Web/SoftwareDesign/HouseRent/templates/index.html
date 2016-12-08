@@ -195,9 +195,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="bottom-header">
 				<div class="header-bottom">
 					<div class=" bottom-head">
-					{% if loginStatus != "Login" %}
 						<a href="{{ loginStatus }}/release.html">
-					{% endif %}
 							<div class="buy-media">
 								<i class="buy"> </i>
 								<h6>发布</h6>
@@ -267,17 +265,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="content">
 	<div class="content-grid">
 		<div class="container">
-			<h3>最受欢迎的房屋</h3>
-			{% for house in houses %}
+			<h3>精选好屋</h3>
+			{% for house in rhouses %}
 
 				<div class="col-md-4 box_2">
-			     	 <a href="/HouseRent/houses/{{ house.id }}/" class="mask">
-			     	   	<img class="img-responsive zoom-img" src="/{{ house.picpath }} "alt="">
-			     	   	<span class="four">{{ house.money }}</span>
+			     	 <a href="/HouseRent/houses/{{ rhouse.id }}/" class="mask">
+			     	   	<img class="img-responsive zoom-img" src="/{{ rhouse.picpath }} "alt="">
+			     	   	<span class="four">{{ rhouse.money }}</span>
 			     	 </a>
 			     	   <div class="most-1">
-			     	   	 <h5><a href="/HouseRent/{{ house.id }}/detail">{{house.name}}</a></h5>
-			     	    	<p>{{ house.username }}</p>
+			     	   	 <h5><a href="/HouseRent/houses/{{ rhouse.id }}/detail">{{rhouse.name}}</a></h5>
+			     	    	<p>{{ rhouse.username }}</p>
 			     	   </div>
 			 </div>
 			 {% endfor %}
@@ -288,60 +286,25 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="services">
 		<div class="container">
 			<div class="service-top">
-				<h3>Services</h3>
-				<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+				<h3>我要租房</h3>
+				<p>这里汇集了求租信息</p>
 			</div>
+			{% for whouse in whouses %}
 			<div class="services-grid">
 		   		<div class="col-md-6 service-top1">
 		   			<div class=" ser-grid">	
 		   				<a href="#" class="hi-icon hi-icon-archive glyphicon glyphicon-user"> </a>
 		   			</div>
 		   			<div  class="ser-top">
-		   				<h4>Ut wisi enim ad</h4>
-		   				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. 
-		   					It has roots in a piece of classical.Contrary to popular belief, Lorem Ipsum </p>
+		   				<h4><a href="/HouseRent/houses/{{ whouse.id }}/detail">{{ whouse.username }}</a></h4>
+						<p>地址：{{ whouse.location }}</p>
+		   				<p>面积：{{ whouse.area }}</p>
+						<p>租金：{{ whouse.money }}<p>
 		   		    </div>
 					<div class="clearfix"> </div>
 		   	   </div>
-				<div class="col-md-6 service-top1">
-		   			<div class=" ser-grid">	
-		   				<a href="#" class="hi-icon hi-icon-archive glyphicon glyphicon-leaf"> </a>
-		   			</div>
-		   			<div  class="ser-top">
-		   				<h4>Ut wisi enim ad</h4>
-		   				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. 
-		   					It has roots in a piece of classical.Contrary to popular belief, Lorem Ipsum </p>
-		   		    </div>
-					<div class="clearfix"> </div>
-		   		</div>
-		   	<div class="clearfix"> </div>
-		 </div>
-		 <div class="services-grid">
-			   	<div class="col-md-6 service-top1">
-			   		<div class=" ser-grid">	
-			   			<a href="#" class="hi-icon hi-icon-archive glyphicon glyphicon-cog"> </a>
-			   		</div>
-			   		<div  class="ser-top">
-			   			<h4>Ut wisi enim ad</h4>
-			   				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. 
-			   					It has roots in a piece of classical.Contrary to popular belief, Lorem Ipsum </p>
-			   		</div>
-					<div class="clearfix"> </div>
-			   	</div>
-				<div class="col-md-6 service-top1">
-			   		<div class=" ser-grid">	
-			   			<a href="#" class="hi-icon hi-icon-archive glyphicon glyphicon-file"> </a>
-			   		</div>
-			   		<div  class="ser-top">
-			   			<h4>Ut wisi enim ad</h4>
-			   			<p>Contrary to popular belief, Lorem Ipsum is not simply random text. 
-			   					It has roots in a piece of classical .Contrary to popular belief, Lorem Ipsum</p>
-			   		</div>
-					<div class="clearfix"> </div>
-			   	</div>
-		   	  <div class="clearfix"> </div>
-		 	</div>
-		</div>
+			   </div>
+			   {% endfor %}
 	</div>
 <!--//services-->
 <!--features-->

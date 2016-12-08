@@ -18,17 +18,19 @@ def isValid(register, information):
     return True
 
 def index(request):
-    houses = House.objects.all()
-    if len(houses) > 3:
-        houses = houses[0:3]
+    #*****出租
+    r_houses = House.objects.filter(isWanted__exact=False)
+    rhouses = r_houses.filter(isChecked__exact=True)
+    w_houses = House.objects.filter(isWanted__exact=True)
+    whouses = w_houses.filter(isChecked__exact=True)
     #isLogin = request.session.get('isLogin', False)
     #if isLogin:
     if request.session['isLogin'] == False:
-        return render(request, 'index.html', {'loginStatus': 'Login', 'houses': houses})
+        return render(request, 'index.html', {'loginStatus': 'Login', 'rhouses': rhouses, 'whouses': whouses})
 
     username = request.session.get('userName', False)
-    return render(request, 'index.html', {'loginStatus': request.session.get('userName'), 'houses': houses,
-                      'isMedium': request.session['isMedium']})
+    return render(request, 'index.html', {'loginStatus': request.session.get('userName'), 'rhouses': rhouses,
+                  'whouses': whouses})
 
 def login(request):
 
@@ -71,7 +73,7 @@ def register(request):
 def release(request, what):
     if request.session['isLogin'] == False:
         return HttpResponse("<p> 您尚未登陆，请返回上一级页面 </p>")
-    return render(request, 'release.html', {'username': request.session['userName']})
+    return render(request, 'release.html', {'username': request.session['userName'], 'loginStatus': request.session.get('userName')})
 
 def add(request, what):
     if request.POST:
@@ -83,13 +85,13 @@ def add(request, what):
         area = request.POST.get("area")
         description = request.POST.get("description")
         username = request.session['userName']
-        #picname = request.POST.get('picFile')
-        if request.session['isMedium'] == False:
+        filename = "fakepath"
+        if request.FILES:
             try:
                 os.chdir('HouseRent')
             except FileNotFoundError as err:
                 pass
-            filepath = "static/users/normal/" + username + "/"
+            filepath = "static/users/" + username + "/"
             try:
                 if not os._exists(filepath):
                     os.makedirs(filepath)
@@ -99,36 +101,38 @@ def add(request, what):
             with open(filename, "wb") as fh:
                 for content in request.FILES.get('picFile'):
                     fh.write(content)
-            try:
-                NormalHouse.objects.create(location=location, money=money,
+
+        try:
+            if User.objects.get(username__exact=username).isMedium == False: #普通用户
+                if request.POST.get('1') == '出租':
+                    House.objects.create(location=location, money=money,
                                       name=name, phone=phone, area=area,
                                       description=description,
                                       picpath=filename, time=time,
-                                      username=username)
-            except ValueError as err:
-                return HttpResponse("<p>你的输入有误，请返回上一级</p>")
-            return HttpResponseRedirect('/HouseRent')
-        elif request.session['isMedium'] == True:
-            try:
-                os.chdir('HouseRent')
-            except FileNotFoundError as err:
-                pass
-            filepath = "static/users/medium/" + username + "/"
-            try:
-                if not os._exists(filepath):
-                    os.makedirs(filepath)
-            except FileExistsError as err:
-                pass
-            filename = filepath + str(random.randint(100, 9999)) + ".jpg"
-            with open(filename, "wb") as fh:
-                for content in request.FILES.get('picFile'):
-                    fh.write(content)
-            MediumHouse.objects.create(location=location, money=money,
+                                      username=username, isChecked=True, isWanted=False)
+                elif request.POST.get('1') == '求租':
+                    House.objects.create(location=location, money=money,
                                       name=name, phone=phone, area=area,
                                       description=description,
                                       picpath=filename, time=time,
-                                      username=username, isCheck=False)
-            return render(request, 'index.html', {'loginStatus': request.session['userName']})
+                                      username=username, isChecked=True, isWanted=True)
+            else:
+                if request.POST.get('1') == '出租':
+                    House.objects.create(location=location, money=money,
+                                      name=name, phone=phone, area=area,
+                                      description=description,
+                                      picpath=filename, time=time,
+                                      username=username, isChecked=False, isWanted=False)
+                elif request.POST.get('1') == '求租':
+                    House.objects.create(location=location, money=money,
+                                      name=name, phone=phone, area=area,
+                                      description=description,
+                                      picpath=filename, time=time,
+                                      username=username, isChecked=False, isWanted=True)
+        except ValueError as err:
+            return HttpResponse("<p>你的输入有误，请返回上一级</p>")
+    return HttpResponseRedirect('/HouseRent')
+
     return HttpResponse("An error occured")
 
 def detail(request, ID):
