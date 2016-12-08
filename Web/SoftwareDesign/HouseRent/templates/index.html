@@ -52,7 +52,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="container">
 		<!--logo-->
 			<div class="logo">
-				<h1><a href="index.html">REAL HOME</a></h1>
+				<h1><a href="/HouseRent">REAL HOME</a></h1>
 			</div>
 		<!--//logo-->
 		<div class="top-nav">
@@ -270,7 +270,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<h3>最受欢迎</h3>
 			{% for house in houses %}
 				<div class="col-md-4 box_2">
-			     	 <a href="/HouseRent/{{ house.id }}/detail" class="mask">
+			     	 <a href="/HouseRent/houses/{{ isMedium }}/{{ house.id }}/" class="mask">
 			     	   	<img class="img-responsive zoom-img" src="/{{ house.picpath }} "alt="">
 			     	   	<span class="four">{{ house.money }}</span>
 			     	 </a>

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import NormalUser, Medium, NormalHouse
+from .models import NormalUser, Medium, NormalHouse, MediumHouse
 from PIL import Image
 from django.utils import timezone
 import os
@@ -22,7 +22,8 @@ def index(request):
     isLogin = request.session.get('isLogin', False)
     if isLogin:
         username = request.session.get('userName', False)
-        return render(request, 'index.html', {'loginStatus': request.session.get('userName'), 'houses': houses})
+        return render(request, 'index.html', {'loginStatus': request.session.get('userName'), 'houses': houses,
+                      'isMedium': request.session['isMedium']})
     return render(request, 'index.html', {'loginStatus': 'Login', 'houses': houses})
 
 def login(request):
@@ -133,3 +134,10 @@ def add(request, what):
                                       username=username)
             return render(request, 'index.html', {'loginStatus': request.session['userName']})
     return HttpResponse("An error occured")
+
+def detail(request, flag, ID):
+    if flag == "False": #means a normal user
+        house = NormalHouse.objects.get(id=ID)
+        return render(request, 'detail.html', {'house': house})
+
+    return render(request, 'detail.html', {'house': MediumHouse.objects.get(id=ID)})
