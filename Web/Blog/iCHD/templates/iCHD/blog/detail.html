@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{{blog.body}}
+<p><a href='/iCHD/blog/{{blog.title}}/delete'>Delete</a></p>
+<p><a href='/iCHD/blog/{{blog.title}}/update'>Update</a></p>
+{% endblock %}

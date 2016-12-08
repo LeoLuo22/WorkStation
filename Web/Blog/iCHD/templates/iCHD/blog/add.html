@@ -1,0 +1,23 @@
+  {% extends "base.html" %}
+ {% block content %}
+ <style type="text/css">                                                                        
+     textarea {
+         resize: none;
+         width: 600px;
+        height: 200px;
+    }
+ </style>
+ <div class = "posts">
+     <section class="post">
+         <form action={% url 'add' %} class="pure-form pure-form-stacked" method="post">      
+		 {% csrf_token %}
+       <label>title</label>
+          <input name="title" type="text">                                       
+         <label>tags</label>
+         <input class="pure-input-1-4" name="tags" type="text">
+         <label>content</label>
+        <textarea width:400px height:600px name='content'>content</textarea>
+          <button class="pure-button" type="submit">Submit</button>
+        </form>
+    </section>
+{% endblock %}

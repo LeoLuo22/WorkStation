@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html>
+<body>
+<form action="/iCHD/main.html" method="POST" align="center">
+{% csrf_token %}
+Username:<input type="text" name="username"/>  {{ error_message }}
+</br>
+Password:<input type="password" name="password"/>
+</br>
+<input type="submit" name="regist"/>
+</br>
+</form>
+</body>
+</html>

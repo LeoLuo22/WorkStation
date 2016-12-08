@@ -1,0 +1,60 @@
+@font-face {
+font-family: ‘Open Sans’;
+font-style: normal;
+font-weight: 300;
+src: local(‘Open Sans Light’), local(‘OpenSans-Light’), url(../fonts/google/DXI1ORHCpsQm3Vp6mXoaTRa1RVmPjeKy21_GQJaLlJI.woff) format(‘woff’);
+}
+@font-face {
+font-family: ‘Open Sans’;
+font-style: normal;
+font-weight: 400;
+src: local(‘Open Sans’), local(‘OpenSans’), url(../fonts/google/u-WUoqrET9fUeobQW7jkRT8E0i7KZn-EPnyo3HZu7kw.woff) format(‘woff’);
+}
+@font-face {
+font-family: ‘Open Sans’;
+font-style: normal;
+font-weight: 600;
+src: local(‘Open Sans Semibold’), local(‘OpenSans-Semibold’), url(../fonts/google/MTP_ySUJH_bn48VBG8sNSha1RVmPjeKy21_GQJaLlJI.woff) format(‘woff’);
+}
+@font-face {
+font-family: ‘Open Sans’;
+font-style: italic;
+font-weight: 300;
+src: local(‘Open Sans Light Italic’), local(‘OpenSansLight-Italic’), url(../fonts/google/PRmiXeptR36kaC0GEAetxrsuoFAk0leveMLeqYtnfAY.woff) format(‘woff’);
+}
+@font-face {
+font-family: ‘Open Sans’;
+font-style: italic;
+font-weight: 400;
+src: local(‘Open Sans Italic’), local(‘OpenSans-Italic’), url(../fonts/google/xjAJXh38I15wypJXxuGMBtIh4imgI8P11RFo6YPCPC0.woff) format(‘woff’);
+}
+@font-face {
+font-family: ‘Open Sans’;
+font-style: italic;
+font-weight: 600;
+src: local(‘Open Sans Semibold Italic’), local(‘OpenSans-SemiboldItalic’), url(../fonts/google/PRmiXeptR36kaC0GEAetxmWeb5PoA5ztb49yLyUzH1A.woff) format(‘woff’);
+}
+
+修改 \wp-includes\script-loader.php 文件，找到
+
+$open_sans_font_url = “//fonts.useso.com/css?family=Open+Sans:300italic,400italic,600italic,300,400,600&subset=$subsets”;
+
+替换成
+
+$open_sans_font_url = “/wp-includes/css/google-font.css”;
+
+在wp的后台插件里面搜索安装Disable Google Fonts这款插件后启用即可，如果不想安装插件，也可以使用代码版，在主题的functions.php里面加入下面的代码：
+
+//禁用Open Sans
+class Disable_Google_Fonts {
+public function __construct() {
+add_filter( ‘gettext_with_context’, array( $this, ‘disable_open_sans’ ), 888, 4 );
+}
+public function disable_open_sans( $translations, $text, $context, $domain ) {
+if ( ‘Open Sans font: on or off’ == $context && ‘on’ == $text ) {
+$translations = ‘off’;
+}
+return $translations;
+}
+}
+$disable_google_fonts = new Disable_Google_Fonts

@@ -1,0 +1,19 @@
+﻿{% extends "base_blog.html" %}
+{% block contents %}
+{% for blog in blogs %}
+					<article>
+						<div class="heading">
+							<h2><a href="/iCHD/blog/{{ blog.id }}">{{ blog.title }}</a></h2>
+						</div>
+						<div class="content">
+							<img src="/static/img/img1.jpg" width="250px" height="100px"/>
+							<p>{{ blog.body|safe|truncatechars:100 }}<a href="/iCHD/blog/{{ blog.id }}">[...]</a></p>
+		
+						</div>
+						<div class="info">
+							<p>By Admin on {{blog.time}} - <a href="#">01 Commnets</a></p>
+							<p> {{ blog.id }}</p>
+						</div>
+					</article>
+				{% endfor %}
+{% endblock %}

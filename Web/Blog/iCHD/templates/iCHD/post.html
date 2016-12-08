@@ -1,0 +1,24 @@
+
+  <script type="text/javascript" charset="utf8" src="/static/kindeditor/kindeditor.js"></script>       
+ <script type="text/javascript" charset="utf8" src="/static/kindeditor/lang/zh_CN.js"></script>       
+  <script>                   
+     var editor;
+     KindEditor.ready(function(K){
+         editor = K.create('textarea[name="content"]',{                                               
+ 
+         });
+     });
+ </script>
+  <div class = "posts">
+    <section class="post">
+          <form  class="pure-form pure-form-stacked" method="post">
+        <label>title</label>
+        <input class="pure-input-1-4" name="title" type="text">
+        <label>tags</label>
+         <input class="pure-input-1-4" name="tags" type="text">
+        <label>content</label>
+        <textarea style="width:700px;height:400px;"  name='content'>&lt;strong&gt;HTML&lt;/strong&gt;</textarea>      
+        <button class="pure-button" type="submit">Submit</button>
+        </form>
+     </section>
+

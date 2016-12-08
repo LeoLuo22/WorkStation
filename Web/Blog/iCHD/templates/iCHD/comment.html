@@ -1,0 +1,23 @@
+
+  <script type="text/javascript" charset="utf8" src="/static/kindeditor/kindeditor.js"></script>       
+ <script type="text/javascript" charset="utf8" src="/static/kindeditor/lang/zh_CN.js"></script>       
+  <script>                   
+     var editor;
+     KindEditor.ready(function(K){
+         editor = K.create('textarea[name="content"]',{                                               
+ 
+         });
+     });
+ </script>
+{% for comment in comments %}
+{{ forloop.counter }}. {{comment.comment}}
+</br>
+{% endfor %}
+  <div class = "posts">
+    <section class="post">
+          <form  class="pure-form pure-form-stacked" method="post" action="/iCHD/blog/{{title}}/fuck" name="comment">
+		  {% csrf_token %}
+        <textarea style="width:700px;height:400px;"  name='content'>&lt;strong&gt;HTML&lt;/strong&gt;</textarea>      
+        <button class="pure-button" type="submit" value="添加评论" >添加评论</button>
+        </form>
+     </section>
