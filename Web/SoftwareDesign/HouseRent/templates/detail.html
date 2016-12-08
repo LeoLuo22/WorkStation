@@ -48,7 +48,13 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="top-nav">
 			<ul class="right-icons">
 				<li><span ><i class="glyphicon glyphicon-phone"> </i>+1384 757 546</span></li>
-				<li><a  href="login.html"><i class="glyphicon glyphicon-user"> </i>Login</a></li>
+				{% if loginStatus == "Login" %}
+				<li><a  href="login.html"><i class="glyphicon glyphicon-user"> </i>{{ loginStatus }}</a></li>
+				{% endif %}
+				{% if loginStatus != "Login" %}
+				<li><i class="glyphicon glyphicon-user"> </i>{{ loginStatus }}</a></li>
+				<li><a  href="/HouseRent/logout.html"><i class="glyphicon glyphicon-user"> </i>Logout</a></li>
+				{% endif %}
 				<li><a class="play-icon popup-with-zoom-anim" href="#small-dialog"><i class="glyphicon glyphicon-search"> </i> </a></li>
 				
 			</ul>

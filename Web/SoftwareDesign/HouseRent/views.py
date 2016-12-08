@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import NormalUser, Medium, NormalHouse, MediumHouse
+from .models import User, House
 from PIL import Image
 from django.utils import timezone
 import os
@@ -18,49 +18,35 @@ def isValid(register, information):
     return True
 
 def index(request):
-    #count = 1
-    houses = NormalHouse.objects.all()
-    mhouses = MediumHouse.objects.all()
+    houses = House.objects.all()
     if len(houses) > 3:
         houses = houses[0:3]
-    if len(mhouses) > 3:
-        mhouses = mhouses[0:3]
-    isLogin = request.session.get('isLogin', False)
-    if isLogin:
-        username = request.session.get('userName', False)
-        return render(request, 'index.html', {'loginStatus': request.session.get('userName'), 'houses': houses,
-                      'isMedium': request.session['isMedium'], 'mhouses': mhouses})
-    return render(request, 'index.html', {'loginStatus': 'Login', 'houses': houses, 'mhouses': mhouses})
+    #isLogin = request.session.get('isLogin', False)
+    #if isLogin:
+    if request.session['isLogin'] == False:
+        return render(request, 'index.html', {'loginStatus': 'Login', 'houses': houses})
+
+    username = request.session.get('userName', False)
+    return render(request, 'index.html', {'loginStatus': request.session.get('userName'), 'houses': houses,
+                      'isMedium': request.session['isMedium']})
 
 def login(request):
 
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        if request.POST.get('1') == '个人':
-            user = NormalUser.objects.filter(username__exact=username, password__exact=password)
-            if user:
-                request.session['isLogin'] = True
-                request.session['userName'] = username
-                request.session['isMedium'] = False
-                #return render(request, 'index.html', {'loginStatus': request.session.get('userName')})
-                return HttpResponseRedirect('/HouseRent')
-            else:
-                request.session['isLogin'] = False
-        elif request.POST.get('1') == '公司':
-            user = Medium.objects.filter(username__exact=username, password__exact=password)
-            if user:
-                request.session['isLogin'] = True
-                request.session['userName'] = username
-                request.session['isMedium'] = True
-                return HttpResponseRedirect('/HouseRent')
-            else:
-                request.session['isLogin'] = False
+        user = User.objects.filter(username__exact=username, password__exact=password)
+        if user:
+            request.session['isLogin'] = True
+            request.session['userName'] = username
+            request.session['isMedium'] = False
+            return HttpResponseRedirect('/HouseRent')
+        else:
+            request.session['isLogin'] = False
     return render(request, 'login.html', {'loginStatus': 'Login'})
 
 def logout(request):
     request.session['isLogin'] = False
-    #return render(request, 'index.html', {'loginStatus': 'Login'})
     return HttpResponseRedirect('/HouseRent')
 
 def register(request):
@@ -69,15 +55,14 @@ def register(request):
         password = request.POST.get('password')
         email = request.POST.get('email')
         if request.POST.get('1') == '个人':
-            #result = NormalUser.objects.get_or_create(username=username, password=password, email=email)
-            if isValid(NormalUser, username) and isValid(NormalUser, email):
-                NormalUser.objects.create(username=username, password=password, email=email)
+            if isValid(User, username) and isValid(User, email):
+                User.objects.create(username=username, password=password, email=email, isMedium=False)
                 return render(request, 'login.html', {'flag': "注册成功"})
             else:
                 return render(request, 'register.html', {'flag': "该用户名或邮箱已被注册"})
         elif request.POST.get('1') == '公司':
-            if isValid(Medium, username) and isValid(Medium, email):
-                Medium.objects.create(username=username, password=password, email=email)
+            if isValid(User, username) and isValid(User, email):
+                User.objects.create(username=username, password=password, email=email, isMedium=True)
                 return render(request, 'login.html', {'flag': "注册成功"})
             else:
                 return render(request, 'register.html', {'flag': "该用户名或邮箱已被注册"})
@@ -146,9 +131,5 @@ def add(request, what):
             return render(request, 'index.html', {'loginStatus': request.session['userName']})
     return HttpResponse("An error occured")
 
-def detail(request, flag, ID):
-    if flag == "False": #means a normal user
-        house = NormalHouse.objects.get(id=ID)
-        return render(request, 'detail.html', {'house': house})
-
-    return render(request, 'detail.html', {'house': MediumHouse.objects.get(id=ID)})
+def detail(request, ID):
+    return render(request, 'detail.html', {'house': House.objects.get(id=ID)})

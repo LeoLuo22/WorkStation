@@ -11,5 +11,5 @@ urlpatterns = [
     url(r'^\w*/logout', views.logout, name='lout'),
     url(r'^(\w)*/release', views.release, name='release'),
     url(r'^(\w)*/add', views.add, name="add"),
-    url(r'houses/(?P<flag>\w*)/(?P<ID>\d*)', views.detail, name="detail"),
+    url(r'houses/(?P<ID>\d*)', views.detail, name="detail"),
 ]
