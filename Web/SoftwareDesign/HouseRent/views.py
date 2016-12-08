@@ -43,7 +43,8 @@ def login(request):
                 request.session['isLogin'] = True
                 request.session['userName'] = username
                 request.session['isMedium'] = False
-                return render(request, 'index.html', {'loginStatus': request.session.get('userName')})
+                #return render(request, 'index.html', {'loginStatus': request.session.get('userName')})
+                return HttpResponseRedirect('/HouseRent')
             else:
                 request.session['isLogin'] = False
         elif request.POST.get('1') == '公司':
@@ -52,14 +53,15 @@ def login(request):
                 request.session['isLogin'] = True
                 request.session['userName'] = username
                 request.session['isMedium'] = True
-                return render(request, 'index.html', {'loginStatus': request.session.get('userName')})
+                return HttpResponseRedirect('/HouseRent')
             else:
                 request.session['isLogin'] = False
     return render(request, 'login.html', {'loginStatus': 'Login'})
 
 def logout(request):
     request.session['isLogin'] = False
-    return render(request, 'index.html', {'loginStatus': 'Login'})
+    #return render(request, 'index.html', {'loginStatus': 'Login'})
+    return HttpResponseRedirect('/HouseRent')
 
 def register(request):
     if request.POST:
