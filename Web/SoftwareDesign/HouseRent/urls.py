@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^(\w)*/release', views.release, name='release'),
     url(r'^(\w)*/add', views.add, name="add"),
     url(r'houses/(?P<ID>\d*)', views.detail, name="detail"),
+    url(r'^search/(?P<category>\w*)/', views.search, name='search'),
 ]

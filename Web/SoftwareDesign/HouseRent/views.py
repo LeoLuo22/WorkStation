@@ -139,3 +139,38 @@ def add(request, what):
 
 def detail(request, ID):
     return render(request, 'detail.html', {'house': House.objects.get(id=ID)})
+
+def search(request, category):
+    if request.POST:
+        location = request.POST.get('location')
+        moneyTop = int(request.POST.get('moneyTop'))
+        moneyLow = int(request.POST.get('moneyLow'))
+        areaTop = float(request.POST.get('areaTop'))
+        areaLow = float(request.POST.get('areaLow'))
+
+        if category == "all":
+            houses = House.objects.filter(location__icontains=location)
+            houses = houses.filter(money__gte=moneyLow)
+            houses = houses.filter(money__lte=moneyTop)
+            houses = houses.filter(area__gte=areaLow)
+            houses = houses.filter(area__lte=areaTop)
+            return render(request, 'search.html', {'houses': houses})
+
+        if category == "rent":
+            houses = House.objects.filter(isWanted__exact=False)
+            houses = House.objects.filter(location__icontains=location)
+            houses = houses.filter(money__gte=moneyLow)
+            houses = houses.filter(money__lte=moneyTop)
+            houses = houses.filter(area__gte=areaLow)
+            houses = houses.filter(area__lte=areaTop)
+            return render(request, 'search.html', {'houses': houses})
+
+        if category == "want":
+            houses = House.objects.filter(isWanted__exact=True)
+            houses = House.objects.filter(location__icontains=location)
+            houses = houses.filter(money__gte=moneyLow)
+            houses = houses.filter(money__lte=moneyTop)
+            houses = houses.filter(area__gte=areaLow)
+            houses = houses.filter(area__lte=areaTop)
+            return render(request, 'search.html', {'houses': houses})
+    return HttpResponseRedirect('/HouseRent')

@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Dealers</title>
-<link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+<title>搜索结果</title>
+<link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="js/jquery.min.js"></script>
+<script src="/static/js/jquery.min.js"></script>
 <!-- Custom Theme files -->
 <!--menu-->
-<script src="js/scripts.js"></script>
-<link href="css/styles.css" rel="stylesheet">
+<script src="/static/js/scripts.js"></script>
+<link href="/static/css/styles.css" rel="stylesheet">
 <!--//menu-->
 <!--theme-style-->
-<link href="css/style.css" rel="stylesheet" type="text/css" media="all" />	
+<link href="/static/css/style.css" rel="stylesheet" type="text/css" media="all" />	
 <!--//theme-style-->
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -61,8 +61,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="clearfix"> </div>
 			<!---pop-up-box---->
 				   
-				<link href="css/popuo-box.css" rel="stylesheet" type="text/css" media="all"/>
-				<script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
+				<link href="/static/css/popuo-box.css" rel="stylesheet" type="text/css" media="all"/>
+				<script src="/static/js/jquery.magnific-popup.js" type="text/javascript"></script>
 			<!---//pop-up-box---->
 				<div id="small-dialog" class="mfp-hide">
 					    <!----- tabs-box ---->
@@ -101,7 +101,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							    </div>
 					      </div>
 					 </div>
-					 <script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
+					 <script src="/static/js/easyResponsiveTabs.js" type="text/javascript"></script>
 				    	<script type="text/javascript">
 						    $(document).ready(function () {
 						        $('#horizontalTab').easyResponsiveTabs({
@@ -183,96 +183,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--Dealers-->
 <div class="dealers">
 <div class="container">
-	<h3>Dealers</h3>
+	<h3>搜索结果</h3>
 	<div class="dealer">
-		<h4>Find The Right Dealer For You</h4>
-		<div class="dealer-grid">
-			<div class="col-sm-4 dealer-grid1">
-				<div class="dealer-grid-top">
-					<span>1</span>
-					<h6><a href="single.html">Lorem Ipsum is simply dummy text </a></h6>
-					<div class="clearfix"> </div>
-				</div>
-				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</p>
-			</div>
-			<div class="col-sm-4 dealer-grid1">
-				<div class="dealer-grid-top">
-					<span>2</span>
-					<h6><a href="single.html">Lorem Ipsum is simply dummy text</a></h6>
-					<div class="clearfix"> </div>
-				</div>
-				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</p>
-			</div>
-			<div class="col-sm-4 dealer-grid1">
-				<div class="dealer-grid-top">
-					<span>3</span>
-					<h6><a href="single.html">Lorem Ipsum is simply dummy text</a></h6>
-					<div class="clearfix"> </div>
-				</div>
-				<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old.</p>
-			</div>
-			<div class="clearfix"> </div>
-		</div>
 	</div>
 	<div class="dealer-top">
-		<h4>Recent Deals</h4>
+		<h4>共有{{ houses.count }}条符合查询的记录</h4>
+		{% for house in houses %}
 			<div class="deal-top-top">
 				<div class="col-md-3 top-deal-top">
 					<div class=" top-deal">
-						<a href="single.html" class="mask"><img src="images/de.jpg" class="img-responsive zoom-img" alt=""></a>
+						<a href="/HouseRent/houses/{{ house.id }}/detail" class="mask"><img src="/{{ house.picpath }}" class="img-responsive zoom-img" alt=""></a>
 						<div class="deal-bottom">
 							<div class="top-deal1">
-								<h5><a href="single.html"> ut perspiciatis</a></h5>
-								<p>Plot Area : 150 Sq.Yrds</p>
-								<p>Price: $250000</p>
-							</div>
-							<div class="top-deal2">
-								<a href="single.html" class="hvr-sweep-to-right more">More</a>
-							</div>
-						<div class="clearfix"> </div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 top-deal-top">
-					<div class=" top-deal">
-						<a href="single.html" class="mask"><img src="images/de1.jpg" class="img-responsive zoom-img" alt=""></a>
-						<div class="deal-bottom">
-							<div class="top-deal1">
-								<h5><a href="single.html"> ut perspiciatis</a></h5>
-								<p>Plot Area : 150 Sq.Yrds</p>
-								<p>Price: $250000</p>
-							</div>
-							<div class="top-deal2">
-								<a href="single.html" class="hvr-sweep-to-right more">More</a>
-							</div>
-						<div class="clearfix"> </div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 top-deal-top">
-					<div class=" top-deal">
-						<a href="single.html" class="mask"><img src="images/de2.jpg" class="img-responsive zoom-img" alt=""></a>
-						<div class="deal-bottom">
-							<div class="top-deal1">
-								<h5><a href="single.html"> ut perspiciatis</a></h5>
-								<p>Plot Area : 150 Sq.Yrds</p>
-								<p>Price: $250000</p>
-							</div>
-							<div class="top-deal2">
-								<a href="single.html" class="hvr-sweep-to-right more">More</a>
-							</div>
-						<div class="clearfix"> </div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 top-deal-top ">
-					<div class=" top-deal">
-						<a href="single.html" class="mask"><img src="images/de3.jpg" class="img-responsive zoom-img" alt=""></a>
-						<div class="deal-bottom">
-							<div class="top-deal1">
-								<h5><a href="single.html"> ut perspiciatis</a></h5>
-								<p>Plot Area : 150 Sq.Yrds</p>
-								<p>Price: $250000</p>
+								<h5><a href="/HouseRent/houses/{{ house.id }}/detail"> {{ house.location }}</a></h5>
+								<p>面积 {{ house.area }} m^2</p>
+								<p>￥{{ house.money }}</p>
 							</div>
 							<div class="top-deal2">
 								<a href="single.html" class="hvr-sweep-to-right more">More</a>
@@ -282,141 +207,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 					</div>
 				</div>
 			<div class="clearfix"> </div>
-		</div>		
-		<div class="deal-top-top">
-				<div class="col-md-3 top-deal-top">
-					<div class=" top-deal">
-						<a href="single.html" class="mask"><img src="images/de4.jpg" class="img-responsive zoom-img" alt=""></a>
-						<div class="deal-bottom">
-							<div class="top-deal1">
-								<h5><a href="single.html"> ut perspiciatis</a></h5>
-								<p>Plot Area : 150 Sq.Yrds</p>
-								<p>Price: $250000</p>
-							</div>
-							<div class="top-deal2">
-								<a href="single.html" class="hvr-sweep-to-right more">More</a>
-							</div>
-						<div class="clearfix"> </div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 top-deal-top">
-					<div class=" top-deal">
-						<a href="single.html" class="mask"><img src="images/de5.jpg" class="img-responsive zoom-img" alt=""></a>
-						<div class="deal-bottom">
-							<div class="top-deal1">
-								<h5><a href="single.html"> ut perspiciatis</a></h5>
-								<p>Plot Area : 150 Sq.Yrds</p>
-								<p>Price: $250000</p>
-							</div>
-							<div class="top-deal2">
-								<a href="single.html" class="hvr-sweep-to-right more">More</a>
-							</div>
-						<div class="clearfix"> </div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 top-deal-top">
-					<div class=" top-deal">
-						<a href="single.html" class="mask"><img src="images/de6.jpg" class="img-responsive zoom-img" alt=""></a>
-						<div class="deal-bottom">
-							<div class="top-deal1">
-								<h5><a href="single.html"> ut perspiciatis</a></h5>
-								<p>Plot Area : 150 Sq.Yrds</p>
-								<p>Price: $250000</p>
-							</div>
-							<div class="top-deal2">
-								<a href="single.html" class="hvr-sweep-to-right more">More</a>
-							</div>
-						<div class="clearfix"> </div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 top-deal-top">
-					<div class=" top-deal">
-						<a href="single.html" class="mask"><img src="images/de7.jpg" class="img-responsive zoom-img" alt=""></a>
-						<div class="deal-bottom">
-							<div class="top-deal1">
-								<h5><a href="single.html"> ut perspiciatis</a></h5>
-								<p>Plot Area : 150 Sq.Yrds</p>
-								<p>Price: $250000</p>
-							</div>
-							<div class="top-deal2">
-								<a href="single.html" class="hvr-sweep-to-right more">More</a>
-							</div>
-						<div class="clearfix"> </div>
-						</div>
-					</div>
-				</div>
-			<div class="clearfix"> </div>
-		</div>		
-		<div class="deal-top-top">
-				<div class="col-md-3 top-deal-top">
-					<div class=" top-deal">
-						<a href="single.html" class="mask"><img src="images/de8.jpg" class="img-responsive zoom-img" alt=""></a>
-						<div class="deal-bottom">
-							<div class="top-deal1">
-								<h5><a href="single.html"> ut perspiciatis</a></h5>
-								<p>Plot Area : 150 Sq.Yrds</p>
-								<p>Price: $250000</p>
-							</div>
-							<div class="top-deal2">
-								<a href="single.html" class="hvr-sweep-to-right more">More</a>
-							</div>
-						<div class="clearfix"> </div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 top-deal-top">
-					<div class=" top-deal">
-						<a href="single.html" class="mask"><img src="images/de9.jpg" class="img-responsive zoom-img" alt=""></a>
-						<div class="deal-bottom">
-							<div class="top-deal1">
-								<h5><a href="single.html"> ut perspiciatis</a></h5>
-								<p>Plot Area : 150 Sq.Yrds</p>
-								<p>Price: $250000</p>
-							</div>
-							<div class="top-deal2">
-								<a href="single.html" class="hvr-sweep-to-right more">More</a>
-							</div>
-						<div class="clearfix"> </div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 top-deal-top">
-					<div class=" top-deal">
-						<a href="single.html" class="mask"><img src="images/de10.jpg" class="img-responsive zoom-img" alt=""></a>
-						<div class="deal-bottom">
-							<div class="top-deal1">
-								<h5><a href="single.html"> ut perspiciatis</a></h5>
-								<p>Plot Area : 150 Sq.Yrds</p>
-								<p>Price: $250000</p>
-							</div>
-							<div class="top-deal2">
-								<a href="single.html" class="hvr-sweep-to-right more">More</a>
-							</div>
-						<div class="clearfix"> </div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-3 top-deal-top">
-					<div class=" top-deal">
-						<a href="single.html" class="mask"><img src="images/de11.jpg" class="img-responsive zoom-img" alt=""></a>
-						<div class="deal-bottom">
-							<div class="top-deal1">
-								<h5><a href="single.html"> ut perspiciatis</a></h5>
-								<p>Plot Area : 150 Sq.Yrds</p>
-								<p>Price: $250000</p>
-							</div>
-							<div class="top-deal2">
-								<a href="single.html" class="hvr-sweep-to-right more">More</a>
-							</div>
-						<div class="clearfix"> </div>
-						</div>
-					</div>
-				</div>
-			<div class="clearfix"> </div>
-		</div>		
+		</div>	
+{% endfor %}		
 	</div>
 </div>
 </div>
