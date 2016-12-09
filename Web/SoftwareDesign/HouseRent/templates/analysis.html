@@ -1,0 +1,8 @@
+<!DOCTYPE html>
+<h2>请输入要统计的起始时间和结束时间</h2>
+<form method="post" action="#">
+{% csrf_token %}
+<input type="datetime-local" / name="begin_time">
+<input type="datetime-local" / name="end_time">
+<input type="submit" value="submit" />
+</form>

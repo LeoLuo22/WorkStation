@@ -6,6 +6,7 @@ from django.utils import timezone
 import os
 import random
 from django.http import HttpResponseRedirect
+from datetime import datetime
 
 def isValid(register, information):
     try:
@@ -174,3 +175,25 @@ def search(request, category):
             houses = houses.filter(area__lte=areaTop)
             return render(request, 'search.html', {'houses': houses})
     return HttpResponseRedirect('/HouseRent')
+
+def admin(request):
+    normalUsers = User.objects.filter(isMedium__exact=False, isChecked__exact=True)
+    mediums = User.objects.filter(isMedium__exact=True, isChecked__exact=True)
+    illegals = User.objects.filter(isChecked__exact=False)
+    return render(request, 'admin.html', {'normalUsers': normalUsers, 'mediums': mediums, 'illegals': illegals})
+
+def check(request, category, username):
+    if request.POST:
+        houses = House.objects.filter(username__exact=username)
+        begin_time_row = (request.POST.get('begin_time')).replace("T", "")
+        begin_time = datetime.strptime(begin_time_row, "%Y-%m-%d%H:%M")
+        end_time_row = (request.POST.get('end_time')).replace("T", "")
+        end_time = datetime.strptime(end_time_row, "%Y-%m-%d%H:%M")
+        houses = houses.filter(time__gte=begin_time)
+        houses = houses.filter(time__lte=end_time)
+        return HttpResponse(len(houses))
+    if category == 'check':
+        user = User.objects.get(username__exact=username)
+        return render(request, 'check.html', {'user': user})
+    elif category == 'analysis':
+        return render(request, 'analysis.html')
