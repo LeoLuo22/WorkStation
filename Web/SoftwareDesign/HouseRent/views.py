@@ -24,7 +24,7 @@ def index(request):
     #isLogin = request.session.get('isLogin', False)
     #if isLogin:
     #return HttpResponse(rhouses.money)
-    if request.session['isLogin'] == False:
+    if request.session.get('isLogin') != True:
         return render(request, 'index.html', {'loginStatus': 'Login', 'rhouses': rhouses, 'whouses': whouses})
 
     username = request.session.get('userName', False)
