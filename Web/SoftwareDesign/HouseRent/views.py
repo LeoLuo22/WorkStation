@@ -19,12 +19,11 @@ def isValid(register, information):
 
 def index(request):
     #*****出租
-    r_houses = House.objects.filter(isWanted__exact=False)
-    rhouses = r_houses.filter(isChecked__exact=True)
-    w_houses = House.objects.filter(isWanted__exact=True)
-    whouses = w_houses.filter(isChecked__exact=True)
+    rhouses = House.objects.filter(isWanted__exact=False)
+    whouses = House.objects.filter(isWanted__exact=True)
     #isLogin = request.session.get('isLogin', False)
     #if isLogin:
+    #return HttpResponse(rhouses.money)
     if request.session['isLogin'] == False:
         return render(request, 'index.html', {'loginStatus': 'Login', 'rhouses': rhouses, 'whouses': whouses})
 
@@ -37,7 +36,9 @@ def login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = User.objects.filter(username__exact=username, password__exact=password)
+        user = User.objects.get(username__exact=username, password__exact=password)
+        if user.isChecked == False:
+            return HttpResponse("<p>你的信息还在审核</p>")
         if user:
             request.session['isLogin'] = True
             request.session['userName'] = username
@@ -64,8 +65,8 @@ def register(request):
                 return render(request, 'register.html', {'flag': "该用户名或邮箱已被注册"})
         elif request.POST.get('1') == '公司':
             if isValid(User, username) and isValid(User, email):
-                User.objects.create(username=username, password=password, email=email, isMedium=True)
-                return render(request, 'login.html', {'flag': "注册成功"})
+                User.objects.create(username=username, password=password, email=email, isMedium=True, isChecked=False)
+                return render(request, 'login.html', {'flag': "请等待管理员审核"})
             else:
                 return render(request, 'register.html', {'flag': "该用户名或邮箱已被注册"})
     return render(request, 'register.html')
@@ -109,26 +110,26 @@ def add(request, what):
                                       name=name, phone=phone, area=area,
                                       description=description,
                                       picpath=filename, time=time,
-                                      username=username, isChecked=True, isWanted=False)
+                                      username=username, isWanted=False)
                 elif request.POST.get('1') == '求租':
                     House.objects.create(location=location, money=money,
                                       name=name, phone=phone, area=area,
                                       description=description,
                                       picpath=filename, time=time,
-                                      username=username, isChecked=True, isWanted=True)
+                                      username=username, isWanted=True)
             else:
                 if request.POST.get('1') == '出租':
                     House.objects.create(location=location, money=money,
                                       name=name, phone=phone, area=area,
                                       description=description,
                                       picpath=filename, time=time,
-                                      username=username, isChecked=False, isWanted=False)
+                                      username=username, isWanted=False)
                 elif request.POST.get('1') == '求租':
                     House.objects.create(location=location, money=money,
                                       name=name, phone=phone, area=area,
                                       description=description,
                                       picpath=filename, time=time,
-                                      username=username, isChecked=False, isWanted=True)
+                                      username=username, isWanted=True)
         except ValueError as err:
             return HttpResponse("<p>你的输入有误，请返回上一级</p>")
     return HttpResponseRedirect('/HouseRent')
