@@ -73,7 +73,8 @@ def register(request):
 
 def release(request, what):
     if request.session['isLogin'] == False:
-        return HttpResponse("<p> 您尚未登陆，请返回上一级页面 </p>")
+        #return HttpResponse("<p> 您尚未登陆，请返回上一级页面 </p>")
+        return HttpResponseRedirect('/HouseRent')
     return render(request, 'release.html', {'username': request.session['userName'], 'loginStatus': request.session.get('userName')})
 
 def add(request, what):
@@ -110,27 +111,27 @@ def add(request, what):
                                       name=name, phone=phone, area=area,
                                       description=description,
                                       picpath=filename, time=time,
-                                      username=username, isWanted=False)
+                                      username=username, isWanted=False, isMedium=False)
                 elif request.POST.get('1') == '求租':
                     House.objects.create(location=location, money=money,
                                       name=name, phone=phone, area=area,
                                       description=description,
                                       picpath=filename, time=time,
-                                      username=username, isWanted=True)
+                                      username=username, isWanted=True, isMedium=False)
             else:
                 if request.POST.get('1') == '出租':
                     House.objects.create(location=location, money=money,
                                       name=name, phone=phone, area=area,
                                       description=description,
                                       picpath=filename, time=time,
-                                      username=username, isWanted=False)
+                                      username=username, isWanted=False, isMedium=True)
                 elif request.POST.get('1') == '求租':
                     House.objects.create(location=location, money=money,
                                       name=name, phone=phone, area=area,
                                       description=description,
                                       picpath=filename, time=time,
-                                      username=username, isWanted=True)
-        except ValueError as err:
+                                      username=username, isWanted=True, isMedium=True)
+        except Exception as err:
             return HttpResponse("<p>你的输入有误，请返回上一级</p>")
     return HttpResponseRedirect('/HouseRent')
 

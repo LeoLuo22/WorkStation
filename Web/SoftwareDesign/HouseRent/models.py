@@ -21,6 +21,7 @@ class House(models.Model):
     time = models.DateTimeField()
     username = models.CharField(max_length=50)
     isWanted = models.BooleanField(default=False)
+    isMedium = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username

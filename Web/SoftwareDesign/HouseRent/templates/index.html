@@ -276,11 +276,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="col-md-4 box_2">
 			     	 <a href="/HouseRent/houses/{{ rhouse.id }}/" class="mask">
 			     	   	<img class="img-responsive zoom-img" src="/{{ rhouse.picpath }} "alt="">
-			     	   	<span class="four">{{ rhouse.money }}</span>
+			     	   	<span class="four">￥{{ rhouse.money }}</span>
 			     	 </a>
 			     	   <div class="most-1">
-			     	   	 <h5><a href="/HouseRent/houses/{{ rhouse.id }}/detail">{{rhouse.name}}</a></h5>
-			     	    	<p>{{ rhouse.username }}</p>
+			     	   	 <h5><a href="/HouseRent/houses/{{ rhouse.id }}/detail">{{rhouse.location}}</a></h5>
+			     	    	<p>{{ rhouse.area }}m^2</p>
+							{% if rhouse.isMedium == False %}
+							<p>个人</p>
+							{% endif %}
+							{% if rhouse.isMedium != False %}
+							<p>中介</p>
+							{% endif %}
 			     	   </div>
 			 </div>
 			 {% endfor %}
