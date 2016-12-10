@@ -171,7 +171,7 @@ def add(request, what):
     return HttpResponse("An error occured")
 
 def detail(request, ID):
-    return render(request, 'detail.html', {'house': House.objects.get(id=ID)})
+    return render(request, 'detail.html', {'house': House.objects.get(id=ID), 'loginStatus': 'Login'})
 
 def search(request, category):
     if request.POST:

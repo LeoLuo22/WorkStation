@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Single</title>
+<title>详情</title>
 <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="/static/js/jquery.min.js"></script>
@@ -42,12 +42,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="container">
 		<!--logo-->
 			<div class="logo">
-				<h1><a href="/HouseRent">REAL HOME</a></h1>
+				<h1><a href="/HouseRent/">REAL HOME</a></h1>
 			</div>
 		<!--//logo-->
 		<div class="top-nav">
 			<ul class="right-icons">
-				<li><span ><i class="glyphicon glyphicon-phone"> </i>+1384 757 546</span></li>
+				
 				{% if loginStatus == "Login" %}
 				<li><a  href="login.html"><i class="glyphicon glyphicon-user"> </i>{{ loginStatus }}</a></li>
 				{% endif %}
@@ -77,33 +77,54 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="sap_tabs">	
 				     <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
 						  <ul class="resp-tabs-list">
-						  	  <li class="resp-tab-item " aria-controls="tab_item-0" role="tab"><span>All Homes</span></li>
-							  <li class="resp-tab-item" aria-controls="tab_item-1" role="tab"><span>For Sale</span></li>
-							  <li class="resp-tab-item" aria-controls="tab_item-2" role="tab"><span>For Rent</span></li>
+						  	  <li class="resp-tab-item " aria-controls="tab_item-0" role="tab"><span>全部</span></li>
+							  <li class="resp-tab-item" aria-controls="tab_item-1" role="tab"><span>出租</span></li>
+							  <li class="resp-tab-item" aria-controls="tab_item-2" role="tab"><span>求租</span></li>
 							  <div class="clearfix"></div>
 						  </ul>				  	 
 						  <div class="resp-tabs-container">
-						  		<h2 class="resp-accordion resp-tab-active" role="tab" aria-controls="tab_item-0"><span class="resp-arrow"></span>All Homes</h2><div class="tab-1 resp-tab-content resp-tab-content-active" aria-labelledby="tab_item-0" style="display:block">
+						  		<h2 class="resp-accordion resp-tab-active" role="tab" aria-controls="tab_item-0"><span class="resp-arrow"></span>全部</h2><div class="tab-1 resp-tab-content resp-tab-content-active" aria-labelledby="tab_item-0" style="display:block">
 								 	<div class="facts">
 									  	<div class="login">
-											<input type="text" value="Search Address, Neighborhood, City or Zip" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search Address, Neighborhood, City or Zip';}">		
+										<form action="/HouseRent/search/all/" method="post">
+										{% csrf_token %}
+											<input type="text" name="location" value="区域" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '区域';}">		
+											<input type="text" name="moneyTop" value="租金上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金上限';}">
+											<input type="text" name="moneyLow" value="租金下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金下限';}">
+											<input type="text" name="areaTop" value="面积上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积上限';}">
+											<input type="text" name="areaLow" value="面积下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积下限';}">
 									 		<input type="submit" value="">
+										</form>
 									 	</div>        
 							        </div>
 						  		</div>
-							     <h2 class="resp-accordion" role="tab" aria-controls="tab_item-1"><span class="resp-arrow"></span>For Sale</h2><div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
+							     <h2 class="resp-accordion" role="tab" aria-controls="tab_item-1"><span class="resp-arrow"></span>出租</h2><div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
 									<div class="facts">									
 										<div class="login">
-											<input type="text" value="Search Address, Neighborhood, City or Zip" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search Address, Neighborhood, City or Zip';}">		
+										<form action="/HouseRent/search/rent/" method="post">
+										{% csrf_token %}
+											<input type="text" name="location" value="区域" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '区域';}">		
+											<input type="text" name="moneyTop" value="租金上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金上限';}">
+											<input type="text" name="moneyLow" value="租金下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金下限';}">
+											<input type="text" name="areaTop" value="面积上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积上限';}">
+											<input type="text" name="areaLow" value="面积下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积下限';}">
 									 		<input type="submit" value="">
+										</form>
 									 	</div> 
 							        </div>	
 								 </div>									
-							      <h2 class="resp-accordion" role="tab" aria-controls="tab_item-2"><span class="resp-arrow"></span>For Rent</h2><div class="tab-1 resp-tab-content" aria-labelledby="tab_item-2">
+							      <h2 class="resp-accordion" role="tab" aria-controls="tab_item-2"><span class="resp-arrow"></span>求租</h2><div class="tab-1 resp-tab-content" aria-labelledby="tab_item-2">
 									 <div class="facts">
 										<div class="login">
-											<input type="text" value="Search Address, Neighborhood, City or Zip" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search Address, Neighborhood, City or Zip';}">		
+										<form action="/HouseRent/search/want/" method="post">
+										{% csrf_token %}
+											<input type="text" name="location" value="区域" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '区域';}">		
+											<input type="text" name="moneyTop" value="租金上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金上限';}">
+											<input type="text" name="moneyLow" value="租金下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金下限';}">
+											<input type="text" name="areaTop" value="面积上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积上限';}">
+											<input type="text" name="areaLow" value="面积下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积下限';}">
 									 		<input type="submit" value="">
+										</form>
 									 	</div> 
 							         </div>	
 							    </div>
@@ -146,7 +167,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--//-->	
 <div class=" banner-buying">
 	<div class=" container">
-	<h3><span>Lor</span>em</h3> 
+	<h3><span>Detail</span></h3> 
 	<!---->
 	<div class="menu-right">
 		 <ul class="menu">
@@ -230,15 +251,10 @@ $(window).load(function() {
 <div class="buy-sin-single">
 			<div class="col-sm-5 middle-side immediate">
 	
-					     <h4>状态：可使用</h4>
-					     <p><span class="bath">地点 </span>: <span class="two">{{ house.location }}</span></p>
-					     <p>  <span class="bath1">租金 </span>: <span class="two">{{ house.money }}</span></p>
-					     <p><span class="bath2">联系人</span>: <span class="two">{{ house.name }}</span></p>
-					     <p><span class="bath3">电话 </span>:<span class="two"> {{ house.phone }}</span></p>
-						 <p><span class="bath4">面积</span> : <span class="two">{{ house.area }}</span></p>
-						 <p><span class="bath5">发布时间 </span>:<span class="two"> {{ house.time }}</span></p>				 
+					     <h4>房屋图片</h4>
+					  		 
 						<div class="   right-side">
-							 <a href="contact.html" class="hvr-sweep-to-right more" >Contact Builder</a>     
+							 <a href="contact.html" class="hvr-sweep-to-right more" >预定</a>     
 					 </div>
 					</div>
 					 <div class="col-sm-7 buy-sin">
@@ -247,18 +263,6 @@ $(window).load(function() {
 					 </div>
 					 <div class="clearfix"> </div>
 					</div>
-					 <div class="map-buy-single">
-					 	<h4>Neighborhood Info</h4>
-						 	<div class="map-buy-single1">
-								<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d37494223.23909492!2d103!3d55!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x453c569a896724fb%3A0x1409fdf86611f613!2sRussia!5e0!3m2!1sen!2sin!4v1415776049771"></iframe>
-							
-						</div>
-					</div>
-					<div class="video-pre">
-						<h4>Video Presentation</h4>
-						<iframe src="https://player.vimeo.com/video/63931426"  webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
-
-					</div>
 		</div>
 	
 
@@ -266,54 +270,71 @@ $(window).load(function() {
 		
 		<div class="col-md-3">
 			<div class="single-box-right right-immediate">
-		     	<h4>Featured Communities</h4>
-				<div class="single-box-img ">
+		     	<h4>详细信息</h4>
+				
+				
+				
+				
+				<div class="single-box-img">
 					<div class="box-img">
-						<a href="single.html"><img class="img-responsive" src="/static/images/sl.jpg" alt=""></a>
+						<p>地点</p>
 					</div>
 					<div class="box-text">
-						<p><a href="single.html">Lorem ipsum dolor sit amet</a></p>
-						<a href="single.html" class="in-box">More Info</a>
+						<p>陕西省西安市长安区长安大学渭水校区</p>
 					</div>
 					<div class="clearfix"> </div>
 				</div>
 				<div class="single-box-img">
 					<div class="box-img">
-						<a href="single.html"><img class="img-responsive" src="/static/images/sl1.jpg" alt=""></a>
+						<p>面积</p>
 					</div>
 					<div class="box-text">
-						<p><a href="single.html">Lorem ipsum dolor sit amet</a></p>
-						<a href="single.html" class="in-box">More Info</a>
+						<p>{{ house.area }}m^2</p>
 					</div>
 					<div class="clearfix"> </div>
 				</div>
 				<div class="single-box-img">
 					<div class="box-img">
-						<a href="single.html"><img class="img-responsive" src="/static/images/sl2.jpg" alt=""></a>
+						<p>租金</p>
 					</div>
 					<div class="box-text">
-						<p><a href="single.html">Lorem ipsum dolor sit amet</a></p>
-						<a href="single.html" class="in-box">More Info</a>
+						<p>{{ house.money }}元/月</p>
 					</div>
 					<div class="clearfix"> </div>
 				</div>
 				<div class="single-box-img">
 					<div class="box-img">
-						<a href="single.html"><img class="img-responsive" src="/static/images/sl3.jpg" alt=""></a>
+						<p>联系人</p>
 					</div>
 					<div class="box-text">
-						<p><a href="single.html">Lorem ipsum dolor sit amet</a></p>
-						<a href="single.html" class="in-box">More Info</a>
+						<p>{{ house.name }}</p>
 					</div>
 					<div class="clearfix"> </div>
 				</div>
 				<div class="single-box-img">
 					<div class="box-img">
-						<a href="single.html"><img class="img-responsive" src="/static/images/sl4.jpg" alt=""></a>
+						<p>电话</p>
 					</div>
 					<div class="box-text">
-						<p><a href="single.html">Lorem ipsum dolor sit amet</a></p>
-						<a href="single.html" class="in-box">More Info</a>
+						<p>{{ house.phone }}</p>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="single-box-img">
+					<div class="box-img">
+						<p>发布人</p>
+					</div>
+					<div class="box-text">
+						<p>{{ house.username }}</p>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+				<div class="single-box-img">
+					<div class="box-img">
+						<p>发布时间</p>
+					</div>
+					<div class="box-text">
+						<p>{{ house.time }}</p>
 					</div>
 					<div class="clearfix"> </div>
 				</div>
@@ -327,7 +348,7 @@ $(window).load(function() {
 <!---->
 <div class="container">
 	<div class="future">
-		<h3 >Related Projects</h3>
+	
 			<div class="content-bottom-in">
 					<ul id="flexiselDemo1">			
 						<li><div class="project-fur">
@@ -418,60 +439,6 @@ $(window).load(function() {
 <!--footer-->
 <div class="footer">
 	<div class="container">
-		<div class="footer-top-at">
-			<div class="col-md-3 amet-sed">
-				<h4>Our Company</h4>
-				<ul class="nav-bottom">
-					<li><a href="about.html">About Us</a></li>
-					<li><a href="blog.html">For Sale By Owner Blog</a></li>
-					<li><a href="mobile_app.html">Mobile</a></li>
-					<li><a href="terms.html">Terms & Conditions</a></li>
-					<li><a href="privacy.html">Privacy Policy</a></li>	
-					<li><a href="blog.html">Blog</a></li>
-					
-				</ul>	
-			</div>
-			<div class="col-md-3 amet-sed ">
-				<h4>Work With Us</h4>
-					<ul class="nav-bottom">
-						<li><a href="single.html">Real Estate Brokers</a></li>
-						<li><a href="single.html">Business Development</a></li>
-						<li><a href="single.html">Affiliate Programs</a></li>
-						<li><a href="contact.html">Sitemap</a></li>
-						<li><a href="career.html">Careers</a></li>
-						<li><a href="feedback.html">Feedback</a></li>	
-					</ul>	
-			</div>
-			<div class="col-md-3 amet-sed">
-				<h4>Customer Support</h4>
-				<p>Mon-Fri, 7AM-7PM </p>
-				<p>Sat-Sun, 8AM-5PM </p>
-				<p>177-869-6559</p>
-					<ul class="nav-bottom">
-						<li><a href="#">Live Chat</a></li>
-						<li><a href="faqs.html">Frequently Asked Questions</a></li>
-						<li><a href="suggestion.html">Make a Suggestion</a></li>
-					</ul>	
-			</div>
-			<div class="col-md-3 amet-sed ">
-				<h4>Property Services</h4>
-				   <ul class="nav-bottom">
-						<li><a href="single.html">Residential Property</a></li>
-						<li><a href="single.html">Commercial Property</a></li>
-						<li><a href="login.html">Login</a></li>
-						<li><a href="register.html">Register</a></li>
-						<li><a href="typo.html">Short Codes</a></li>	
-					</ul>	
-					<ul class="social">
-						<li><a href="#"><i> </i></a></li>
-						<li><a href="#"><i class="gmail"> </i></a></li>
-						<li><a href="#"><i class="twitter"> </i></a></li>
-						<li><a href="#"><i class="camera"> </i></a></li>
-						<li><a href="#"><i class="dribble"> </i></a></li>
-					</ul>
-			</div>
-		<div class="clearfix"> </div>
-		</div>
 	</div>
 	<div class="footer-bottom">
 		<div class="container">
@@ -479,7 +446,7 @@ $(window).load(function() {
 				<h2><a href="index.html">REAL HOME</a></h2>
 			</div>
 			<div class="col-md-8 footer-class">
-				<p >Copyright &copy; 2015.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
+				<p >Copyright &copy; 2016.Leo's Workstation. All rights reserved.</a></p>
 			</div>
 		<div class="clearfix"> </div>
 	 	</div>
