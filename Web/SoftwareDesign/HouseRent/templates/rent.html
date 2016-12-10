@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>登录</title>
+<title>{{ title }}</title>
 <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="/static/js/jquery.min.js"></script>
@@ -18,8 +18,20 @@
 <meta name="keywords" content="Real Home Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template, 
 Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<!-- slide -->
+<script src="/static/js/responsiveslides.min.js"></script>
+   <script>
+    $(function () {
+      $("#slider").responsiveSlides({
+      	auto: true,
+      	speed: 500,
+        namespace: "callbacks",
+        pager: true,
+      });
+    });
+  </script>
 </head>
-<body>
+<body >
 <!--header-->
 	<div class="navigation">
 			<div class="container-fluid">
@@ -40,13 +52,19 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="container">
 		<!--logo-->
 			<div class="logo">
-				<h1><a href="/HouseRent/">REAL HOME</a></h1>
+				<h1><a href="/HouseRent">REAL HOME</a></h1>
 			</div>
 		<!--//logo-->
 		<div class="top-nav">
 			<ul class="right-icons">
 		
-				<li><a  href="login"><i class="glyphicon glyphicon-user"> </i>Login</a></li>
+				{% if loginStatus == "Login" %}
+				<li><a  href="login"><i class="glyphicon glyphicon-user"> </i>{{ loginStatus }}</a></li>
+				{% endif %}
+				{% if loginStatus != "Login" %}
+				<li><i class="glyphicon glyphicon-user"> </i>{{ loginStatus }}</a></li>
+				<li><a  href="logout"><i class="glyphicon glyphicon-user"> </i>Logout</a></li>
+				{% endif %}
 				<li><a class="play-icon popup-with-zoom-anim" href="#small-dialog"><i class="glyphicon glyphicon-search"> </i> </a></li>
 				
 			</ul>
@@ -59,7 +77,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			--->
 			</div>
 		<div class="clearfix"> </div>
-			<!---pop-up-box---->    
+			<!---pop-up-box---->
+			   
 				<link href="/static/css/popuo-box.css" rel="stylesheet" type="text/css" media="all"/>
 				<script src="/static/js/jquery.magnific-popup.js" type="text/javascript"></script>
 			<!---//pop-up-box---->
@@ -156,135 +175,145 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		</div>	
 </div>
 <!--//-->	
-<div class=" banner-buying">
-	<div class=" container">
-	<h3><span>登陆</span></h3> 
-	<!---->
-	<div class="menu-right">
-		 <ul class="menu">
-			<li class="item1"><a href="#"> Menu<i class="glyphicon glyphicon-menu-down"> </i> </a>
-			<ul class="cute">
-				<li class="subitem1"><a href="buy.html">Buy </a></li>
-				<li class="subitem2"><a href="buy.html">Rent </a></li>
-				<li class="subitem3"><a href="buy.html">Hostels </a></li>
-				<li class="subitem1"><a href="buy.html">Resale</a></li>
-				<li class="subitem2"><a href="loan.html">Home Loan</a></li>
-				<li class="subitem3"><a href="buy.html">Apartment </a></li>
-				<li class="subitem3"><a href="dealers.html">Dealers</a></li>
-			</ul>
-		</li>
-		</ul>
-	</div>
-	<div class="clearfix"> </div>
-		<!--initiate accordion-->
-		<script type="text/javascript">
-			$(function() {
-			    var menu_ul = $('.menu > li > ul'),
-			           menu_a  = $('.menu > li > a');
-			    menu_ul.hide();
-			    menu_a.click(function(e) {
-			        e.preventDefault();
-			        if(!$(this).hasClass('active')) {
-			            menu_a.removeClass('active');
-			            menu_ul.filter(':visible').slideUp('normal');
-			            $(this).addClass('active').next().stop(true,true).slideDown('normal');
-			        } else {
-			            $(this).removeClass('active');
-			            $(this).next().stop(true,true).slideUp('normal');
-			        }
-			    });
-			
-			});
-		</script>
-      		
-	</div>
-</div>
-<!--//header-->
-<!--contact-->
-<div class="login-right">
-	<div class="container">
-	<p><font color="#FF0000">{{ flag }}</font></p>
-		<h3>Login</h3>
-		<div class="login-top">
-				<div class="form-info">
-					<form action="login.html" method="post">
-					{% csrf_token %}
-						<input type="text" class="text" placeholder="用户名" required="" name="username">
-						<input type="password"  placeholder="密码" required="" name="password">
-						<input type="radio" checked="checked" name="1" value="个人"/>个人<br/>
-						<input type="radio" name="1" value="公司"/>公司<br/>
-						 <label class="hvr-sweep-to-right">
-				           	<input type="submit" value="登陆">
-				           </label>
-					</form>
-				</div>
-			<div class="create">
-				<h4>新用户？</h4>
-				<a class="hvr-sweep-to-right" href="/HouseRent/register/">创建账户</a>
-				<div class="clearfix"> </div>
+	<div class=" header-right">
+		<div class=" banner">
+			 <div class="slider">
+			    <div class="callbacks_container">
+			      <ul class="rslides" id="slider">		       
+					 <li>
+			          	 <div class="banner1">
+			           		<div class="caption">
+					          	<h3><span>Find       </span>  house</h3>
+					          	<p>关山难越，谁悲失路之人</p>
+			          		</div>
+			          	</div>
+			         </li>
+					 <li>
+			          	 <div class="banner2">
+			           		<div class="caption">
+					          	<h3><span>Rent   </span>  House</h3>
+					          	<p>萍水相逢，尽是他乡之客</p>
+			          		</div>
+			          	</div>
+			         </li>
+			         <li>
+			          	 <div class="banner3">
+			           		<div class="caption">
+					          	<h3><span>Dream  </span>  House</h3>
+					          	<p>斯是陋室，惟吾德馨</p>
+			          		</div>
+			          	</div>
+			         </li>		
+			      </ul>
+			  </div>
 			</div>
-	</div>
-</div>
-</div>
-<!--//contact-->
-<!--footer-->
-<div class="footer">
-	<div class="container">
-		<div class="footer-top-at">
-			<div class="col-md-3 amet-sed">
-				<h4>Our Company</h4>
-				<ul class="nav-bottom">
-					<li><a href="about.html">About Us</a></li>
-					<li><a href="blog.html">For Sale By Owner Blog</a></li>
-					<li><a href="mobile_app.html">Mobile</a></li>
-					<li><a href="terms.html">Terms & Conditions</a></li>
-					<li><a href="privacy.html">Privacy Policy</a></li>	
-					<li><a href="blog.html">Blog</a></li>
-					
-				</ul>	
-			</div>
-			<div class="col-md-3 amet-sed ">
-				<h4>Work With Us</h4>
-					<ul class="nav-bottom">
-						<li><a href="single.html">Real Estate Brokers</a></li>
-						<li><a href="single.html">Business Development</a></li>
-						<li><a href="single.html">Affiliate Programs</a></li>
-						<li><a href="contact.html">Sitemap</a></li>
-						<li><a href="career.html">Careers</a></li>
-						<li><a href="feedback.html">Feedback</a></li>	
-					</ul>	
-			</div>
-			<div class="col-md-3 amet-sed">
-				<h4>Customer Support</h4>
-				<p>Mon-Fri, 7AM-7PM </p>
-				<p>Sat-Sun, 8AM-5PM </p>
-				<p>177-869-6559</p>
-					<ul class="nav-bottom">
-						<li><a href="#">Live Chat</a></li>
-						<li><a href="faqs.html">Frequently Asked Questions</a></li>
-						<li><a href="suggestion.html">Make a Suggestion</a></li>
-					</ul>	
-			</div>
-			<div class="col-md-3 amet-sed ">
-				<h4>Property Services</h4>
-				   <ul class="nav-bottom">
-						<li><a href="single.html">Residential Property</a></li>
-						<li><a href="single.html">Commercial Property</a></li>
-						<li><a href="login.html">Login</a></li>
-						<li><a href="register.html">Register</a></li>
-						<li><a href="typo.html">Short Codes</a></li>	
-					</ul>	
-					<ul class="social">
-						<li><a href="#"><i> </i></a></li>
-						<li><a href="#"><i class="gmail"> </i></a></li>
-						<li><a href="#"><i class="twitter"> </i></a></li>
-						<li><a href="#"><i class="camera"> </i></a></li>
-						<li><a href="#"><i class="dribble"> </i></a></li>
-					</ul>
-			</div>
-		<div class="clearfix"> </div>
 		</div>
 	</div>
+	 
+	<!--header-bottom-->
+	<div class="banner-bottom-top">
+			<div class="container">
+			<div class="bottom-header">
+				<div class="header-bottom">
+					<div class=" bottom-head">
+						<a href="{{ loginStatus }}/release.html">
+							<div class="buy-media">
+								<i class="buy"> </i>
+								<h6>发布</h6>
+							</div>
+						</a>
+					</div>
+					<div class=" bottom-head">
+						<a href="/HouseRent/rent/">
+							<div class="buy-media">
+							<i class="rent"> </i>
+							<h6>出租</h6>
+							</div>
+						</a>
+					</div>
+					<div class=" bottom-head">
+						<a href="buy.html">
+							<div class="buy-media">
+							<i class="pg"> </i>
+							<h6>求租</h6>
+							</div>
+						</a>
+					</div>
+					<div class=" bottom-head">
+						<a href="buy.html">
+							<div class="buy-media">
+							<i class="sell"> </i>
+							<h6>Resale</h6>
+							</div>
+						</a>
+					</div>
+					<div class=" bottom-head">
+						<a href="loan.html">
+							<div class="buy-media">
+							<i class="loan"> </i>
+							<h6>个人中心</h6>
+							</div>
+						</a>
+					</div>
+					<div class=" bottom-head">
+						<a href="buy.html">
+							<div class="buy-media">
+							<i class="apart"> </i>
+							<h6>Projects</h6>
+							</div>
+						</a>
+					</div>
+					<div class=" bottom-head">
+						<a href="dealers.html">
+							<div class="buy-media">
+							<i class="deal"> </i>
+							<h6>Dealers</h6>
+							</div>
+						</a>
+					</div>
+					<div class="clearfix"> </div>
+				</div>
+			</div>
+	</div>
+	</div>
+			<!--//-->
+				
+	<!--//header-bottom-->
+	
+	
+<!--//header-->
+<!--content-->
+<div class="content">
+	<div class="content-grid">
+		<div class="container">
+			<h3>{{ atype }}</h3>
+			{% for rhouse in rhouses %}
+
+				<div class="col-md-4 box_2">
+			     	 <a href="/HouseRent/houses/{{ rhouse.id }}/" class="mask">
+			     	   	<img class="img-responsive zoom-img" src="/{{ rhouse.picpath }} "alt="">
+			     	   	<span class="four">￥{{ rhouse.money }}</span>
+			     	 </a>
+			     	   <div class="most-1">
+			     	   	 <h5><a href="/HouseRent/houses/{{ rhouse.id }}/detail">{{rhouse.location}}</a></h5>
+			     	    	<p>{{ rhouse.area }}m^2</p>
+							{% if rhouse.isMedium == False %}
+							<p>个人</p>
+							{% endif %}
+							{% if rhouse.isMedium != False %}
+							<p>中介</p>
+							{% endif %}
+			     	   </div>
+			 </div>
+			 {% endfor %}
+		 	<div class="clearfix"> </div>
+		</div>
+	</div>
+<!--service-->
+
+<!--footer-->
+<div class="footer">
+	
 	<div class="footer-bottom">
 		<div class="container">
 			<div class="col-md-4 footer-logo">

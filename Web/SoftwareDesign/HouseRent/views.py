@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import User, House
 from PIL import Image
@@ -70,7 +70,8 @@ def register(request):
         if request.POST.get('1') == '个人':
             if isValid(User, username) and isValid(User, email):
                 User.objects.create(username=username, password=password, email=email, isMedium=False)
-                return render(request, 'login.html', {'flag': "注册成功"})
+                #return render(request, 'redirect.html', {'message': "注册成功"})
+                return redirect('/HouseRent/login/')
             else:
                 return render(request, 'register.html', {'flag': "该用户名或邮箱已被注册"})
         elif request.POST.get('1') == '公司':
@@ -106,7 +107,7 @@ def register(request):
 def release(request, what):
     if request.session['isLogin'] == False:
         #return HttpResponse("<p> 您尚未登陆，请返回上一级页面 </p>")
-        return HttpResponseRedirect('/HouseRent')
+        return HttpResponseRedirect('/HouseRent/login/')
     return render(request, 'release.html', {'username': request.session['userName'], 'loginStatus': request.session.get('userName')})
 
 def add(request, what):
@@ -228,3 +229,17 @@ def check(request, category, username):
         return render(request, 'check.html', {'user': user})
     elif category == 'analysis':
         return render(request, 'analysis.html')
+
+#注册成功后以这个页面为跳转
+"""
+def status(request):
+    return redirect('/HouseRent')
+"""
+
+def rent(request):
+    rhouses = House.objects.filter(isWanted__exact=False)
+    return render(request, 'rent.html', {'rhouses': rhouses, 'atype': '待租房屋', 'title': '出租'})
+
+def want(request):
+    rhouses = House.objects.filter(isWanted__exact=True)
+    return render(request, 'rent.html', {'rhouses': rhouses, 'atype': '求租信息', 'title': '求租'})
