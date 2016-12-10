@@ -209,12 +209,34 @@ def search(request, category):
     return HttpResponseRedirect('/HouseRent')
 
 def admin(request):
-    normalUsers = User.objects.filter(isMedium__exact=False, isChecked__exact=True)
-    mediums = User.objects.filter(isMedium__exact=True, isChecked__exact=True)
-    illegals = User.objects.filter(isChecked__exact=False)
-    return render(request, 'admin.html', {'normalUsers': normalUsers, 'mediums': mediums, 'illegals': illegals})
+    if request.method == "GET":
+        return render(request, 'admin.html', {'auth': False})
+    if request.method == "POST":
+        username = request.POST.get('adminname')
+        password = request.POST.get('password')
+        user = User.objects.get(username__exact=username, password__exact=password)
+        if user:
+            if user.isadmin == True:
 
-def check(request, category, username):
+                normalUsers = User.objects.filter(isMedium__exact=False, isChecked__exact=True)
+                mediums = User.objects.filter(isMedium__exact=True, isChecked__exact=True)
+                illegals = User.objects.filter(isChecked__exact=False)
+                return render(request, 'admin.html', {'normalUsers': normalUsers, 'mediums': mediums, 'illegals': illegals, 'auth': True})
+
+def check(request, username):
+    user = User.objects.get(username__exact=username)
+
+    if request.GET.get('1'):
+        if request.GET.get('1') == '同意':
+            user.isChecked = True
+            user.save()
+            return redirect('/HouseRent/admin')
+        elif request.GET.get('1') == '拒绝':
+            user.delete()
+            return redirect('/HouseRent/admin')
+    return render(request, 'check.html', {'user': user})
+
+def analysis(request, username):
     if request.POST:
         houses = House.objects.filter(username__exact=username)
         begin_time_row = (request.POST.get('begin_time')).replace("T", "")
@@ -223,12 +245,9 @@ def check(request, category, username):
         end_time = datetime.strptime(end_time_row, "%Y-%m-%d%H:%M")
         houses = houses.filter(time__gte=begin_time)
         houses = houses.filter(time__lte=end_time)
-        return HttpResponse(len(houses))
-    if category == 'check':
-        user = User.objects.get(username__exact=username)
-        return render(request, 'check.html', {'user': user})
-    elif category == 'analysis':
-        return render(request, 'analysis.html')
+        return render(request, 'analysis.html', {'houses': houses, 'begin_time': begin_time,
+                      'end_time': end_time, 'username': username})
+    return render(request, 'analysis.html')
 
 #注册成功后以这个页面为跳转
 """

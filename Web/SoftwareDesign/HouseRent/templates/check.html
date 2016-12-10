@@ -1,1 +1,15 @@
-<h2> {{ user.username }}</h2>
+<!DOCTYPE>
+<p>用户名：{{ user.username }}</p>
+<p>电子邮件：{{ user.email }}</p>
+<p>法人代表：{{ user.owner }}</p>
+<p>营业登记号：{{ user.paper }}</p>
+<p>税务登记号：{{ user.taxpaper }}</p>
+<p>营业执照</p>
+<img src=" /{{user.paperpic}} "  alt="营业执照" />
+<p>法人代表身份证</p>
+<img src=" /{{user.idpic}} "  alt="法人代表身份证" />
+<form>
+<input type="radio" checked="checked" name="1" value="同意"/>同意<br/>
+<input type="radio" name="1" value="拒绝"/>拒绝<br/>
+<input type="submit" />
+</form>

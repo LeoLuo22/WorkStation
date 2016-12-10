@@ -17,5 +17,6 @@ urlpatterns = [
     url(r'houses/(?P<ID>\d*)', views.detail, name="detail"),
     url(r'^search/(?P<category>\w*)/', views.search, name='search'),
     url(r'admin/$', views.admin, name='admin'),
-    url(r'^admin/(?P<category>\w*)/(?P<username>\w*)', views.check, name='check'),
+    url(r'^admin/check/(?P<username>\w*)', views.check, name='check'),
+    url(r'^admin/analysis/(?P<username>\w*)', views.analysis, name='analysis'),
 ]
