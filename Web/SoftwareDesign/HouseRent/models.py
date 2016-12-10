@@ -6,6 +6,11 @@ class User(models.Model):
     email = models.EmailField(unique=True)
     isMedium = models.BooleanField(default=False)
     isChecked = models.BooleanField(default=True)
+    owner = models.CharField(max_length=16, default="")
+    paper = models.CharField(max_length=16, default="")
+    taxpaper = models.CharField(max_length=16, default="")
+    paperpic = models.CharField(max_length=100, default="")
+    idpic = models.CharField(max_length=100, default="")
 
     def __str__(self):
         return self.username

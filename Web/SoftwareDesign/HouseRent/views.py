@@ -58,6 +58,10 @@ def register(request):
         username = request.POST.get('username')
         password = request.POST.get('password')
         email = request.POST.get('email')
+        owner = request.POST.get('owner')
+        paper = request.POST.get('paper')
+        taxpaper = request.POST.get('taxpaper')
+
         if request.POST.get('1') == '个人':
             if isValid(User, username) and isValid(User, email):
                 User.objects.create(username=username, password=password, email=email, isMedium=False)
@@ -66,8 +70,30 @@ def register(request):
                 return render(request, 'register.html', {'flag': "该用户名或邮箱已被注册"})
         elif request.POST.get('1') == '公司':
             if isValid(User, username) and isValid(User, email):
-                User.objects.create(username=username, password=password, email=email, isMedium=True, isChecked=False)
-                return render(request, 'login.html', {'flag': "请等待管理员审核"})
+                #assert(True, request.FILES)
+                if request.FILES:
+                    #return HttpResponse("OK")
+                    try:
+                        os.chdir('HouseRent')
+                    except FileNotFoundError as err:
+                        pass
+                    filepath = "static/users/" + username + "/"
+                    try:
+                        if not os._exists(filepath):
+                            os.makedirs(filepath)
+                    except FileExistsError as err:
+                        pass
+                    paperpic = filepath + "paperpic" + ".jpg"
+                    idpic = filepath + "idpic" + ".jpg"
+                    with open(paperpic, 'wb') as fh:
+                        for content in request.FILES.get('paperpic'):
+                            fh.write(content)
+                    with open(idpic, 'wb') as fp:
+                        for content in request.FILES.get('idpic'):
+                            fp.write(content)
+                    User.objects.create(username=username, password=password, email=email, isMedium=True, isChecked=False, owner=owner, paper=paper, taxpaper=taxpaper,
+                                        paperpic=paperpic, idpic=idpic)
+                    return render(request, 'login.html', {'flag': "请等待管理员审核"})
             else:
                 return render(request, 'register.html', {'flag': "该用户名或邮箱已被注册"})
     return render(request, 'register.html')
