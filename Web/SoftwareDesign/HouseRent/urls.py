@@ -19,4 +19,5 @@ urlpatterns = [
     url(r'admin/$', views.admin, name='admin'),
     url(r'^admin/check/(?P<username>\w*)', views.check, name='check'),
     url(r'^admin/analysis/(?P<username>\w*)', views.analysis, name='analysis'),
+    url(r'^(?P<username>\w*)/main/$', views.main, name='main'),
 ]

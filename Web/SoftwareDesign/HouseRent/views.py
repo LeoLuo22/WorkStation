@@ -262,3 +262,7 @@ def rent(request):
 def want(request):
     rhouses = House.objects.filter(isWanted__exact=True)
     return render(request, 'rent.html', {'rhouses': rhouses, 'atype': '求租信息', 'title': '求租'})
+
+def main(request, username):
+    user = User.objects.get(username__exact=username)
+    return render(request, 'main.html', {'user': user})

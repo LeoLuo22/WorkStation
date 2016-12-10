@@ -248,7 +248,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 						</a>
 					</div>
 					<div class=" bottom-head">
-						<a href="loan.html">
+					{% if loginStatus == "Login" %}
+						<a href="/HouseRent/login/">
+						{% endif %}
+						{% if loginStatus != "Login" %}
+						<a href="/HouseRent/{{ loginStatus }}/main/">
+						{% endif %}
 							<div class="buy-media">
 							<i class="loan"> </i>
 							<h6>个人中心</h6>
