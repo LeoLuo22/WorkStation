@@ -7,6 +7,8 @@ import os
 import random
 from django.http import HttpResponseRedirect
 from datetime import datetime
+from django.core.exceptions import ObjectDoesNotExist
+
 
 def isValid(register, information):
     try:
@@ -37,7 +39,10 @@ def login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        user = User.objects.get(username__exact=username, password__exact=password)
+        try:
+            user = User.objects.get(username__exact=username, password__exact=password)
+        except ObjectDoesNotExist as err:
+            return render(request, 'login.html', {'flag': '用户不存在或密码错误'})
         if user.isChecked == False:
             return HttpResponse("<p>你的信息还在审核</p>")
         if user:

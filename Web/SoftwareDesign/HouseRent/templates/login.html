@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Login</title>
+<title>登录</title>
 <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="/static/js/jquery.min.js"></script>
@@ -45,8 +45,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<!--//logo-->
 		<div class="top-nav">
 			<ul class="right-icons">
-				<li><span ><i class="glyphicon glyphicon-phone"> </i>+1384 757 546</span></li>
-				<li><a  href="login.html"><i class="glyphicon glyphicon-user"> </i>Login</a></li>
+		
+				<li><a  href="login"><i class="glyphicon glyphicon-user"> </i>Login</a></li>
 				<li><a class="play-icon popup-with-zoom-anim" href="#small-dialog"><i class="glyphicon glyphicon-search"> </i> </a></li>
 				
 			</ul>
@@ -68,33 +68,54 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="sap_tabs">	
 				     <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
 						  <ul class="resp-tabs-list">
-						  	  <li class="resp-tab-item " aria-controls="tab_item-0" role="tab"><span>All Homes</span></li>
-							  <li class="resp-tab-item" aria-controls="tab_item-1" role="tab"><span>For Sale</span></li>
-							  <li class="resp-tab-item" aria-controls="tab_item-2" role="tab"><span>For Rent</span></li>
+						  	  <li class="resp-tab-item " aria-controls="tab_item-0" role="tab"><span>全部</span></li>
+							  <li class="resp-tab-item" aria-controls="tab_item-1" role="tab"><span>出租</span></li>
+							  <li class="resp-tab-item" aria-controls="tab_item-2" role="tab"><span>求租</span></li>
 							  <div class="clearfix"></div>
 						  </ul>				  	 
 						  <div class="resp-tabs-container">
-						  		<h2 class="resp-accordion resp-tab-active" role="tab" aria-controls="tab_item-0"><span class="resp-arrow"></span>All Homes</h2><div class="tab-1 resp-tab-content resp-tab-content-active" aria-labelledby="tab_item-0" style="display:block">
+						  		<h2 class="resp-accordion resp-tab-active" role="tab" aria-controls="tab_item-0"><span class="resp-arrow"></span>全部</h2><div class="tab-1 resp-tab-content resp-tab-content-active" aria-labelledby="tab_item-0" style="display:block">
 								 	<div class="facts">
 									  	<div class="login">
-											<input type="text" value="Search Address, Neighborhood, City or Zip" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search Address, Neighborhood, City or Zip';}">		
+										<form action="/HouseRent/search/all/" method="post">
+										{% csrf_token %}
+											<input type="text" name="location" value="区域" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '区域';}">		
+											<input type="text" name="moneyTop" value="租金上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金上限';}">
+											<input type="text" name="moneyLow" value="租金下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金下限';}">
+											<input type="text" name="areaTop" value="面积上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积上限';}">
+											<input type="text" name="areaLow" value="面积下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积下限';}">
 									 		<input type="submit" value="">
+										</form>
 									 	</div>        
 							        </div>
 						  		</div>
-							     <h2 class="resp-accordion" role="tab" aria-controls="tab_item-1"><span class="resp-arrow"></span>For Sale</h2><div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
+							     <h2 class="resp-accordion" role="tab" aria-controls="tab_item-1"><span class="resp-arrow"></span>出租</h2><div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
 									<div class="facts">									
 										<div class="login">
-											<input type="text" value="Search Address, Neighborhood, City or Zip" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search Address, Neighborhood, City or Zip';}">		
+										<form action="/HouseRent/search/rent/" method="post">
+										{% csrf_token %}
+											<input type="text" name="location" value="区域" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '区域';}">		
+											<input type="text" name="moneyTop" value="租金上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金上限';}">
+											<input type="text" name="moneyLow" value="租金下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金下限';}">
+											<input type="text" name="areaTop" value="面积上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积上限';}">
+											<input type="text" name="areaLow" value="面积下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积下限';}">
 									 		<input type="submit" value="">
+										</form>
 									 	</div> 
 							        </div>	
 								 </div>									
-							      <h2 class="resp-accordion" role="tab" aria-controls="tab_item-2"><span class="resp-arrow"></span>For Rent</h2><div class="tab-1 resp-tab-content" aria-labelledby="tab_item-2">
+							      <h2 class="resp-accordion" role="tab" aria-controls="tab_item-2"><span class="resp-arrow"></span>求租</h2><div class="tab-1 resp-tab-content" aria-labelledby="tab_item-2">
 									 <div class="facts">
 										<div class="login">
-											<input type="text" value="Search Address, Neighborhood, City or Zip" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search Address, Neighborhood, City or Zip';}">		
+										<form action="/HouseRent/search/want/" method="post">
+										{% csrf_token %}
+											<input type="text" name="location" value="区域" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '区域';}">		
+											<input type="text" name="moneyTop" value="租金上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金上限';}">
+											<input type="text" name="moneyLow" value="租金下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金下限';}">
+											<input type="text" name="areaTop" value="面积上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积上限';}">
+											<input type="text" name="areaLow" value="面积下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积下限';}">
 									 		<input type="submit" value="">
+										</form>
 									 	</div> 
 							         </div>	
 							    </div>
@@ -137,7 +158,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--//-->	
 <div class=" banner-buying">
 	<div class=" container">
-	<h3><span>Log</span>in</h3> 
+	<h3><span>登陆</span></h3> 
 	<!---->
 	<div class="menu-right">
 		 <ul class="menu">
@@ -185,28 +206,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<p><font color="#FF0000">{{ flag }}</font></p>
 		<h3>Login</h3>
 		<div class="login-top">
-				<ul class="login-icons">
-					<li><a href="#" ><i class="facebook"> </i><span>Facebook</span></a></li>
-					<li><a href="#" class="twit"><i class="twitter"></i><span>Twitter</span></a></li>
-					<li><a href="#" class="go"><i class="google"></i><span>Google +</span></a></li>
-					<li><a href="#" class="in"><i class="linkedin"></i><span>Linkedin</span></a></li>
-					<div class="clearfix"> </div>
-				</ul>
 				<div class="form-info">
 					<form action="login.html" method="post">
 					{% csrf_token %}
-						<input type="text" class="text" placeholder="Email Adress" required="" name="username">
-						<input type="password"  placeholder="Password" required="" name="password">
+						<input type="text" class="text" placeholder="用户名" required="" name="username">
+						<input type="password"  placeholder="密码" required="" name="password">
 						<input type="radio" checked="checked" name="1" value="个人"/>个人<br/>
 						<input type="radio" name="1" value="公司"/>公司<br/>
 						 <label class="hvr-sweep-to-right">
-				           	<input type="submit" value="Submit">
+				           	<input type="submit" value="登陆">
 				           </label>
 					</form>
 				</div>
 			<div class="create">
-				<h4>New To Real Home?</h4>
-				<a class="hvr-sweep-to-right" href="register.html">Create an Account</a>
+				<h4>新用户？</h4>
+				<a class="hvr-sweep-to-right" href="register">创建账户</a>
 				<div class="clearfix"> </div>
 			</div>
 	</div>
