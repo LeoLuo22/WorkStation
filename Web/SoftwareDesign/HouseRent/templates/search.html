@@ -25,12 +25,12 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="container-fluid">
 				<nav class="pull">
 					<ul>
-						<li><a  href="index.html">Home</a></li>
-						<li><a  href="about.html">About Us</a></li>
-						<li><a  href="blog.html">Blog</a></li>
-						<li><a  href="terms.html">Terms</a></li>
-						<li><a  href="privacy.html">Privacy</a></li>
-						<li><a  href="contact.html">Contact</a></li>
+						<li><a  href="/HouseRent/">Home</a></li>
+						<li><a  href="/HouseRent/">About Us</a></li>
+						<li><a  href="/HouseRent/">Blog</a></li>
+						<li><a  href="/HouseRent/">Terms</a></li>
+						<li><a  href="/HouseRent/">Privacy</a></li>
+						<li><a  href="/HouseRent/">Contact</a></li>
 					</ul>
 				</nav>			
 			</div>
@@ -75,33 +75,54 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="sap_tabs">	
 				     <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
 						  <ul class="resp-tabs-list">
-						  	  <li class="resp-tab-item " aria-controls="tab_item-0" role="tab"><span>All Homes</span></li>
-							  <li class="resp-tab-item" aria-controls="tab_item-1" role="tab"><span>For Sale</span></li>
-							  <li class="resp-tab-item" aria-controls="tab_item-2" role="tab"><span>For Rent</span></li>
+						  	  <li class="resp-tab-item " aria-controls="tab_item-0" role="tab"><span>全部</span></li>
+							  <li class="resp-tab-item" aria-controls="tab_item-1" role="tab"><span>出租</span></li>
+							  <li class="resp-tab-item" aria-controls="tab_item-2" role="tab"><span>求租</span></li>
 							  <div class="clearfix"></div>
 						  </ul>				  	 
 						  <div class="resp-tabs-container">
-						  		<h2 class="resp-accordion resp-tab-active" role="tab" aria-controls="tab_item-0"><span class="resp-arrow"></span>All Homes</h2><div class="tab-1 resp-tab-content resp-tab-content-active" aria-labelledby="tab_item-0" style="display:block">
+						  		<h2 class="resp-accordion resp-tab-active" role="tab" aria-controls="tab_item-0"><span class="resp-arrow"></span>全部</h2><div class="tab-1 resp-tab-content resp-tab-content-active" aria-labelledby="tab_item-0" style="display:block">
 								 	<div class="facts">
 									  	<div class="login">
-											<input type="text" value="Search Address, Neighborhood, City or Zip" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search Address, Neighborhood, City or Zip';}">		
+										<form action="/HouseRent/search/all/" method="post">
+										{% csrf_token %}
+											<input type="text" name="location" value="区域" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '区域';}">		
+											<input type="text" name="moneyTop" value="租金上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金上限';}">
+											<input type="text" name="moneyLow" value="租金下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金下限';}">
+											<input type="text" name="areaTop" value="面积上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积上限';}">
+											<input type="text" name="areaLow" value="面积下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积下限';}">
 									 		<input type="submit" value="">
+										</form>
 									 	</div>        
 							        </div>
 						  		</div>
-							     <h2 class="resp-accordion" role="tab" aria-controls="tab_item-1"><span class="resp-arrow"></span>For Sale</h2><div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
+							     <h2 class="resp-accordion" role="tab" aria-controls="tab_item-1"><span class="resp-arrow"></span>出租</h2><div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
 									<div class="facts">									
 										<div class="login">
-											<input type="text" value="Search Address, Neighborhood, City or Zip" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search Address, Neighborhood, City or Zip';}">		
+										<form action="/HouseRent/search/rent/" method="post">
+										{% csrf_token %}
+											<input type="text" name="location" value="区域" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '区域';}">		
+											<input type="text" name="moneyTop" value="租金上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金上限';}">
+											<input type="text" name="moneyLow" value="租金下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金下限';}">
+											<input type="text" name="areaTop" value="面积上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积上限';}">
+											<input type="text" name="areaLow" value="面积下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积下限';}">
 									 		<input type="submit" value="">
+										</form>
 									 	</div> 
 							        </div>	
 								 </div>									
-							      <h2 class="resp-accordion" role="tab" aria-controls="tab_item-2"><span class="resp-arrow"></span>For Rent</h2><div class="tab-1 resp-tab-content" aria-labelledby="tab_item-2">
+							      <h2 class="resp-accordion" role="tab" aria-controls="tab_item-2"><span class="resp-arrow"></span>求租</h2><div class="tab-1 resp-tab-content" aria-labelledby="tab_item-2">
 									 <div class="facts">
 										<div class="login">
-											<input type="text" value="Search Address, Neighborhood, City or Zip" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search Address, Neighborhood, City or Zip';}">		
+										<form action="/HouseRent/search/want/" method="post">
+										{% csrf_token %}
+											<input type="text" name="location" value="区域" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '区域';}">		
+											<input type="text" name="moneyTop" value="租金上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金上限';}">
+											<input type="text" name="moneyLow" value="租金下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金下限';}">
+											<input type="text" name="areaTop" value="面积上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积上限';}">
+											<input type="text" name="areaLow" value="面积下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积下限';}">
 									 		<input type="submit" value="">
+										</form>
 									 	</div> 
 							         </div>	
 							    </div>
@@ -144,7 +165,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--//-->	
 <div class=" banner-buying">
 	<div class=" container">
-	<h3><span>Deal</span>ers</h3> 
+	<h3><span>搜索结果</span></h3> 
 	<!---->
 	<div class="menu-right">
 		 <ul class="menu">
@@ -198,15 +219,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="deal-top-top">
 				<div class="col-md-3 top-deal-top">
 					<div class=" top-deal">
-						<a href="/HouseRent/houses/{{ house.id }}/detail" class="mask"><img src="/{{ house.picpath }}" class="img-responsive zoom-img" alt=""></a>
+						<a href="/HouseRent/houses/{{ house.id }}/" class="mask"><img src="/{{ house.pic1 }}" class="img-responsive zoom-img" alt=""></a>
 						<div class="deal-bottom">
 							<div class="top-deal1">
-								<h5><a href="/HouseRent/houses/{{ house.id }}/detail"> {{ house.location }}</a></h5>
+								<h5><a href="/HouseRent/houses/{{ house.id }}/"> {{ house.location }}</a></h5>
 								<p>面积 {{ house.area }} m^2</p>
 								<p>￥{{ house.money }}</p>
 							</div>
 							<div class="top-deal2">
-								<a href="single.html" class="hvr-sweep-to-right more">More</a>
+								<a href="/HouseRent/houses/{{ house.id }}/" class="hvr-sweep-to-right more">More</a>
 							</div>
 						<div class="clearfix"> </div>
 						</div>
@@ -222,57 +243,10 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <div class="footer">
 	<div class="container">
 		<div class="footer-top-at">
-			<div class="col-md-3 amet-sed">
-				<h4>Our Company</h4>
-				<ul class="nav-bottom">
-					<li><a href="about.html">About Us</a></li>
-					<li><a href="blog.html">For Sale By Owner Blog</a></li>
-					<li><a href="mobile_app.html">Mobile</a></li>
-					<li><a href="terms.html">Terms & Conditions</a></li>
-					<li><a href="privacy.html">Privacy Policy</a></li>	
-					<li><a href="blog.html">Blog</a></li>
-					
-				</ul>	
-			</div>
-			<div class="col-md-3 amet-sed ">
-				<h4>Work With Us</h4>
-					<ul class="nav-bottom">
-						<li><a href="single.html">Real Estate Brokers</a></li>
-						<li><a href="single.html">Business Development</a></li>
-						<li><a href="single.html">Affiliate Programs</a></li>
-						<li><a href="contact.html">Sitemap</a></li>
-						<li><a href="career.html">Careers</a></li>
-						<li><a href="feedback.html">Feedback</a></li>	
-					</ul>	
-			</div>
-			<div class="col-md-3 amet-sed">
-				<h4>Customer Support</h4>
-				<p>Mon-Fri, 7AM-7PM </p>
-				<p>Sat-Sun, 8AM-5PM </p>
-				<p>177-869-6559</p>
-					<ul class="nav-bottom">
-						<li><a href="#">Live Chat</a></li>
-						<li><a href="faqs.html">Frequently Asked Questions</a></li>
-						<li><a href="suggestion.html">Make a Suggestion</a></li>
-					</ul>	
-			</div>
-			<div class="col-md-3 amet-sed ">
-				<h4>Property Services</h4>
-				   <ul class="nav-bottom">
-						<li><a href="single.html">Residential Property</a></li>
-						<li><a href="single.html">Commercial Property</a></li>
-						<li><a href="login.html">Login</a></li>
-						<li><a href="register.html">Register</a></li>
-						<li><a href="typo.html">Short Codes</a></li>	
-					</ul>	
-					<ul class="social">
-						<li><a href="#"><i> </i></a></li>
-						<li><a href="#"><i class="gmail"> </i></a></li>
-						<li><a href="#"><i class="twitter"> </i></a></li>
-						<li><a href="#"><i class="camera"> </i></a></li>
-						<li><a href="#"><i class="dribble"> </i></a></li>
-					</ul>
-			</div>
+			
+			
+			
+			
 		<div class="clearfix"> </div>
 		</div>
 	</div>
@@ -282,7 +256,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<h2><a href="index.html">REAL HOME</a></h2>
 			</div>
 			<div class="col-md-8 footer-class">
-				<p >Copyright &copy; 2015.Company name All rights reserved.<a target="_blank" href="http://sc.chinaz.com/moban/">&#x7F51;&#x9875;&#x6A21;&#x677F;</a></p>
+				<p >Copyright &copy; 2016.Leo's WorkStation All rights reserved</p>
 			</div>
 		<div class="clearfix"> </div>
 	 	</div>

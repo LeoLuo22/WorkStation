@@ -48,7 +48,9 @@ def login(request):
     if request.session.get('isRegister') == True:
         request.session['isRegister'] = False
         return render(request, 'login.html', {'flag': True, 'message': '注册成功'})
-
+    if request.session.get('onCheck') == True:
+        request.session['onCheck'] = False
+        return render(request, 'login.html',{ 'flag': True, 'message': '请等待管理员审核'})
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -72,6 +74,9 @@ def logout(request):
     return HttpResponseRedirect('/HouseRent')
 
 def register(request):
+    if request.session.get('isTaken') == True:
+        request.session['isTaken'] = False
+        return render(request, 'register.html', {'flag': True, 'message': '该用户名或邮箱已被注册'})
     if request.POST:
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -113,9 +118,11 @@ def register(request):
                             fp.write(content)
                     User.objects.create(username=username, password=password, email=email, isMedium=True, isChecked=False, owner=owner, paper=paper, taxpaper=taxpaper,
                                         paperpic=paperpic, idpic=idpic)
-                    return render(request, 'login.html', {'flag': "请等待管理员审核"})
+                    request.session['onCheck'] = True
+                    return redirect('/HouseRent/login/')
             else:
-                return render(request, 'register.html', {'flag': "该用户名或邮箱已被注册"})
+                request.session['isTaken'] = True
+                return redirect('/HouseRent/register/')
     return render(request, 'register.html')
 
 def release(request, what):
@@ -289,12 +296,6 @@ def analysis(request, username):
         return render(request, 'analysis.html', {'houses': houses, 'begin_time': begin_time,
                       'end_time': end_time, 'username': username, 'flag': flag})
     return render(request, 'analysis.html')
-
-#注册成功后以这个页面为跳转
-"""
-def status(request):
-    return redirect('/HouseRent')
-"""
 
 def rent(request):
     rhouses = House.objects.filter(isWanted__exact=False)
