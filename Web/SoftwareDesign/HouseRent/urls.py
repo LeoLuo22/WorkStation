@@ -14,10 +14,11 @@ urlpatterns = [
     url(r'^\w*/logout', views.logout, name='lout'),
     url(r'^(\w)*/release', views.release, name='release'),
     url(r'^(\w)*/add', views.add, name="add"),
-    url(r'houses/(?P<ID>\d*)', views.detail, name="detail"),
+    url(r'houses/(?P<ID>\d*)/$', views.detail, name="detail"),
     url(r'^search/(?P<category>\w*)/', views.search, name='search'),
     url(r'admin/$', views.admin, name='admin'),
     url(r'^admin/check/(?P<username>\w*)', views.check, name='check'),
     url(r'^admin/analysis/(?P<username>\w*)', views.analysis, name='analysis'),
     url(r'^(?P<username>\w*)/main/$', views.main, name='main'),
+    url(r'^houses/(?P<houseid>\d*)/book/$', views.book, name='book'),
 ]

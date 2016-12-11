@@ -171,7 +171,8 @@ def add(request, what):
     return HttpResponse("An error occured")
 
 def detail(request, ID):
-    return render(request, 'detail.html', {'house': House.objects.get(id=ID), 'loginStatus': 'Login'})
+    return render(request, 'detail.html', {'house': House.objects.get(id=ID), 'loginStatus': 'Login',
+                  'houseid': ID})
 
 def search(request, category):
     if request.POST:
@@ -238,6 +239,8 @@ def check(request, username):
 
 def analysis(request, username):
     if request.POST:
+        #return HttpResponse("ok")
+        flag = True
         houses = House.objects.filter(username__exact=username)
         begin_time_row = (request.POST.get('begin_time')).replace("T", "")
         begin_time = datetime.strptime(begin_time_row, "%Y-%m-%d%H:%M")
@@ -246,7 +249,7 @@ def analysis(request, username):
         houses = houses.filter(time__gte=begin_time)
         houses = houses.filter(time__lte=end_time)
         return render(request, 'analysis.html', {'houses': houses, 'begin_time': begin_time,
-                      'end_time': end_time, 'username': username})
+                      'end_time': end_time, 'username': username, 'flag': flag})
     return render(request, 'analysis.html')
 
 #注册成功后以这个页面为跳转
@@ -265,4 +268,24 @@ def want(request):
 
 def main(request, username):
     user = User.objects.get(username__exact=username)
-    return render(request, 'main.html', {'user': user})
+    houses = House.objects.filter(username__exact=username)
+    bookhouses = House.objects.filter(id__exact=user.bookedhouse)
+    return render(request, 'main.html', {'user': user, 'houses': houses,
+                  'bookhouses': bookhouses})
+
+def book(request, houseid):
+    if request.session.get('isLogin') == False:
+        return redirect('/HouseRent/login')
+
+    username = request.session.get('userName')
+    house = House.objects.get(id__exact=int(houseid))
+    if house.username == username:
+        return render(request, 'detail.html', {'flag': True, 'message': '你不能预定自己发布的房屋', 'houseid': houseid})
+    if house.isBooked == True:
+        return render(request, 'detail.html', {'flag': True, 'message': '该房屋已被人预定', 'houseid': houseid})
+    user = User.objects.get(username__exact=username)
+    house.isBooked = True
+    user.bookedhouse = houseid
+    house.save()
+    user.save()
+    return redirect('/HouseRent/')

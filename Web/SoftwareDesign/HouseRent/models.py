@@ -12,6 +12,7 @@ class User(models.Model):
     paperpic = models.CharField(max_length=100, default="")
     idpic = models.CharField(max_length=100, default="")
     isadmin = models.BooleanField(default=False)
+    bookedhouse = models.IntegerField(default=0)
 
     def __str__(self):
         return self.username
@@ -28,7 +29,7 @@ class House(models.Model):
     username = models.CharField(max_length=50)
     isWanted = models.BooleanField(default=False)
     isMedium = models.BooleanField(default=False)
-
+    isBooked = models.BooleanField(default=False)
     def __str__(self):
         return self.location
 

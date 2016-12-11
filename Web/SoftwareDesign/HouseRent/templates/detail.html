@@ -3,6 +3,11 @@
 <html>
 <head>
 <title>详情</title>
+{% if flag %}
+<script>
+alert("{{ message }}");
+</script>
+{% endif %}
 <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="/static/js/jquery.min.js"></script>
@@ -254,7 +259,9 @@ $(window).load(function() {
 					     <h4>房屋图片</h4>
 					  		 
 						<div class="   right-side">
-							 <a href="contact.html" class="hvr-sweep-to-right more" >预定</a>     
+	
+							 <a href="/HouseRent/houses/{{ houseid }}/book/" class="hvr-sweep-to-right more" >预定</a>   
+
 					 </div>
 					</div>
 					 <div class="col-sm-7 buy-sin">

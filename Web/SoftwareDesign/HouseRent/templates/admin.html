@@ -1,3 +1,4 @@
+
 {% if auth == True %}
 <h2>你当前共有{{ illegals.count }}个中介待审核</h2>
 {% for illegal in illegals %}
@@ -5,7 +6,9 @@
 {% endfor %}
 <h2>当前的个人用户</h2>
 {% for normalUser in normalUsers %}
+{% if normalUser.username != 'admin' %}
 <p>{{ forloop.counter }}. <a href="/HouseRent/admin/analysis/{{ normalUser.username }}/">{{ normalUser.username }}</a></p>
+{% endif %}
 {% endfor %}
 <h2>当前的中介用户</h2>
 {% for medium in mediums %}
