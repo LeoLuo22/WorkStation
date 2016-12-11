@@ -2,6 +2,11 @@
 <html>
 <head>
 <title>发布房屋</title>
+{% if flag %}
+<script>
+alert("{{ message }}");
+</script>
+{% endif %}
 <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="/static/js/jquery.min.js"></script>
@@ -40,18 +45,18 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 	<div class="container">
 		<!--logo-->
 			<div class="logo">
-				<h1><a href="/HouseRent">REAL HOME</a></h1>
+				<h1><a href="/HouseRent/">REAL HOME</a></h1>
 			</div>
 		<!--//logo-->
 		<div class="top-nav">
 			<ul class="right-icons">
-				<li><span ><i class="glyphicon glyphicon-phone"> </i>+1384 757 546</span></li>
+				
 				{% if loginStatus == "Login" %}
 				<li><a  href="login"><i class="glyphicon glyphicon-user"> </i>{{ loginStatus }}</a></li>
 				{% endif %}
 				{% if loginStatus != "Login" %}
 				<li><i class="glyphicon glyphicon-user"> </i>{{ loginStatus }}</a></li>
-				<li><a  href="logout"><i class="glyphicon glyphicon-user"> </i>Logout</a></li>
+				<li><a  href="/HouseRent/logout/"><i class="glyphicon glyphicon-user"> </i>Logout</a></li>
 				{% endif %}
 				<li><a class="play-icon popup-with-zoom-anim" href="#small-dialog"><i class="glyphicon glyphicon-search"> </i> </a></li>
 			</ul>
@@ -74,33 +79,54 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="sap_tabs">	
 				     <div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
 						  <ul class="resp-tabs-list">
-						  	  <li class="resp-tab-item " aria-controls="tab_item-0" role="tab"><span>All Homes</span></li>
-							  <li class="resp-tab-item" aria-controls="tab_item-1" role="tab"><span>For Sale</span></li>
-							  <li class="resp-tab-item" aria-controls="tab_item-2" role="tab"><span>For Rent</span></li>
+						  	  <li class="resp-tab-item " aria-controls="tab_item-0" role="tab"><span>全部</span></li>
+							  <li class="resp-tab-item" aria-controls="tab_item-1" role="tab"><span>出租</span></li>
+							  <li class="resp-tab-item" aria-controls="tab_item-2" role="tab"><span>求租</span></li>
 							  <div class="clearfix"></div>
 						  </ul>				  	 
 						  <div class="resp-tabs-container">
-						  		<h2 class="resp-accordion resp-tab-active" role="tab" aria-controls="tab_item-0"><span class="resp-arrow"></span>All Homes</h2><div class="tab-1 resp-tab-content resp-tab-content-active" aria-labelledby="tab_item-0" style="display:block">
+						  		<h2 class="resp-accordion resp-tab-active" role="tab" aria-controls="tab_item-0"><span class="resp-arrow"></span>全部</h2><div class="tab-1 resp-tab-content resp-tab-content-active" aria-labelledby="tab_item-0" style="display:block">
 								 	<div class="facts">
 									  	<div class="login">
-											<input type="text" value="Search Address, Neighborhood, City or Zip" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search Address, Neighborhood, City or Zip';}">		
+										<form action="/HouseRent/search/all/" method="post">
+										{% csrf_token %}
+											<input type="text" name="location" value="区域" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '区域';}">		
+											<input type="text" name="moneyTop" value="租金上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金上限';}">
+											<input type="text" name="moneyLow" value="租金下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金下限';}">
+											<input type="text" name="areaTop" value="面积上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积上限';}">
+											<input type="text" name="areaLow" value="面积下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积下限';}">
 									 		<input type="submit" value="">
+										</form>
 									 	</div>        
 							        </div>
 						  		</div>
-							     <h2 class="resp-accordion" role="tab" aria-controls="tab_item-1"><span class="resp-arrow"></span>For Sale</h2><div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
+							     <h2 class="resp-accordion" role="tab" aria-controls="tab_item-1"><span class="resp-arrow"></span>出租</h2><div class="tab-1 resp-tab-content" aria-labelledby="tab_item-1">
 									<div class="facts">									
 										<div class="login">
-											<input type="text" value="Search Address, Neighborhood, City or Zip" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search Address, Neighborhood, City or Zip';}">		
+										<form action="/HouseRent/search/rent/" method="post">
+										{% csrf_token %}
+											<input type="text" name="location" value="区域" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '区域';}">		
+											<input type="text" name="moneyTop" value="租金上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金上限';}">
+											<input type="text" name="moneyLow" value="租金下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金下限';}">
+											<input type="text" name="areaTop" value="面积上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积上限';}">
+											<input type="text" name="areaLow" value="面积下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积下限';}">
 									 		<input type="submit" value="">
+										</form>
 									 	</div> 
 							        </div>	
 								 </div>									
-							      <h2 class="resp-accordion" role="tab" aria-controls="tab_item-2"><span class="resp-arrow"></span>For Rent</h2><div class="tab-1 resp-tab-content" aria-labelledby="tab_item-2">
+							      <h2 class="resp-accordion" role="tab" aria-controls="tab_item-2"><span class="resp-arrow"></span>求租</h2><div class="tab-1 resp-tab-content" aria-labelledby="tab_item-2">
 									 <div class="facts">
 										<div class="login">
-											<input type="text" value="Search Address, Neighborhood, City or Zip" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search Address, Neighborhood, City or Zip';}">		
+										<form action="/HouseRent/search/want/" method="post">
+										{% csrf_token %}
+											<input type="text" name="location" value="区域" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '区域';}">		
+											<input type="text" name="moneyTop" value="租金上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金上限';}">
+											<input type="text" name="moneyLow" value="租金下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '租金下限';}">
+											<input type="text" name="areaTop" value="面积上限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积上限';}">
+											<input type="text" name="areaLow" value="面积下限" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '面积下限';}">
 									 		<input type="submit" value="">
+										</form>
 									 	</div> 
 							         </div>	
 							    </div>
@@ -143,7 +169,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <!--//-->	
 <div class=" banner-buying">
 	<div class=" container">
-	<h3><span>Lor</span>em</h3> 
+	<h3><span>发布</span></h3> 
 	<!---->
 	<div class="menu-right">
 		 <ul class="menu">
@@ -191,7 +217,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		<div class="loan-col">
 			<h3>房屋信息</h3>
 			<h4>想要发布一个<span>住房？</span> 现在申请！</h4>
-			<form action="add" method="post" enctype="multipart/form-data">
+			<form action="add/" method="post" enctype="multipart/form-data">
 			{% csrf_token %}
 			<div class="col-loan">
 				<ul class="loan-col1">
@@ -229,9 +255,21 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				</u1>
 				<ul class="loan-col1">
 					<li><span>上传图片（求租可忽略）</span></li><label>:</label>
-					<li class="loan-list-top"><input type="file" name="picFile" /></li>
+					<li class="loan-list-top"><input type="file" name="pic1" /></li>
 				</ul>
-				<p>I agree to Real Home' Terms & Conditions. I would like to receive property related communication through Email, Call or SMS from Real Home or any of its partners.</p>
+				<ul class="loan-col1">
+					<li><span>上传图片（求租可忽略）</span></li><label>:</label>
+					<li class="loan-list-top"><input type="file" name="pic2" /></li>
+				</ul>
+				<ul class="loan-col1">
+					<li><span>上传图片（求租可忽略）</span></li><label>:</label>
+					<li class="loan-list-top"><input type="file" name="pic3" /></li>
+				</ul>
+				<ul class="loan-col1">
+					<li><span>上传图片（求租可忽略）</span></li><label>:</label>
+					<li class="loan-list-top"><input type="file" name="pic4" /></li>
+				</ul>
+				<p>我同意发布的属实</p>
 				<div class="sub">
 					<label class="hvr-sweep-to-right"><input type="submit" value="提交" placeholder=""></label>
 				</div>

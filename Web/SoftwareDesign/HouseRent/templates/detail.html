@@ -225,17 +225,17 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
        <div class=" buying-top">	
 			<div class="flexslider">
   <ul class="slides">
-    <li data-thumb="/static/images/ss.jpg">
-      <img src="/static/images/ss.jpg" />
+    <li data-thumb="/{{ house.pic1 }}">
+      <img src="/{{ house.pic1 }}" />
     </li>
-    <li data-thumb="/static/images/ss1.jpg">
-      <img src="/static/images/ss1.jpg" />
+    <li data-thumb="/{{ house.pic2 }}">
+      <img src="/{{ house.pic2 }}" />
     </li>
-    <li data-thumb="/static//static/images/ss2.jpg">
-      <img src="/static/images/ss2.jpg" />
+    <li data-thumb="/{{ house.pic3 }}">
+      <img src="/{{ house.pic3 }}" />
     </li>
-    <li data-thumb="/static/images/ss3.jpg">
-      <img src="/static/images/ss3.jpg" />
+    <li data-thumb="/{{ house.pic4 }}">
+      <img src="/{{ house.pic4 }}" />
     </li>
   </ul>
 </div>
@@ -259,8 +259,9 @@ $(window).load(function() {
 					     <h4>房屋图片</h4>
 					  		 
 						<div class="   right-side">
-	
-							 <a href="/HouseRent/houses/{{ houseid }}/book/" class="hvr-sweep-to-right more" >预定</a>   
+							{% if house.isWanted == False %}
+							 <a href="/HouseRent/houses/{{ houseid }}/book/" class="hvr-sweep-to-right more" >预定</a> 
+{% endif %}							 
 
 					 </div>
 					</div>
@@ -287,7 +288,7 @@ $(window).load(function() {
 						<p>地点</p>
 					</div>
 					<div class="box-text">
-						<p>陕西省西安市长安区长安大学渭水校区</p>
+						<p>{{ house.location }}</p>
 					</div>
 					<div class="clearfix"> </div>
 				</div>

@@ -23,18 +23,31 @@ def isValid(register, information):
 def index(request):
     #*****出租
     rhouses = House.objects.filter(isWanted__exact=False)
+    #***求租
     whouses = House.objects.filter(isWanted__exact=True)
-    #isLogin = request.session.get('isLogin', False)
-    #if isLogin:
-    #return HttpResponse(rhouses.money)
+    #****首页每种显示个数
+    if len(rhouses) > 6:
+        rhouses = rhouses[0:6]
+    if len(whouses) > 4:
+        whouses = whouses[0:4]
+    #用户没有登录
     if request.session.get('isLogin') != True:
-        return render(request, 'index.html', {'loginStatus': 'Login', 'rhouses': rhouses, 'whouses': whouses})
-
+        return render(request, 'index.html', {'loginStatus': 'Login', 'rhouses': rhouses, 'whouses': whouses,
+                      })
+    #用户已登录
     username = request.session.get('userName', False)
+    #判断是否从发布信息的跳转
+    if request.session.get('isRlsSuccess'):
+        request.session['isRlsSuccess'] = False
+        return render(request, 'index.html', {'loginStatus': 'Login', 'rhouses': rhouses, 'whouses': whouses,
+                      'isRlsSuccess': True, 'message': '发布成功'})
     return render(request, 'index.html', {'loginStatus': request.session.get('userName'), 'rhouses': rhouses,
-                  'whouses': whouses})
+                  'whouses': whouses,})
 
 def login(request):
+    if request.session.get('isRegister') == True:
+        request.session['isRegister'] = False
+        return render(request, 'login.html', {'flag': True, 'message': '注册成功'})
 
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -42,14 +55,14 @@ def login(request):
         try:
             user = User.objects.get(username__exact=username, password__exact=password)
         except ObjectDoesNotExist as err:
-            return render(request, 'login.html', {'flag': '用户不存在或密码错误'})
+            return render(request, 'login.html', {'flag': True, 'message': '用户名或密码错误'})
         if user.isChecked == False:
             return HttpResponse("<p>你的信息还在审核</p>")
         if user:
             request.session['isLogin'] = True
             request.session['userName'] = username
-            request.session['isMedium'] = False
-            return HttpResponseRedirect('/HouseRent')
+            #request.session['isMedium'] = False
+            return HttpResponseRedirect('/HouseRent/')
         else:
             request.session['isLogin'] = False
     return render(request, 'login.html', {'loginStatus': 'Login'})
@@ -71,6 +84,7 @@ def register(request):
             if isValid(User, username) and isValid(User, email):
                 User.objects.create(username=username, password=password, email=email, isMedium=False)
                 #return render(request, 'redirect.html', {'message': "注册成功"})
+                request.session['isRegister'] = True
                 return redirect('/HouseRent/login/')
             else:
                 return render(request, 'register.html', {'flag': "该用户名或邮箱已被注册"})
@@ -108,9 +122,12 @@ def release(request, what):
     if request.session['isLogin'] == False:
         #return HttpResponse("<p> 您尚未登陆，请返回上一级页面 </p>")
         return HttpResponseRedirect('/HouseRent/login/')
+    if request.session.get('inputError') == True:
+        request.session['inputError'] = False
+        return render(request, 'release.html', {'username': request.session['userName'], 'loginStatus': request.session.get('userName'), 'flag': True, 'message': '输入有误'})
     return render(request, 'release.html', {'username': request.session['userName'], 'loginStatus': request.session.get('userName')})
 
-def add(request, what):
+def add(request, username):
     if request.POST:
         time = timezone.now()
         location = request.POST.get('location')
@@ -120,7 +137,10 @@ def add(request, what):
         area = request.POST.get("area")
         description = request.POST.get("description")
         username = request.session['userName']
-        filename = "fakepath"
+        pic1 = "static/users/default.jpg"
+        pic2 = "static/users/default.jpg"
+        pic3 = "static/users/default.jpg"
+        pic4 = "static/users/default.jpg"
         if request.FILES:
             try:
                 os.chdir('HouseRent')
@@ -132,9 +152,21 @@ def add(request, what):
                     os.makedirs(filepath)
             except FileExistsError as err:
                 pass
-            filename = filepath + str(random.randint(100, 9999)) + ".jpg"
-            with open(filename, "wb") as fh:
-                for content in request.FILES.get('picFile'):
+            pic1 = filepath + str(random.randint(100, 9999)) + ".jpg"
+            with open(pic1, "wb") as fh:
+                for content in request.FILES.get('pic1'):
+                    fh.write(content)
+            pic2 = filepath + str(random.randint(100, 9999)) + ".jpg"
+            with open(pic2, "wb") as fh:
+                for content in request.FILES.get('pic2'):
+                    fh.write(content)
+            pic3 = filepath + str(random.randint(100, 9999)) + ".jpg"
+            with open(pic3, "wb") as fh:
+                for content in request.FILES.get('pic3'):
+                    fh.write(content)
+            pic4 = filepath + str(random.randint(100, 9999)) + ".jpg"
+            with open(pic4, "wb") as fh:
+                for content in request.FILES.get('pic4'):
                     fh.write(content)
 
         try:
@@ -143,34 +175,40 @@ def add(request, what):
                     House.objects.create(location=location, money=money,
                                       name=name, phone=phone, area=area,
                                       description=description,
-                                      picpath=filename, time=time,
-                                      username=username, isWanted=False, isMedium=False)
+                                      pic1=pic1, pic2=pic2, pic3=pic3, pic4=pic4, time=time,
+                                      username=username, isWanted=False, isMedium=False, isBooked=False)
                 elif request.POST.get('1') == '求租':
                     House.objects.create(location=location, money=money,
                                       name=name, phone=phone, area=area,
                                       description=description,
-                                      picpath=filename, time=time,
-                                      username=username, isWanted=True, isMedium=False)
+                                      pic1=pic1, pic2=pic2, pic3=pic3, pic4=pic4, time=time,
+                                      username=username, isWanted=True, isMedium=False, isBooked=False)
             else:
                 if request.POST.get('1') == '出租':
                     House.objects.create(location=location, money=money,
                                       name=name, phone=phone, area=area,
                                       description=description,
-                                      picpath=filename, time=time,
-                                      username=username, isWanted=False, isMedium=True)
+                                      pic1=pic1, pic2=pic2, pic3=pic3, pic4=pic4, time=time,
+                                      username=username, isWanted=False, isMedium=True, isBooked=False)
                 elif request.POST.get('1') == '求租':
                     House.objects.create(location=location, money=money,
                                       name=name, phone=phone, area=area,
                                       description=description,
-                                      picpath=filename, time=time,
-                                      username=username, isWanted=True, isMedium=True)
+                                      pic1=pic1, pic2=pic2, pic3=pic3, pic4=pic4, time=time,
+                                      username=username, isWanted=True, isMedium=True, isBooked=False)
         except Exception as err:
-            return HttpResponse("<p>你的输入有误，请返回上一级</p>")
-    return HttpResponseRedirect('/HouseRent')
+            request.session['inputError'] = True
+            return redirect('/HouseRent/{0}/release/'.format(username))
+    request.session['isRlsSuccess'] = True
+    return HttpResponseRedirect('/HouseRent/')
 
-    return HttpResponse("An error occured")
+    #return HttpResponse("An error occured")
 
 def detail(request, ID):
+    if request.session.get('isBookOwn'):
+        request.session['isBookOwn'] = False
+        return render(request, 'detail.html', {'house': House.objects.get(id=ID),
+                      'flag': True, 'message': '你不能预定自己发布的房屋', 'houseid': ID})
     return render(request, 'detail.html', {'house': House.objects.get(id=ID), 'loginStatus': 'Login',
                   'houseid': ID})
 
@@ -207,7 +245,7 @@ def search(request, category):
             houses = houses.filter(area__gte=areaLow)
             houses = houses.filter(area__lte=areaTop)
             return render(request, 'search.html', {'houses': houses})
-    return HttpResponseRedirect('/HouseRent')
+    return HttpResponseRedirect('/HouseRent/')
 
 def admin(request):
     if request.method == "GET":
@@ -260,7 +298,8 @@ def status(request):
 
 def rent(request):
     rhouses = House.objects.filter(isWanted__exact=False)
-    return render(request, 'rent.html', {'rhouses': rhouses, 'atype': '待租房屋', 'title': '出租'})
+    return render(request, 'rent.html', {'rhouses': rhouses, 'atype': '待租房屋', 'title': '出租',
+                  'loginStatus': request.session.get('userName')})
 
 def want(request):
     rhouses = House.objects.filter(isWanted__exact=True)
@@ -280,7 +319,8 @@ def book(request, houseid):
     username = request.session.get('userName')
     house = House.objects.get(id__exact=int(houseid))
     if house.username == username:
-        return render(request, 'detail.html', {'flag': True, 'message': '你不能预定自己发布的房屋', 'houseid': houseid})
+        request.session['isBookOwn'] = True
+        return redirect('/HouseRent/houses/{0}/'.format(houseid))
     if house.isBooked == True:
         return render(request, 'detail.html', {'flag': True, 'message': '该房屋已被人预定', 'houseid': houseid})
     user = User.objects.get(username__exact=username)

@@ -2,6 +2,11 @@
 <html>
 <head>
 <title>Home</title>
+{% if isRlsSuccess %}
+<script>
+alert("{{ message }}");
+</script>
+{% endif %}
 <link href="/static/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="/static/js/jquery.min.js"></script>
@@ -216,7 +221,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 			<div class="bottom-header">
 				<div class="header-bottom">
 					<div class=" bottom-head">
-						<a href="{{ loginStatus }}/release.html">
+						<a href="{{ loginStatus }}/release/">
 							<div class="buy-media">
 								<i class="buy"> </i>
 								<h6>发布</h6>
@@ -296,7 +301,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 
 				<div class="col-md-4 box_2">
 			     	 <a href="/HouseRent/houses/{{ rhouse.id }}/" class="mask">
-			     	   	<img class="img-responsive zoom-img" src="/{{ rhouse.picpath }} "alt="">
+			     	   	<img class="img-responsive zoom-img" src="/{{ rhouse.pic1 }} "alt="">
 			     	   	<span class="four">￥{{ rhouse.money }}</span>
 			     	 </a>
 			     	   <div class="most-1">
@@ -328,7 +333,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 		   				<a href="#" class="hi-icon hi-icon-archive glyphicon glyphicon-user"> </a>
 		   			</div>
 		   			<div  class="ser-top">
-		   				<h4><a href="/HouseRent/houses/{{ whouse.id }}/detail">{{ whouse.username }}</a></h4>
+		   				<h4><a href="/HouseRent/houses/{{ whouse.id }}/">{{ whouse.username }}</a></h4>
 						<p>地址：{{ whouse.location }}</p>
 		   				<p>面积：{{ whouse.area }}</p>
 						<p>租金：{{ whouse.money }}<p>
