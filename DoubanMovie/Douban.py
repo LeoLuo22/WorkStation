@@ -8,8 +8,8 @@ from PIL import Image
 import random
 import urllib.parse
 import re
+import os
 
-searchUrl = 'https://movie.douban.com/subject_search?search_text=%E4%B8%83%E6%9C%88&cat=1002'
 class Douban(object):
     def __init__(self):
         self.__LOGIN_DATA = { 'source':'movie',
@@ -93,9 +93,9 @@ class Douban(object):
         #print(r.text)
         soup = BeautifulSoup(r.text, 'lxml')
         results = soup.find_all('div', attrs={'class': 'pl2'})
-        print(len(results))
+        print("共有", len(results), "个搜索结果")
         for result in results:
-            name = result.find('a', attrs={'class': ''}).get_text().strip()
+            name = result.find('a', attrs={'class': ''}).get_text().strip().replace(' ','').replace('\n', '')
             link = result.find('a', attrs={'class': ''})['href']
             detail = result.find('p', attrs={'class': 'pl'}).get_text()
             mid = re.search('\d+', link).group()
@@ -104,10 +104,33 @@ class Douban(object):
             count += 1
         return movies
 
-    def star(self, mid, grade):
+    def __saveImg(self, movie):
+        mid = movie.mid
+        while True:
+            if '：' in movie.name:
+                movie.name = movie.name.replace('：', '-')
+            break
+        while True:
+            if '/' in movie.name:
+                movie.name = movie.name.replace('/', '_')
+            break
+        url = 'https://movie.douban.com/subject/ID/'.replace('ID', mid)
+        r = self.__session.get(url, headers=self.__HEADER, proxies=self.__proxy)
+        soup = BeautifulSoup(r.text, 'lxml')
+        imgUrl = soup.find('img', attrs={'title': '点击看更多海报'})['src']
+        i = self.__session.get(imgUrl, headers=self.__HEADER, proxies=self.__proxy)
+        os.chdir('E:\\')
+        os.chdir('Movies/Post')
+        #print(os.getcwd())
+        with open(movie.name + '.jpg', 'wb') as fh:
+            fh.write(i.content)
+
+    def star(self, movie, grade):
+        mid = movie.mid
         url1 = 'https://movie.douban.com/subject/ID/?rating=GRADE&ck=q0uf'.replace('ID', mid).replace('GRADE', grade)
         url2 = 'https://movie.douban.com/j/subject/ID/interest?interest=collect&rating=GRADE'.replace('ID', mid).replace('GRADE', grade)
         postUrl = 'https://movie.douban.com/j/subject/ID/interest'.replace('ID', mid)
+        addUrl = 'https://movie.douban.com/j/doulist/40255131/additem'
         data = {'ck':'q0uf',
                 'interest':'collect',
                 'rating':grade,
@@ -115,12 +138,21 @@ class Douban(object):
                 'tags':'',
                 'comment':''
                 }
-        print(url1)
-        print(url2)
-        print(postUrl)
+        addData = {'sid':mid,
+                   'skind':'1002',
+                   'surl':'https://movie.douban.com/subject/ID/'.replace('ID', mid),
+                   'comment':'',
+                   'sync_to_mb':'',
+                   'ck':'q0uf'
+                   }
+        #print(url1)
+        #print(url2)
+        #print(postUrl)
         self.__session.get(url2, headers=self.__HEADER, proxies=self.__proxy)
         self.__session.post(postUrl, headers=self.__HEADER, proxies=self.__proxy, data=data)
+        self.__session.post(addUrl, headers=self.__HEADER, proxies=self.__proxy, data=addData)
         self.__session.get(url1, headers=self.__HEADER, proxies=self.__proxy)
+        self.__saveImg(movie)
 
 class MovieDetail(object):
     def __init__(self, name, link, detail, mid):
@@ -135,13 +167,14 @@ class MovieDetail(object):
 def main():
     douban = Douban()
     douban.login()
-    searchs = douban.search('七月与安生')
+    mName = input('输入电影名：')
+    searchs = douban.search(mName)
     for key, value in searchs.items():
         print(key, ": " ,value, value.link)
     option = int(input('选择一个选项： '))
-    mid = searchs.get(option).mid
-    grade = input('输入一个分数(1-5)')
-    douban.star(mid, grade)
+    movie = searchs.get(option)
+    grade = input('输入一个分数(1-5)：')
+    douban.star(movie, grade)
 
 if __name__ == "__main__":
     main()
