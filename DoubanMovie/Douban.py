@@ -167,14 +167,15 @@ class MovieDetail(object):
 def main():
     douban = Douban()
     douban.login()
-    mName = input('输入电影名：')
-    searchs = douban.search(mName)
-    for key, value in searchs.items():
-        print(key, ": " ,value, value.link)
-    option = int(input('选择一个选项： '))
-    movie = searchs.get(option)
-    grade = input('输入一个分数(1-5)：')
-    douban.star(movie, grade)
+    while True:
+        mName = input('输入电影名：')
+        searchs = douban.search(mName)
+        for key, value in searchs.items():
+            print(key, ": " ,value)#, value.link)
+        option = int(input('选择一个选项： '))
+        movie = searchs.get(option)
+        grade = input('输入一个分数(1-5)：')
+        douban.star(movie, grade)
 
 if __name__ == "__main__":
     main()
