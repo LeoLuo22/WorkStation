@@ -2,9 +2,9 @@
 __author__ = "Leo Luo"
 
 from bs4 import BeautifulSoup
+from PIL import Image
 import requests
 import lxml
-from PIL import Image
 import random
 import urllib.parse
 import re
@@ -12,12 +12,14 @@ import os
 
 class Douban(object):
     def __init__(self):
-        self.__LOGIN_DATA = { 'source':'movie',
-                                'redir':'https://movie.douban.com/',
-                                'form_email':'leoluo22@gmail.com',
-                                'form_password':'vampire.Leo123',
-                                'login':'登录'}
-        self.__HEADER = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+        self.__LOGIN_DATA = {'source':'movie',
+                             'redir':'https://movie.douban.com/',
+                             'form_email':'leoluo22@gmail.com',
+                             'form_password':'vampire.Leo123',
+                             'login':'登录'}
+        self.__HEADER = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) ' +
+                                      'AppleWebKit/537.36 (KHTML, like Gecko) ' +
+                                      'Chrome/50.0.2661.102 Safari/537.36'}
         self.__BASE_URL = "https://accounts.douban.com/login?source=movie"
         self.__LOGIN_URL = "https://accounts.douban.com/login"
         self.__SEARCH_URL = "https://movie.douban.com/subject_search?search_text=MOVIENAME&cat=1002"
@@ -39,7 +41,8 @@ class Douban(object):
     def __test(self, url):
         proxy = {'http': url}
         try:
-            r = requests.get('https://www.baidu.com', proxies=proxy, headers=self.__HEADER, timeout=1)
+            r = requests.get('https://www.baidu.com',
+                             proxies=proxy, headers=self.__HEADER, timeout=1)
         except Exception:
             return False
         if r.status_code == 200:
@@ -58,7 +61,8 @@ class Douban(object):
     def __getCaptcha(self, soup):
         result = {}
         captchaUrl = soup.find('img', attrs={'id': 'captcha_image',
-                           'alt': 'captcha', 'class': 'captcha_image'})
+                                             'alt': 'captcha',
+                                             'class': 'captcha_image'})
         captcha = captchaUrl['src'].replace("amp;", '')
         r = self.__session.get(captcha, headers=self.__HEADER, proxies=self.__proxy)
         with open("captcha.png", 'wb') as fh:
@@ -71,12 +75,16 @@ class Douban(object):
         return result
 
     def login(self):
-        r = self.__session.post(self.__LOGIN_URL, data=self.__LOGIN_DATA, proxies=self.__proxy)
+        r = self.__session.post(self.__LOGIN_URL,
+                                data=self.__LOGIN_DATA,
+                                proxies=self.__proxy)
         #print(r.text)
         soup = BeautifulSoup(r.text, 'lxml')
         ret = soup.find('div', attrs={'class': 'top-nav-info'})
         if ret:
-            ret = ret.find('a', attrs={'class': 'bn-more', 'href': 'https://www.douban.com/accounts/', 'target':'_blank'})
+            ret = ret.find('a', attrs={'class': 'bn-more',
+                                       'href': 'https://www.douban.com/accounts/',
+                                       'target':'_blank'})
             print("登录成功")
             return
         else:
@@ -95,7 +103,7 @@ class Douban(object):
         results = soup.find_all('div', attrs={'class': 'pl2'})
         print("共有", len(results), "个搜索结果")
         for result in results:
-            name = result.find('a', attrs={'class': ''}).get_text().strip().replace(' ','').replace('\n', '')
+            name = result.find('a', attrs={'class': ''}).get_text().strip().replace(' ', '').replace('\n', '')
             link = result.find('a', attrs={'class': ''})['href']
             detail = result.find('p', attrs={'class': 'pl'}).get_text()
             mid = re.search('\d+', link).group()
@@ -137,14 +145,14 @@ class Douban(object):
                 'foldcollect':'F',
                 'tags':'',
                 'comment':''
-                }
+               }
         addData = {'sid':mid,
                    'skind':'1002',
                    'surl':'https://movie.douban.com/subject/ID/'.replace('ID', mid),
                    'comment':'',
                    'sync_to_mb':'',
                    'ck':'q0uf'
-                   }
+                  }
         #print(url1)
         #print(url2)
         #print(postUrl)
@@ -171,7 +179,7 @@ def main():
         mName = input('输入电影名：')
         searchs = douban.search(mName)
         for key, value in searchs.items():
-            print(key, ": " ,value)#, value.link)
+            print(key, ": ", value)#, value.link)
         option = int(input('选择一个选项： '))
         movie = searchs.get(option)
         grade = input('输入一个分数(1-5)：')
