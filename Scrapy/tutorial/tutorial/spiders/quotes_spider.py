@@ -3,22 +3,21 @@ import scrapy
 class QuoteSpider(scrapy.Spider):
     name = 'quotes'#id the spider
 
-    def start_requests(self):
-        """generate urls
-        @return: must return an iterable of Requests.
-        """
-        urls = [
-            'http://quotes.toscrape.com/page/1/',
-            'http://quotes.toscrape.com/page/2/',
-        ]
-        for url in urls:
-            yield scrapy.Request(url=url, callback=self.parse)
+    start_urls = [
+        'http://quotes.toscrape.com/page/1/',
+    ]
 
     def parse(self, response):
         """parse response
         """
-        page = response.url.split("/")[-2]
-        filename = 'quotes-{0}.html'.format(page)
-        with open(filename, 'wb') as f:
-            f.write(response.body)
-        self.log('Saved file {0}'.format(filename))
+        for quote in response.css('div.quote'):
+            yield{
+                'text': quote.css('span.text::text')[0].extract(),
+                'author': quote.css('span small::text')[0].extract(),
+                'tags': quote.css('div.tags a.tag::text').extract(),
+            }
+        next_page = response.css('li.next a::attr(href)')[0].extract()
+        if next_page is not None:
+            next_page = response.urljoin(next_page)
+            yield scrapy.Request(next_page, callback=self.parse)
+510721197212194241
