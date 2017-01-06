@@ -8,7 +8,7 @@ starturl = 'http://www.kuaidaili.com/free/inha/1/'
 
 urls = []
 
-def getUrl():
+def getProxy():
     for i in range(1, 100):
         url = starturl.replace("1", str(i))
         r =requests.get(url, headers=HEADER)
@@ -41,7 +41,7 @@ def test(url):
     return False
 
 def main():
-    url = getUrl()
+    url = getProxy()
 
 if __name__ == '__main__':
     main()

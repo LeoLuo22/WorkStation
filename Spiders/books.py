@@ -4,6 +4,7 @@
 import os
 import collections
 import lxml
+from pymango import MongoClient
 import requests
 import proxylib
 import random
@@ -12,6 +13,10 @@ from bs4 import BeautifulSoup
 BASE_URL = "http://wiscom.chd.edu.cn:8080/opac/item.php"
 HEAD = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'
 }
+
+client = pymango.MongoClient("mongodb://localhost:27017/")
+db = client.chd
+collection = db.library
 
 def get_douban_info(isbn):
     info_dict = {}
@@ -36,7 +41,7 @@ def get_isbn(soup):
         isbn = isbn.replace('-', '')
     return isbn
 
-def get_filename_and_url(payload):
+def parse(payload):
     """Parse book information
     @param: book's id marc_no=id
     @book: book's information
@@ -77,6 +82,8 @@ class BookSpider():
         @param payload: dict, {'marc_no': 'id'}
         @return
         """
+        proxy = {}
+        proxy['http:'] = proxylib.getProxy()
         ajax_url = 'http://wiscom.chd.edu.cn:8080/opac/ajax_likehood_book.php'
         response = requests.get(ajax_url, params=payload, headers=HEAD)
         soup = BeautifulSoup(response.text, 'lxml')
@@ -89,7 +96,7 @@ class BookSpider():
                     f.write(marc_no+'\n')
                 self.unusedUrls.append(marc_no)
         print(len(self.unusedUrls))
-        self.get_urls({'marc_no': self.unusedUrls[random.randint(0, len(self.unusedUrls)-1)]})
+        #self.get_urls({'marc_no': self.unusedUrls[random.randint(0, len(self.unusedUrls)-1)]})
 
 
 def main():
@@ -99,10 +106,7 @@ def main():
     payload = {}
     payload['marc_no'] = '0000405961'
     book = BookSpider()
-    book.get_urls(payload)
-    """
-    get_douban_intro(9787114081996)
-    """
+    parse(payload)
     return
 
 
