@@ -9,12 +9,14 @@ starturl = 'http://www.kuaidaili.com/free/inha/1/'
 urls = []
 
 def getUrl():
-    for i in range(1, 100):
+    for i in range(1, 200):
         url = starturl.replace("1", str(i))
         r =requests.get(url, headers=HEADER)
         rst = wash(r.text)
         if rst:
-            return rst
+            print(rst)
+            with open('proxies.txt', 'a') as fh:
+                fh.write(rst + '\n')
     return
 
 def wash(urlRaw):
@@ -33,7 +35,7 @@ def wash(urlRaw):
 def test(url):
     proxy = {'http': url}
     try:
-        r = requests.get('https://www.baidu.com', proxies=proxy, headers=HEADER, timeout=0.1)
+        r = requests.get('https://www.baidu.com', proxies=proxy, headers=HEADER, timeout=2)
     except Exception:
         return False
     if r.status_code == 200:
@@ -41,7 +43,10 @@ def test(url):
     return False
 
 def main():
-    url = getUrl()
+
+    with open('proxies.txt', 'r') as fh:
+        for line in fh:
+            print(line.replace('\n', ''))
 
 if __name__ == '__main__':
     main()

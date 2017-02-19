@@ -10,7 +10,7 @@ from scrapy import Field
 
 class LagouItem(scrapy.Item):
     # define the fields for your item here lik
-    _id = Field()  # 工作ID
+    ID = Field()  # 工作ID
     companyId = Field()
     name = Field()  # 职位名
     advantages = Field()  # 职位诱惑
