@@ -53,7 +53,8 @@ ROBOTSTXT_OBEY = False
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-    'Lagou.middlewares.MyCustomDownloaderMiddleware': 543,
+    'Lagou.middlewares.LagouSpiderMiddleware': 543,
+    'Lagou.middlewares.UserAgentMiddleware': 544,
 }
 
 # Enable or disable extensions
