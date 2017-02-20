@@ -1,17 +1,20 @@
+"""This module is to provide proxies
+"""
 import requests
 from bs4 import BeautifulSoup
 import lxml
 
-HEADER = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+HEADER = {'User-Agent':
+          'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
 
 starturl = 'http://www.kuaidaili.com/free/inha/1/'
 
-urls = []
+URLS = []
 
 def getUrl():
     for i in range(1, 200):
         url = starturl.replace("1", str(i))
-        r =requests.get(url, headers=HEADER)
+        r = requests.get(url, headers=HEADER)
         rst = wash(r.text)
         if rst:
             print(rst)
