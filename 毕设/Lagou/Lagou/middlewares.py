@@ -26,8 +26,10 @@ USER_AGENTS = [
     "Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; fr) Presto/2.9.168 Version/11.52",
 ]
 
-PROXIES = ['http://122.228.179.178:80',
-            'http://123.170.100.178:9999',]
+PROXIES = [#'http://122.228.179.178:80',
+            #'http://123.170.100.178:9999',
+            'http://222.134.134.250:8118',
+            ]
 
 with open('new_proxies.txt', 'r') as fh:
     for line in fh:
