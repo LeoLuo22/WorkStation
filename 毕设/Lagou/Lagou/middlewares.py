@@ -26,15 +26,16 @@ USER_AGENTS = [
     "Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; fr) Presto/2.9.168 Version/11.52",
 ]
 
-PROXIES = [#'http://122.228.179.178:80',
+PROXIES = ['http://122.67.24.136:8080',
             #'http://123.170.100.178:9999',
-            'http://222.134.134.250:8118',
+            #'http://222.134.134.250:8118',
+            #'http://114.139.48.8:6688',
             ]
-
+"""
 with open('new_proxies.txt', 'r') as fh:
     for line in fh:
         PROXIES.append(line.replace('\n', ''))
-
+"""
 class LagouSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the

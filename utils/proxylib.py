@@ -1,7 +1,9 @@
 """This module is to provide proxies
 """
 import requests
+import pymysql
 from bs4 import BeautifulSoup
+from datetime import datetime
 import lxml
 HEADER = {'User-Agent':
           'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
@@ -9,6 +11,53 @@ HEADER = {'User-Agent':
 starturl = 'http://www.kuaidaili.com/free/inha/1/'
 
 URLS = []
+
+class MySql(object):
+    def __init__(self,  user, passwd, db=None, host='127.0.0.1', port=3306):
+        """Initialize a connection
+        @param user
+         username
+        @param passwd
+         password
+        @param db
+         database's name
+        """
+        self.config = {
+        'host': host,
+        'port': port,
+        'user': user,
+        'password': passwd,
+        'db': 'utils',
+        'charset': 'utf8mb4',
+        'cursorclass': pymysql.cursors.DictCursor,
+        }
+
+        self.connection = pymysql.connect(**self.config)
+        self.cursor = self.connection.cursor()
+
+    def create(self, protocol, host, port, last_check, available=0):
+        """Insert into database
+        @param protocol
+         http or https
+        @param host
+         host
+        @param port
+         port
+        @last_check
+         datetime
+        @available
+         1->useful
+        """
+        try:
+            sql = 'INSERT INTO proxies (protocol, host, port, available, lastcheck) VALUES (%s, %s, %s, %s, %s)'
+            self.cursor.execute(sql, (protocol, host, port, available, last_check))
+            self.connection.commit()
+        except pymysql.err.IntegrityError as err:
+            print(err)
+
+    def close(self):
+        self.cursor.close()
+        self.connection.close()
 
 def getUrl():
     for i in range(1, 200):
@@ -44,11 +93,48 @@ def test(url):
         return True
     return False
 
-def main():
+def addr_split(addr):
+    """Spilt address like https://106.46.136.27:808
+    @param addr
+     Proxy address
+    @return
+     dict, {'protocol': '', 'host', 'port':}
+    """
+    if addr.startswith('h'):
+        first_split = addr.split('//')
+        protocol, second_split = first_split[0].replace(':',''), first_split[1].split(':')
+        host, port = second_split[0], second_split[1]
+        return {'protocol': protocol, 'host': host, 'port': port}
+    else:
+        split = addr.split(':')
+        host, port = split[0], split[1]
+        return {'protocol': 'http', 'host': host, 'port': port}
 
+def read_from_file(filename):
+    """Read proxy like http://1.1.1.1:80 from file
+    @param filename
+     file's path
+    """
+    rst = []
+
+    with open(filename, 'r') as filehandler:
+        for line in filehandler:
+            rst.append(line.replace('\n', ''))
+
+    return rst
+
+def main():
+    mysql = MySql('Leo', 'mm123456')#, 'utils')
+    addrs = read_from_file('C:\\Users\\Leo\\Desktop\\2p.txt')
+    for addr in addrs:
+        a = addr_split(addr)
+        mysql.create(a.get('protocol'), a.get('host'), a.get('port'), datetime.now())
+    mysql.close()
+
+    """
     with open('proxies.txt', 'r') as fh:
         for line in fh:
             print(line.replace('\n', ''))
-
+    """
 if __name__ == '__main__':
     main()
