@@ -2,7 +2,7 @@
 """
 import requests
 import pymysql
-from user_agents import UserAgents
+from utils import user_agents
 import random
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -98,26 +98,34 @@ class MySql(object):
         self.cursor.close()
         self.connection.close()
 
-def wash(protocol, host, port):
+def wash(protocol=None, host=None, port=None):
     """Test if it can connect to Bing
     """
     proxy = {}
     url = protocol + '://' + host + ':' + port
     proxy[protocol] = url
     print('Testing ', url, end='')
-    #print(proxy)
+    #print(' ', proxy, end='')
     header = {}
-    header['User-Agent'] = random.choice(UserAgents)
+    header['User-Agent'] = random.choice(user_agents.UserAgents)
     #print(header)
     try:
-        response = requests.get('https://www.bing.com', headers=header, timeout=1, proxies=proxy)
-    except (requests.exceptions.ConnectTimeout, requests.exceptions.ConnectionError):
-        print('......fail')
+        response = requests.get('http://1212.ip138.com/ic.asp', headers=header, timeout=2, proxies=proxy)
+    except (requests.exceptions.ConnectTimeout, requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout):
+        print('    error occured')
         return False
-    soup = BeautifulSoup(response.text, 'lxml')
-    bing = soup.find('div', attrs={'class': 'hp_sw_logo hpcLogoWhite'})
-    #print(bing.get_text())
-    if bing.get_text() == '必应':
+    #print(response.text)
+    soup = BeautifulSoup(response.content, 'lxml')
+    #div = soup.find('body', attrs={'style': 'margin:0px'})
+
+    #获取网页上显示的IP
+    try:
+        ip = soup.find('center').get_text().split('[')[1].split(']')[0]
+    except AttributeError:
+        print('    error occured')
+        return False
+    print('    Showed IP: ', ip, end='')
+    if host == ip:
         print('......ok')
         return True
     print('......fail')
@@ -152,7 +160,11 @@ def read_from_file(filename):
             rst.append(line.replace('\n', ''))
 
     return rst
-def get_avaiable():
+def get_avaiables():
+    """Get available proxies from database
+    @return
+     list, contains http://1.1.1.1:80
+    """
     mysql = MySql()
     proxies = []
     proxy = ''
@@ -164,16 +176,14 @@ def get_avaiable():
     return proxies
 
 def main():
-    print(get_avaiable())
-    #print(proxies)
-    #wash(**mysql.proxies[1])
-    #print(random.choice(UserAgents))
-    #mysql.update('106.46.136.27', 1)
+    mysql = MySql()
+    proxies = mysql.retrieve('host', 'protocol', 'port')
+    for proxy in proxies:
+        if wash(**proxy):
+            mysql.update(proxy.get('host'), 1)
+        else:
+            mysql.update(proxy.get('host'), 0)
 
-    """
-    with open('proxies.txt', 'r') as fh:
-        for line in fh:
-            print(line.replace('\n', ''))
-    """
+
 if __name__ == '__main__':
     main()
