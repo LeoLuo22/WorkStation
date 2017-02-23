@@ -7,12 +7,6 @@ import random
 from bs4 import BeautifulSoup
 from datetime import datetime
 import lxml
-HEADER = {'User-Agent':
-          'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
-
-starturl = 'http://www.kuaidaili.com/free/inha/1/'
-
-URLS = []
 
 class MySql(object):
     def __init__(self,  user=None, passwd=None, db=None, host='127.0.0.1', port=3306):
@@ -93,6 +87,16 @@ class MySql(object):
         self.connection.commit()
         #self.__close()
 
+    def check_for_update(self):
+        """Check all proxy if it is available
+           And write them to database
+        """
+        proxies = self.retrieve('host', 'protocol', 'port')
+        for proxy in proxies:
+            if wash(**proxy):
+                self.update(proxy.get('host'), 1)
+            else:
+                self.update(proxy.get('host'), 0)
 
     def __close(self):
         self.cursor.close()
@@ -110,7 +114,7 @@ def wash(protocol=None, host=None, port=None):
     header['User-Agent'] = random.choice(user_agents.UserAgents)
     #print(header)
     try:
-        response = requests.get('http://1212.ip138.com/ic.asp', headers=header, timeout=2, proxies=proxy)
+        response = requests.get('http://1212.ip138.com/ic.asp', headers=header, timeout=1, proxies=proxy)
     except (requests.exceptions.ConnectTimeout, requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout):
         print('    error occured')
         return False
@@ -175,15 +179,44 @@ def get_avaiables():
 
     return proxies
 
+def get_http_from_xici(quantity=100):
+    """Get http proxy from xici
+    @param quantity
+     Quantity of proxies, default is 100
+    @return
+     list, dict of proxy
+    """
+    proxies = []
+    base = 'http://www.xicidaili.com/wt/{0}'
+    header = {}
+    header['User-Agent'] = random.choice(user_agents.UserAgents)
+
+    for i in range(1, 100):
+        proxy = {}
+        if len(proxies) <= 100:
+            response = requests.get(base.format(i), headers=header)
+            soup = BeautifulSoup(response.text, 'lxml')
+            ip_list_soup = soup.find('table', attrs={'id': 'ip_list'})
+            odds_soup = ip_list_soup.find_all('tr', attrs={'class': 'odd'})
+            for odds in odds_soup:
+                tds = odds.find_all('td')
+                proxy['host'] = tds[1].get_text()
+                proxy['port'] = tds[2].get_text()
+                proxy['protocol'] = 'http'
+                #print(proxy)
+                proxies.append(proxy)
+                proxy = {}
+
+    return proxies
+
 def main():
     mysql = MySql()
-    proxies = mysql.retrieve('host', 'protocol', 'port')
+    proxies = get_http_from_xici(10000)
     for proxy in proxies:
         if wash(**proxy):
-            mysql.update(proxy.get('host'), 1)
+            mysql.create(**proxy, last_check=datetime.now(), available=1)
         else:
-            mysql.update(proxy.get('host'), 0)
-
+            mysql.create(**proxy, last_check=datetime.now(), available=0)
 
 if __name__ == '__main__':
     main()
