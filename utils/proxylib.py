@@ -115,7 +115,8 @@ def wash(protocol=None, host=None, port=None):
     #print(header)
     try:
         response = requests.get('http://1212.ip138.com/ic.asp', headers=header, timeout=1, proxies=proxy)
-    except (requests.exceptions.ConnectTimeout, requests.exceptions.ConnectionError, requests.exceptions.ReadTimeout):
+    except (requests.exceptions.ConnectTimeout, requests.exceptions.ConnectionError,
+            requests.exceptions.ReadTimeout, requests.exceptions.ChunkedEncodingError):
         print('    error occured')
         return False
     #print(response.text)
@@ -186,6 +187,9 @@ def get_http_from_xici(quantity=100):
     @return
      list, dict of proxy
     """
+    mysql = MySql()
+    my_proxies = mysql.retrieve('host', 'protocol', 'port')
+
     proxies = []
     base = 'http://www.xicidaili.com/wt/{0}'
     header = {}
@@ -204,19 +208,28 @@ def get_http_from_xici(quantity=100):
                 proxy['port'] = tds[2].get_text()
                 proxy['protocol'] = 'http'
                 #print(proxy)
-                proxies.append(proxy)
+                if proxy not in my_proxies:#去重
+                    proxies.append(proxy)
                 proxy = {}
 
     return proxies
 
-def main():
+def get_xici_write(proxies):
+    """Check if it is available and write to mysql
+    @param get_http_from_xici
+     function
+    """
     mysql = MySql()
-    proxies = get_http_from_xici(10000)
     for proxy in proxies:
         if wash(**proxy):
             mysql.create(**proxy, last_check=datetime.now(), available=1)
         else:
             mysql.create(**proxy, last_check=datetime.now(), available=0)
+
+def main():
+    mysql = MySql()
+    #mysql.check_for_update()
+    get_xici_write(get_http_from_xici(2000))
 
 if __name__ == '__main__':
     main()
