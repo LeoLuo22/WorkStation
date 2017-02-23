@@ -32,6 +32,7 @@ class MySql(object):
         'cursorclass': pymysql.cursors.DictCursor,
         }
 
+        self.proxies = []
         self.connection = pymysql.connect(**self.config)
         self.cursor = self.connection.cursor()
 
@@ -55,7 +56,45 @@ class MySql(object):
         except pymysql.err.IntegrityError as err:
             print(err)
 
-    def close(self):
+    def retrieve(self, *args, **kwargs):
+        """Get data from database
+        """
+        target = ''
+        for arg in args:
+            arg = arg + ', '
+            target += arg
+        target = target[0:len(target)-2]
+
+        if kwargs.get('available') == 1:
+            sql = 'SELECT {0} FROM proxies where available = 1'.format(target)
+        else:
+            sql = 'SELECT {0} FROM proxies'.format(target)
+
+        try:
+            self.cursor.execute(sql)
+        except pymysql.err.InternalError as err:
+            print('错误: ',err)
+            return
+        results = self.cursor.fetchall()
+        self.connection.commit()
+
+        proxy = []
+        for result in results:
+            proxy = result.get('protocol') + '://' + result.get('host') + ':' + result.get('port')
+            self.proxies.append(proxy)
+
+        self.__close()
+
+    def update(self, host, available):
+        """Update data to database
+        """
+        sql = "UPDATE proxies SET available = '{available}' , lastcheck = '{datetime}' WHERE host = '{host}'".format(available=available, host=host, datetime=datetime.now())
+        self.cursor.execute(sql)
+        self.connection.commit()
+        self.__close()
+
+
+    def __close(self):
         self.cursor.close()
         self.connection.close()
 
@@ -124,12 +163,10 @@ def read_from_file(filename):
     return rst
 
 def main():
-    mysql = MySql('Leo', 'mm123456')#, 'utils')
-    addrs = read_from_file('C:\\Users\\Leo\\Desktop\\2p.txt')
-    for addr in addrs:
-        a = addr_split(addr)
-        mysql.create(a.get('protocol'), a.get('host'), a.get('port'), datetime.now())
-    mysql.close()
+    mysql = MySql('Leo', 'mm123456')
+    #mysql.retrieve('protocol', 'port', 'host', available=1)
+    #print(mysql.proxies)
+    mysql.update('106.46.136.27', 1)
 
     """
     with open('proxies.txt', 'r') as fh:

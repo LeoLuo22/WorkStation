@@ -55,7 +55,7 @@ COOKIES_ENABLED = False
 DOWNLOADER_MIDDLEWARES = {
     'Lagou.middlewares.LagouSpiderMiddleware': 543,
     'Lagou.middlewares.UserAgentMiddleware': 300,
-    'Lagou.middlewares.ProxyMiddleware': 100,
+    #'Lagou.middlewares.ProxyMiddleware': 100,
 }
 
 # Enable or disable extensions
