@@ -195,7 +195,7 @@ def get_http_from_xici(quantity=100):
     header = {}
     header['User-Agent'] = random.choice(user_agents.UserAgents)
 
-    for i in range(1, 100):
+    for i in range(1, 9999999):
         proxy = {}
         if len(proxies) <= 100:
             response = requests.get(base.format(i), headers=header)
@@ -229,7 +229,7 @@ def get_xici_write(proxies):
 def main():
     mysql = MySql()
     #mysql.check_for_update()
-    get_xici_write(get_http_from_xici(2000))
+    get_xici_write(get_http_from_xici(99999))
 
 if __name__ == '__main__':
     main()
