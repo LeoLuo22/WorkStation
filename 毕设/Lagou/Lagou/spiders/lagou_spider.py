@@ -1,5 +1,6 @@
 import lxml
 import scrapy
+import redis
 from bs4 import BeautifulSoup
 from scrapy_redis.spiders import RedisSpider
 from scrapy.http import Request
@@ -91,14 +92,20 @@ class Spider(RedisCrawlSpider):
             labels.append(label.get_text())
         job['labels'] = labels
 
-        yield job
+        idFollows = self.getNextID(soup)
+        for ID in idFollows:
+            url = "https://www.lagou.com/jobs/%s.html" % ID
+            r = redis.Redis(host='192.168.199.142', port=6379)
+            r.lpush('lagou:start_urls', url)
 
+        yield job
+        """
         #urlFollows = "http://weibo.cn/%s/follow" % ID  # 爬第一页的关注，加入待爬队列
         idFollows = self.getNextID(soup)
         for ID in idFollows:
             url = "https://www.lagou.com/jobs/%s.html" % ID
             yield Request(url=url, callback=self.parse)
-
+        """
     def getNextID(self, soup):
         ids = []
         ids_soup = soup.find_all('li', attrs={'class': 'similar_list_item clearfix'})

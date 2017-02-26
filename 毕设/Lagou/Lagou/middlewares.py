@@ -5,8 +5,10 @@
 # See documentation in:
 # http://doc.scrapy.org/en/latest/topics/spider-middleware.html
 import random
+import scrapy
 from utils import proxylib
 from scrapy import signals
+from pymongo import MongoClient
 
 USER_AGENTS = [
     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; AcooBrowser; .NET CLR 1.1.4322; .NET CLR 2.0.50727)",
@@ -27,12 +29,23 @@ USER_AGENTS = [
     "Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; fr) Presto/2.9.168 Version/11.52",
 ]
 
-PROXIES = proxylib.get_avaiables()
+#PROXIES = proxylib.get_avaiables()
+PROXIES = ['http://122.67.24.136:8080', ]
 """
 with open('new_proxies.txt', 'r') as fh:
     for line in fh:
         PROXIES.append(line.replace('\n', ''))
 """
+
+client = MongoClient('localhost', 27017)
+db = client['lagou']
+used_ids = []
+url = "https://www.lagou.com/jobs/{0}.html"
+for item in db.jobs.find():
+    used_ids.append(item.get('ID'))
+
+used_ids = set(used_ids)
+
 class LagouSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the
@@ -93,4 +106,19 @@ class UserAgentMiddleware(object):
         agent = random.choice(USER_AGENTS)
         request.headers["User-Agent"] = agent
 
+class IgnoreRequestMiddleware(object):
+    def process_request(self, request, spider):
+        ID = request.url.split('.')[2].split('/')[2]
+        if ID in used_ids:
+            print('Ignore url: {0}'.format(request.url))
+            raise scrapy.exceptions.IgnoreRequest
+        else:
+            used_ids.add(ID)
+            #return None
+    """
+    def process_response(self, request, response, spider):
+        if response.status == 301:
+            raise scrapy.exceptions.IgnoreRequest
+
+    """
 
