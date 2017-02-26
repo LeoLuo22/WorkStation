@@ -75,6 +75,8 @@ class Douban(object):
         return result
 
     def login(self):
+        """
+        """
         r = self.__session.post(self.__LOGIN_URL,
                                 data=self.__LOGIN_DATA,
                                 proxies=self.__proxy)
