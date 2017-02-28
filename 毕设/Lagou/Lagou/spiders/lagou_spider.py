@@ -95,7 +95,7 @@ class Spider(RedisCrawlSpider):
         idFollows = self.getNextID(soup)
         for ID in idFollows:
             url = "https://www.lagou.com/jobs/%s.html" % ID
-            r = redis.Redis(host='192.168.199.142', port=6379)
+            r = redis.Redis(host='127.0.0.1', port=6379)
             r.lpush('lagou:start_urls', url)
 
         yield job

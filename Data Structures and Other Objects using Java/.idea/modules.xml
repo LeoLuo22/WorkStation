@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/2_Java class and Infomation hiding/2_Java class and Infomation hiding.iml" filepath="$PROJECT_DIR$/2_Java class and Infomation hiding/2_Java class and Infomation hiding.iml" />
       <module fileurl="file://$PROJECT_DIR$/Data Structures and Other Objects using Java.iml" filepath="$PROJECT_DIR$/Data Structures and Other Objects using Java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/LinkedList/LinkedList.iml" filepath="$PROJECT_DIR$/LinkedList/LinkedList.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Stack/Stack.iml" filepath="$PROJECT_DIR$/Stack/Stack.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Thinking in Recursion/Thinking in Recursion.iml" filepath="$PROJECT_DIR$/Thinking in Recursion/Thinking in Recursion.iml" />
     </modules>
   </component>
 </project>

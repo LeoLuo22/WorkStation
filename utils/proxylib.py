@@ -2,7 +2,7 @@
 """
 import requests
 import pymysql
-from utils import user_agents
+from . import user_agents
 import random
 from bs4 import BeautifulSoup
 from datetime import datetime
@@ -21,7 +21,7 @@ class MySql(object):
         self.config = {
         'host': host,
         'port': port,
-        'user': 'Leo',
+        'user': 'leo',
         'password': 'mm123456',
         'db': 'utils',
         'charset': 'utf8mb4',
@@ -229,7 +229,8 @@ def get_xici_write(proxies):
 def main():
     mysql = MySql()
     #mysql.check_for_update()
-    get_xici_write(get_http_from_xici(99999))
+    #get_xici_write(get_http_from_xici(99999))
+    print(get_avaiables())
 
 if __name__ == '__main__':
     main()

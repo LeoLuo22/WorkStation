@@ -6,7 +6,7 @@
 # http://doc.scrapy.org/en/latest/topics/spider-middleware.html
 import random
 import scrapy
-from utils import proxylib
+#from utils import proxylib
 from scrapy import signals
 from pymongo import MongoClient
 
@@ -30,7 +30,7 @@ USER_AGENTS = [
 ]
 
 #PROXIES = proxylib.get_avaiables()
-PROXIES = ['http://122.67.24.136:8080', ]
+PROXIES = ['http://114.113.148.218:808']
 """
 with open('new_proxies.txt', 'r') as fh:
     for line in fh:
