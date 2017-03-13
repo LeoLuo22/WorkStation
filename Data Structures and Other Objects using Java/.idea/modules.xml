@@ -3,10 +3,14 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/2_Java class and Infomation hiding/2_Java class and Infomation hiding.iml" filepath="$PROJECT_DIR$/2_Java class and Infomation hiding/2_Java class and Infomation hiding.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Collections/Collections.iml" filepath="$PROJECT_DIR$/Collections/Collections.iml" />
       <module fileurl="file://$PROJECT_DIR$/Data Structures and Other Objects using Java.iml" filepath="$PROJECT_DIR$/Data Structures and Other Objects using Java.iml" />
+      <module fileurl="file://$PROJECT_DIR$/General Program Design/General Program Design.iml" filepath="$PROJECT_DIR$/General Program Design/General Program Design.iml" />
       <module fileurl="file://$PROJECT_DIR$/LinkedList/LinkedList.iml" filepath="$PROJECT_DIR$/LinkedList/LinkedList.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Queue/Queue.iml" filepath="$PROJECT_DIR$/Queue/Queue.iml" />
       <module fileurl="file://$PROJECT_DIR$/Stack/Stack.iml" filepath="$PROJECT_DIR$/Stack/Stack.iml" />
       <module fileurl="file://$PROJECT_DIR$/Thinking in Recursion/Thinking in Recursion.iml" filepath="$PROJECT_DIR$/Thinking in Recursion/Thinking in Recursion.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Tree/Tree.iml" filepath="$PROJECT_DIR$/Tree/Tree.iml" />
     </modules>
   </component>
 </project>
