@@ -68,3 +68,8 @@ hs_err_pid*
 /Scrapy/tutorial/*.html
 *.pyc
 *.xml
+*.traineddata
+*.conf
+*.dll
+*.patterns
+*.sqlite3
