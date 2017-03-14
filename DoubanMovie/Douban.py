@@ -206,7 +206,11 @@ class Douban(object):
         soup = BeautifulSoup(response.text, 'lxml')
         div = soup.find('div', attrs={'class': 'j a_stars'})
         #rateword = div.find('span', attrs={'id': 'rateword'}).get_text()
-        rate = div.find('input', attrs={'id': 'n_rating'}).get('value')
+        try:
+            rate = div.find('input', attrs={'id': 'n_rating'}).get('value')
+        except AttributeError:
+            print("你尚未标记这部电影")
+            return
 
         if grade == None:
             print("你当前打的分数为：", rate)
