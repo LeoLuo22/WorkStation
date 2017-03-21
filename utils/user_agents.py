@@ -2,6 +2,8 @@
     Usage:
     UserAgents -> list of agents
 """
+import random
+
 UserAgents = [
     "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1; AcooBrowser; .NET CLR 1.1.4322; .NET CLR 2.0.50727)",
     "Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 6.0; Acoo Browser; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; .NET CLR 3.0.04506)",
@@ -20,3 +22,14 @@ UserAgents = [
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_3) AppleWebKit/535.20 (KHTML, like Gecko) Chrome/19.0.1036.7 Safari/535.20",
     "Opera/9.80 (Macintosh; Intel Mac OS X 10.6.8; U; fr) Presto/2.9.168 Version/11.52",
 ]
+
+def get_a_random_ua():
+    """获取一个随机的UA
+        @return
+         A dict
+    """
+    UA = {}
+
+    UA['User-Agent'] = random.choice(UserAgents)
+
+    return UA
