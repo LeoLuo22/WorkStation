@@ -23,6 +23,7 @@ class MySql():
 
     def find(self, collection=None, mohu=False, **kwargs):
         """查询一个记录，用法get({'city':'北京'})
+           如果关键字参数为空，默认全部查找
             @param mohu->模糊查询
             @param **kwargs->字典
             @param collection->要查询的表，默认为初始化值
@@ -32,7 +33,14 @@ class MySql():
         if collection is None:
             collection = self.collection
 
-        #print(collection)
+        if len(kwargs) == 0:
+            with self.connection.cursor() as cursor:
+                sql = 'SELECT * FROM {0}'.format(collection)
+                cursor.execute(sql)
+                result = cursor.fetchall()
+                self.connection.commit()
+            return result
+
         key = ''
         for k in kwargs.keys():
             key = k
