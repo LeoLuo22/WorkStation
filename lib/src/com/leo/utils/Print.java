@@ -14,6 +14,13 @@ public class Print {
         System.out.println(s);
     }
 
+    public static void print(int s){
+        /**
+         * 默认换行，参数为字符串
+         */
+        System.out.println(s);
+    }
+
     public static void print(String s, String end) {
         /**
          * 不换行版本
