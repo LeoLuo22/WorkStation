@@ -27,7 +27,7 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See http://scrapy.readthedocs.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 0.7
+#DOWNLOAD_DELAY = 0.7
 #DOWNLOAD_TIMEOUT = 60
 RETRY_ENABLED = False
 #REDIRECT_ENABLED = False
@@ -55,6 +55,7 @@ COOKIES_ENABLED = False
 
 # Enable or disable downloader middlewares
 # See http://scrapy.readthedocs.org/en/latest/topics/downloader-middleware.html
+"""
 DOWNLOADER_MIDDLEWARES = {
     'Lagou.middlewares.LagouSpiderMiddleware': 543,
     'Lagou.middlewares.UserAgentMiddleware': 300,
@@ -62,6 +63,7 @@ DOWNLOADER_MIDDLEWARES = {
     'Lagou.middlewares.IgnoreRequestMiddleware': 200,
     'scrapy.downloadermiddlewares.retry.RetryMiddleware': 600,
 }
+"""
 
 # Enable or disable extensions
 # See http://scrapy.readthedocs.org/en/latest/topics/extensions.html

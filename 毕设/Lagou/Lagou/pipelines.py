@@ -10,7 +10,7 @@ class LagouPipeline(object):
 
     def __init__(self):
         client = pymongo.MongoClient("localhost", 27017)
-        self.db = client["lagou"]
+        self.db = client["new"]
         self.collection_name = 'jobs'
 
     def process_item(self, item, spider):

@@ -2,12 +2,10 @@ import lxml
 import scrapy
 import redis
 from bs4 import BeautifulSoup
-from scrapy_redis.spiders import RedisSpider
 from scrapy.http import Request
 from Lagou.items import LagouItem
 from scrapy.spiders import Rule
 from scrapy.linkextractors import LinkExtractor
-
 from scrapy_redis.spiders import RedisCrawlSpider
 
 class Spider(RedisCrawlSpider):
@@ -15,14 +13,12 @@ class Spider(RedisCrawlSpider):
     host = "https://www.lagou.com"
     redis_key = "lagou:start_urls"
 
-    #allowd_domains = ['lagou.com']
+    allowd_domains = ['lagou.com']
     start_urls = ['https://www.lagou.com/jobs/2638974.html']
 
-    """
     rules = (
              Rule(LinkExtractor(allow=(r'/jobs/\d+')), callback='parse'),
              )
-    """
 
     def start_requests(self):
         for url in self.start_urls:
@@ -41,23 +37,10 @@ class Spider(RedisCrawlSpider):
         container_soup = soup.find('div', attrs={'class': 'container clearfix', 'id': 'container'})
         #Get the advantage of job
         job_advantage_soup = container_soup.find('dd', attrs={'class': 'job-advantage'})
-        #job_advantage_name = job_advantage_soup.find('span', attrs={'class': 'advantage'}).get_text()
         job_advantage_des = job_advantage_soup.find('p').get_text()
         job['advantages'] = job_advantage_des
 
-        #Job description should also be a dict, as it has responsibility as requirements
-        #Like: job{'职位描述': {'岗位职责': 'eee', '岗位要求': 'aaa'}, 'name': 'aaa'}
-        #以下用a, b, c分别代表职位描述等
         job_description_soup = container_soup.find('dd', attrs={'class': 'job_bt'})
-        """
-        由于网页结构中标签不一致且大量使用<p>导致不能使用上述方法，只能找到所有descrition
-        a = job_description_soup.find('h3', attrs={'class': 'description'}).get_text()
-        b = job_description_soup.find('p').get_text()
-        responsibilities_soup = job_description_soup.find('ol', attrs={'class': ' list-paddingleft-2'}).find_all('p')
-        responsibilities = []
-        for responsibility in responsibilities_soup:
-            responsibilities.append(responsibility.get_text())
-        """
         requirements = []
         requirements_soup = job_description_soup.find_all('p')
         for requirement in requirements_soup:
@@ -99,13 +82,7 @@ class Spider(RedisCrawlSpider):
             r.lpush('lagou:start_urls', url)
 
         yield job
-        """
-        #urlFollows = "http://weibo.cn/%s/follow" % ID  # 爬第一页的关注，加入待爬队列
-        idFollows = self.getNextID(soup)
-        for ID in idFollows:
-            url = "https://www.lagou.com/jobs/%s.html" % ID
-            yield Request(url=url, callback=self.parse)
-        """
+
     def getNextID(self, soup):
         ids = []
         ids_soup = soup.find_all('li', attrs={'class': 'similar_list_item clearfix'})
