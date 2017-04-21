@@ -45,7 +45,7 @@ def main():
         print(_)
 
 def cal_tfidf():
-    corpus = load_data()[0:10]
+    corpus = load_data()[0:20]
     vectorizer = CountVectorizer()
     transformer = TfidfTransformer()
 
