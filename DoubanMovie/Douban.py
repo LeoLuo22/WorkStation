@@ -135,12 +135,12 @@ class Douban(object):
         link = movie.link
         mid = movie.mid#电影的ID
 
-        url1 = 'https://movie.douban.com/subject/ID/?rating=GRADE&ck=IK2M'.replace('ID', mid).replace('GRADE', grade)
+        url1 = 'https://movie.douban.com/subject/ID/?rating=GRADE&ck=Een3'.replace('ID', mid).replace('GRADE', grade)
         url2 = 'https://movie.douban.com/j/subject/ID/interest?interest=collect&rating=GRADE'.replace('ID', mid).replace('GRADE', grade)
         postUrl = 'https://movie.douban.com/j/subject/ID/interest'.replace('ID', mid)
         addUrl = 'https://movie.douban.com/j/doulist/40255131/additem'
 
-        star_data = {'ck':'IK2M',
+        star_data = {'ck':'Een3',
                 'interest':'collect',
                 'rating':grade,
                 'foldcollect':'F',
@@ -152,7 +152,7 @@ class Douban(object):
                    'surl':'https://movie.douban.com/subject/ID/'.replace('ID', mid),
                    'comment':'',
                    'sync_to_mb':'',
-                   'ck':'IK2M'
+                   'ck':'Een3'
                   }
 
         self.__session.get(url2, headers=self.__HEADER)
