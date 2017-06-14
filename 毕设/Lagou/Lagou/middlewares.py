@@ -38,7 +38,7 @@ with open('new_proxies.txt', 'r') as fh:
 """
 
 client = MongoClient('localhost', 27017)
-db = client['lagou']
+db = client['Presentation']
 used_ids = []
 url = "https://www.lagou.com/jobs/{0}.html"
 for item in db.jobs.find():
